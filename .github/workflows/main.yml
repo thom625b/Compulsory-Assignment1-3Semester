@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       
 name: Checkout code
       uses: actions/checkout@v3
@@ -23,7 +22,7 @@ name: Checkout code
 name: Setup .NET Core
     uses: actions/setup-dotnet@v3
     with:
-      dotnet-version: '8.x' # Adjust this version as needed
+      dotnet-version: '8.x' 
 
 Run tests
 name: Run tests
