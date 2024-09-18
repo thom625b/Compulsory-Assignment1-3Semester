@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Transfermodels\Request\" />
+    <Folder Include="Transfermodels\Responses\" />
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
 </Project>
