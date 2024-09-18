@@ -24,4 +24,4 @@ jobs:
  
 
     - name: Run tests
-      run: cd xunittests && dotnet test
+      run: dotnet test
