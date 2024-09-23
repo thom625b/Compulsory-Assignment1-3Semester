@@ -1,6 +1,6 @@
 namespace DataAccess.Interfaces;
 
-public interface ICostumer
+public interface ICustomer
 {
     
 }
