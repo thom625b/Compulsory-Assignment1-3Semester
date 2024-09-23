@@ -13,7 +13,7 @@
 *.userosscache
 *.sln.docstates
 node_modules
-Dist
+dist
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
