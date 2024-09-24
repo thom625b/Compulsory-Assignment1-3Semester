@@ -19,11 +19,13 @@ builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<IPaperService, PaperService>();
 builder.Services.AddScoped<IFeatureService, FeaturesService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePaperValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFeatureValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCustomerValidator>();
 builder.Services.AddOpenApiDocument();
 
 
