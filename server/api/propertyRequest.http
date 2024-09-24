@@ -1,0 +1,8 @@
+### Property
+
+POST http://localhost:5153/api/Property
+Content-Type: application/json
+
+{
+  "name": "string"
+}
