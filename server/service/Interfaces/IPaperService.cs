@@ -6,11 +6,14 @@ namespace service.Interfaces;
 
 public interface IPaperService
 {
+    Task<PaperDto> UpdatePaper(UpdatePaperDto updatePaperDto);
+    
     Task<PaperDto> CreatePaper(CreatePaperDto createPaperDto);
 
     Task<List<Paper>> GetAllPapers();
 
     Task<Paper> GetPaper(int id);
 
-    Task<PaperDto> UpdatePaper(UpdatePaperDto updatePaperDto);
+    Task<PaperDto> AddFeatureToPaper(FeaturesToPaperDto featuresToPaperDto);
+
 }

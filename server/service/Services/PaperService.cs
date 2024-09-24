@@ -29,10 +29,16 @@ public class PaperService : IPaperService
         return PaperDto.FromEntity(paper);
     }
 
-    public async Task<List<Paper>> GetAllPapers() => await _context.Papers.Include(p => p.OrderEntries).ToListAsync();
+    public async Task<List<Paper>> GetAllPapers() => await _context.Papers
+        .Include(p => p.OrderEntries)
+        .Include(p => p.Features)
+        .ToListAsync();
 
     public async Task<Paper> GetPaper(int id) =>
-        await _context.Papers.Include(p => p.OrderEntries).FirstOrDefaultAsync(p => p.Id == id);
+        await _context.Papers
+            .Include(p => p.OrderEntries)
+            .Include(p => p.Features)
+            .FirstOrDefaultAsync(p => p.Id == id);
 
 
     public async Task<PaperDto> UpdatePaper(UpdatePaperDto updatePaperDto)
@@ -45,4 +51,29 @@ public class PaperService : IPaperService
         await _context.SaveChangesAsync();
         return PaperDto.FromEntity(paper);
     }
+
+    public async Task<PaperDto> AddFeatureToPaper(FeaturesToPaperDto featuresToPaperDto)
+    {
+        var paper = await _context.Papers.Include(p => p.Features).Include(p => p.Features)
+            .FirstOrDefaultAsync(p => p.Id == featuresToPaperDto.PaperId);
+        if (paper == null) throw new KeyNotFoundException("Paper not found");
+
+        var features = await _context.Features
+            .Where(f => featuresToPaperDto.FeatureIds.Contains(f.Id))
+            .ToListAsync();
+        if (features.Count != featuresToPaperDto.FeatureIds.Count)
+            throw new KeyNotFoundException("Some Features not found");
+        
+        foreach (var feature in features)
+        {
+            if (!paper.Features.Any(f => f.Id == feature.Id))
+            {
+                paper.Features.Add(feature);
+            }
+        }
+
+        await _context.SaveChangesAsync();
+        return PaperDto.FromEntity(paper);
+    }
+
 }

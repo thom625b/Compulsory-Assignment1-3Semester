@@ -33,3 +33,17 @@ Content-Type: application/json
   "discontinued": false,
   "stock": 200
 }
+
+###
+# Remember to change the id to a valid number!
+POST http://localhost:5153/api/Paper/{{id}}/features
+Content-Type: application/json
+
+{
+  "paperId": 0,
+  "featureIds": [
+    0
+  ]
+}
+
+###
