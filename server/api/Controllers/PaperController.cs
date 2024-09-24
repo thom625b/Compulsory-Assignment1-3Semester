@@ -51,4 +51,22 @@ public class PaperController : ControllerBase
         }
         return paper;
     }
+
+    [HttpPut]
+    [Route("update/{id}")]
+    public async Task<ActionResult<PaperDto>> UpdatePaper(int Id, UpdatePaperDto updatePaperDto)
+    {
+        if (Id != updatePaperDto.Id)
+        {
+            return BadRequest("Paper not found");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var updatePaper = await _paperService.UpdatePaper(updatePaperDto);
+        return Ok(updatePaper);
+    }
 }

@@ -11,4 +11,6 @@ public interface IPaperService
     Task<List<Paper>> GetAllPapers();
 
     Task<Paper> GetPaper(int id);
+
+    Task<PaperDto> UpdatePaper(UpdatePaperDto updatePaperDto);
 }
