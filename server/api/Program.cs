@@ -18,12 +18,12 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<IPaperService, PaperService>();
-builder.Services.AddScoped<IPropertyService, PropertiesService>();
+builder.Services.AddScoped<IFeatureService, FeaturesService>();
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePaperValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<CreatePropertyValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateFeatureValidator>();
 builder.Services.AddOpenApiDocument();
 
 

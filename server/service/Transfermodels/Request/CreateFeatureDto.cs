@@ -2,16 +2,16 @@ using DataAccess.Models;
 
 namespace service.Transfermodels.Request;
 
-public class CreatePropertyDto
+public class CreateFeatureDto
 
 {
     
     public string Name { get; set; } = null!;
-    public Property ToProperty()
+    public Feature ToFeature()
     {
-        return new Property()
+        return new Feature()
         {
-            PropertyName = Name
+            FeatureName = Name
         };
     }
     

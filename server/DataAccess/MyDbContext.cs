@@ -1,4 +1,6 @@
-﻿using DataAccess.Models;
+﻿using System;
+using System.Collections.Generic;
+using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
@@ -12,19 +14,24 @@ public partial class MyDbContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<Feature> Features { get; set; }
+
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<OrderEntry> OrderEntries { get; set; }
 
     public virtual DbSet<Paper> Papers { get; set; }
 
-    public virtual DbSet<Property> Properties { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("customers_pkey");
+        });
+
+        modelBuilder.Entity<Feature>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("features_pkey");
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -55,30 +62,25 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Discontinued).HasDefaultValue(false);
             entity.Property(e => e.Stock).HasDefaultValue(0);
 
-            entity.HasMany(d => d.Properties).WithMany(p => p.Papers)
+            entity.HasMany(d => d.Features).WithMany(p => p.Papers)
                 .UsingEntity<Dictionary<string, object>>(
-                    "PaperProperty",
-                    r => r.HasOne<Property>().WithMany()
-                        .HasForeignKey("PropertyId")
+                    "PaperFeature",
+                    r => r.HasOne<Feature>().WithMany()
+                        .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("paper_properties_property_id_fkey"),
+                        .HasConstraintName("paper_features_feature_id_fkey"),
                     l => l.HasOne<Paper>().WithMany()
                         .HasForeignKey("PaperId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("paper_properties_paper_id_fkey"),
+                        .HasConstraintName("paper_features_paper_id_fkey"),
                     j =>
                     {
-                        j.HasKey("PaperId", "PropertyId").HasName("paper_properties_pkey");
-                        j.ToTable("paper_properties");
-                        j.HasIndex(new[] { "PropertyId" }, "IX_paper_properties_property_id");
+                        j.HasKey("PaperId", "FeatureId").HasName("paper_features_pkey");
+                        j.ToTable("paper_features");
+                        j.HasIndex(new[] { "FeatureId" }, "IX_paper_features_feature_id");
                         j.IndexerProperty<int>("PaperId").HasColumnName("paper_id");
-                        j.IndexerProperty<int>("PropertyId").HasColumnName("property_id");
+                        j.IndexerProperty<int>("FeatureId").HasColumnName("feature_id");
                     });
-        });
-
-        modelBuilder.Entity<Property>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("properties_pkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

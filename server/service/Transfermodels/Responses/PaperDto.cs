@@ -10,7 +10,7 @@ public class PaperDto
     public int Stock { get; set; }
     public double Price { get; set; }
     public virtual ICollection<OrderEntry> OrderEntries { get; set; } = new List<OrderEntry>();
-    public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
+    public virtual ICollection<Feature> Features { get; set; } = new List<Feature>();
 
 
     public static PaperDto FromEntity(Paper paper)
@@ -23,7 +23,7 @@ public class PaperDto
             Stock = paper.Stock,
             Price = paper.Price,
             OrderEntries = paper.OrderEntries,
-            Properties = paper.Properties
+            Features = paper.Features
         };
     }
 }

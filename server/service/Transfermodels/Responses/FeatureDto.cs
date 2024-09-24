@@ -2,14 +2,14 @@ using DataAccess.Models;
 
 namespace service.Transfermodels.Responses;
 
-public class PropertyDto
+public class FeatureDto
 {
-    public static PropertyDto FromEntity(Property property)
+    public static FeatureDto FromEntity(Feature feature)
     {
-        return new PropertyDto
+        return new FeatureDto
         {
-            Name = property.PropertyName,
-            Id = property.Id
+            Name = feature.FeatureName,
+            Id = feature.Id
         };
     }
     

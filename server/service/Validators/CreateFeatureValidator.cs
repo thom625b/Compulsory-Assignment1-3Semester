@@ -3,9 +3,9 @@ using service.Transfermodels.Request;
 
 namespace service.Validators;
 
-public class CreatePropertyValidator : AbstractValidator<CreatePropertyDto>
+public class CreateFeatureValidator : AbstractValidator<CreateFeatureDto>
 {
-    public CreatePropertyValidator()
+    public CreateFeatureValidator()
     {
         RuleFor(p => p.Name).NotEmpty().MaximumLength(50);
     }

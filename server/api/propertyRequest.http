@@ -1,6 +1,6 @@
 ### Property
 
-POST http://localhost:5153/api/Property
+POST http://localhost:5153/api/Feature
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:5153/api/Property
+GET http://localhost:5153/api/Feature
 Accept: application/json
 ###
 
