@@ -9,3 +9,14 @@ Content-Type: application/json
   "phone": "27272727",
   "email": "testingmail@hotmail.com"
 }
+
+###
+
+GET http://localhost:5153/api/Customer
+Accept: application/json
+
+###
+
+
+GET http://localhost:5153/api/Customer/1
+Accept: application/json

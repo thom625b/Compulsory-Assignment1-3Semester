@@ -1,3 +1,4 @@
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using service.Interfaces;
 using service.Transfermodels.Request;
@@ -29,4 +30,29 @@ public class CustomerController : ControllerBase
         var createdCustomer = await _customerService.CreateCustomer(createCustomerDto);
         return CreatedAtAction(nameof(CreateCustomer), new { id = createdCustomer.Id }, createdCustomer);
     }
+
+
+    [HttpGet]
+    [Route("")]
+    public async Task<ActionResult<List<Customer>>> GetAllCustomers()
+    {
+        var customers = await _customerService.GetAllCustomers();
+        return Ok(customers);
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult<Customer>> GetCustomer(int id)
+    {
+        var customer = await _customerService.GetCustomer(id);
+
+        if (customer == null)
+        {
+            return NotFound();
+        }
+
+        return customer;
+    }
+    
+    
 }

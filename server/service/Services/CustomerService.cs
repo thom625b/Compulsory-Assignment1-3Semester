@@ -1,6 +1,7 @@
 using DataAccess;
 using DataAccess.Models;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using service.Interfaces;
 using service.Transfermodels.Request;
 using service.Transfermodels.Responses;
@@ -26,14 +27,9 @@ public class CustomerService : ICustomerService
         await _context.SaveChangesAsync();
         return CustomerDto.FromEntity(customer);
     }
+    
 
-    public List<Customer> GetAllCustomers()
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<List<Customer>> GetAllCustomers() => await _context.Customers.ToListAsync();
+    public async Task<Customer?> GetCustomer(int id) => await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
 
-    public Task<Customer> GetCustomer(int id)
-    {
-        throw new NotImplementedException();
-    }
 }

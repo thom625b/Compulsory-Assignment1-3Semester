@@ -8,7 +8,8 @@ public interface ICustomerService
 {
     Task<CustomerDto> CreateCustomer(CreateCustomerDto createCustomerDto);
 
-    List<Customer> GetAllCustomers();
 
-    Task<Customer> GetCustomer(int id);
+    Task<List<Customer>> GetAllCustomers();
+
+    Task<Customer?> GetCustomer(int id);
 }
