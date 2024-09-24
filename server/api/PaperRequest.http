@@ -1,0 +1,12 @@
+POST http://localhost:5153/api/Paper
+Content-Type: application/json
+
+{
+  "name": "Gold paper",
+  "discontinued": true,
+  "stock": 100,
+  "price": 999.80
+}
+
+###
+
