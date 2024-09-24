@@ -1,3 +1,5 @@
+### Paper
+
 POST http://localhost:5153/api/Paper
 Content-Type: application/json
 
@@ -20,6 +22,14 @@ GET http://localhost:5153/api/Paper/{{id}}
 Accept: application/json
 
 
-
 ###
 
+# Remember to change the id to a valid number!
+PUT http://localhost:5153/api/Paper/update/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "discontinued": false,
+  "stock": 200
+}
