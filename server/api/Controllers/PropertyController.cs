@@ -32,4 +32,13 @@ public class PropertyController : ControllerBase
         var createProperty = await _propertiesService.CreateProperty(createPropertyDto);
         return CreatedAtAction(nameof(CreateProperty), new {id = createProperty.Id}, createProperty);
     }
+
+
+    [HttpGet]
+    [Route("")]
+    public ActionResult<List<Property>> GetAllProperties()
+    {
+        var properties = _propertiesService.GetAllProperties();
+        return Ok(properties);
+    }
 }

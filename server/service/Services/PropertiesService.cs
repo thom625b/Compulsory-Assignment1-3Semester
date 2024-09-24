@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using service.Interfaces;
 using service.Transfermodels.Request;
 using service.Transfermodels.Responses;
+using Property = DataAccess.Models.Property;
 
 namespace service.Services;
 
@@ -27,5 +28,11 @@ public class PropertiesService : IPropertyService
         await _context.Properties.AddAsync(property);
         await _context.SaveChangesAsync();
         return PropertyDto.FromEntity(property);
+    }
+    
+    
+    public List<Property> GetAllProperties()
+    {
+        return _context.Properties.ToList();
     }
 }

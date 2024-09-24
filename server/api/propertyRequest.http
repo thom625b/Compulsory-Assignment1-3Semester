@@ -6,3 +6,10 @@ Content-Type: application/json
 {
   "name": "string"
 }
+
+###
+
+GET http://localhost:5153/api/Property
+Accept: application/json
+###
+
