@@ -9,4 +9,6 @@ public interface IFeatureService
     Task<FeatureDto> CreateFeature(CreateFeatureDto createFeatureDto);
 
     List<Feature> GetAllFeatures();
+
+    Task<Feature> GetFeature(int id);
 }

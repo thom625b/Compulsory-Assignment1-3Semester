@@ -42,4 +42,19 @@ public class FeatureController : ControllerBase
         var features = _featuresService.GetAllFeatures();
         return Ok(features);
     }
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult<Feature>> GetFeature(int id)
+    {
+        var feature = await _featuresService.GetFeature(id);
+
+        if (feature == null)
+        {
+            return NotFound();
+        }
+
+        return feature;
+    }
+    
 }

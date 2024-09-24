@@ -1,6 +1,7 @@
 using DataAccess;
 using DataAccess.Models;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using service.Interfaces;
 using service.Transfermodels.Request;
@@ -20,7 +21,7 @@ public class FeaturesService : IFeatureService
         _context = context;
         _createFeatureValidator = createFeatureValidator;
     }
-    
+
     public async Task<FeatureDto> CreateFeature(CreateFeatureDto createFeatureDto)
     {
         _createFeatureValidator.ValidateAndThrow(createFeatureDto);
@@ -29,10 +30,16 @@ public class FeaturesService : IFeatureService
         await _context.SaveChangesAsync();
         return FeatureDto.FromEntity(feature);
     }
-    
-    
+
+
     public List<Feature> GetAllFeatures()
     {
         return _context.Features.ToList();
+    }
+
+    public async Task<Feature> GetFeature(int id)
+    {
+        var feature = _context.Features.Find(id);
+        return feature;
     }
 }

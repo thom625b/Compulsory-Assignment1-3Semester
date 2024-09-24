@@ -11,5 +11,8 @@ Content-Type: application/json
 
 GET http://localhost:5153/api/Feature
 Accept: application/json
+
 ###
 
+GET http://localhost:5153/api/Feature/1
+Accept: application/json
