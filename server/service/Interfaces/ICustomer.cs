@@ -1,4 +1,4 @@
-namespace DataAccess.Interfaces;
+namespace service.Interfaces;
 
 public interface ICustomer
 {
