@@ -1,4 +1,4 @@
-### Property
+### Feature
 
 POST http://localhost:5153/api/Feature
 Content-Type: application/json
