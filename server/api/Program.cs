@@ -23,8 +23,6 @@ builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePaperValidator>();
-builder.Services.AddFluentValidationAutoValidation()
-    .AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePropertyValidator>();
 builder.Services.AddOpenApiDocument();
 

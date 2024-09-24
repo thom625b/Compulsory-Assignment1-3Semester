@@ -1,7 +1,7 @@
 using service.Transfermodels.Request;
 using service.Transfermodels.Responses;
 
-namespace service;
+namespace service.Interfaces;
 
 public interface IPropertyService
 {

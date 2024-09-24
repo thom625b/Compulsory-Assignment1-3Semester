@@ -1,6 +1,7 @@
 using DataAccess;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using service.Interfaces;
 using service.Transfermodels.Request;
 using service.Transfermodels.Responses;
 

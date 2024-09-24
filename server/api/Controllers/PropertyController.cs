@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using service;
+using service.Interfaces;
 using service.Services;
 using service.Transfermodels.Request;
 using service.Transfermodels.Responses;
