@@ -1,3 +1,4 @@
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using service.Interfaces;
 using service.Transfermodels.Request;
@@ -28,5 +29,26 @@ public class PaperController : ControllerBase
 
         var createdPaper = await _paperService.CreatePaper(createPaperDto);
         return CreatedAtAction( nameof(CreatePaper),new { id = createdPaper.Id }, createdPaper);
+    }
+
+    [HttpGet]
+    [Route("")]
+    public async Task<ActionResult<List<Paper>>> GetAllPapers()
+    {
+        var papers = await _paperService.GetAllPapers();
+        return Ok(papers);
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult<Paper>> GetPaper(int id)
+    {
+        var paper = await _paperService.GetPaper(id);
+
+        if (paper == null)
+        {
+            return NotFound();
+        }
+        return paper;
     }
 }
