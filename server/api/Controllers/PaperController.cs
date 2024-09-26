@@ -71,7 +71,7 @@ public class PaperController : ControllerBase
     }
 
     [HttpPut]
-    [Route("{id}/features")]
+    [Route("features/{id}")]
     public async Task<ActionResult<PaperDto>> AddFeaturesToPaper(int id, FeaturesToPaperDto featuresToPaperDto)
     {
         if (id != featuresToPaperDto.PaperId)
