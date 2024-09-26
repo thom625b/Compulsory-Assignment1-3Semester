@@ -21,6 +21,7 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<IPaperService, PaperService>();
 builder.Services.AddScoped<IFeatureService, FeaturesService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -30,6 +31,7 @@ builder.Services.AddFluentValidationAutoValidation()
 builder.Services.AddValidatorsFromAssemblyContaining<CreatePaperValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFeatureValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCustomerValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderValidator>();
 builder.Services.AddOpenApiDocument();
 
 
