@@ -8,20 +8,21 @@ public class CreateOrderDto
     public DateOnly? DeliveryDate { get; set; }
     public string Status { get; set; } = null!;
     public double TotalAmount { get; set; }
-    public int? CustomerId { get; set; }
+    public string CustomerEmail { get; set; } = null!;
     public ICollection<CreateOrderEntryDto> OrderEntries { get; set; } = new List<CreateOrderEntryDto>();
 
 
-    public Order ToOrder()
+    public Order ToOrder(int customerId)
     {
-        return new Order()
+        var o = new Order()
         {
+            CustomerId = customerId,
             OrderDate = OrderDate,
             DeliveryDate = DeliveryDate,
             Status = Status,
             TotalAmount = TotalAmount,
-            CustomerId = CustomerId,
             OrderEntries = OrderEntries.Select(oe => oe.ToOrderEntry()).ToList()
         };
+        return o;
     }
 }

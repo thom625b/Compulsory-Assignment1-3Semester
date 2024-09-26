@@ -8,7 +8,7 @@ Content-Type: application/json
   "deliveryDate": "2024-09-26",
   "status": "string",
   "totalAmount": 1,
-  "customerId": 1,
+  "customerEmail": "testingmail@hotmail.com",
   "orderEntries": [
     {
       "quantity": 1,

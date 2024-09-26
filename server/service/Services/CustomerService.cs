@@ -27,7 +27,12 @@ public class CustomerService : ICustomerService
         await _context.SaveChangesAsync();
         return CustomerDto.FromEntity(customer);
     }
-    
+
+    public async Task<int?> GetCustomerIdByEmail(string email)
+    {
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == email);
+        return customer?.Id;
+    }
 
     public async Task<List<Customer>> GetAllCustomers() => await _context.Customers.ToListAsync();
     public async Task<Customer?> GetCustomer(int id) => await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
