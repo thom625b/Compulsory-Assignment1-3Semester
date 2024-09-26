@@ -4,15 +4,25 @@ using DataAccess;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using service.Interfaces;
 using service;
 using service.Services;
 using service.Validators;
+using Service.Validators;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<MyDbContext>(options =>
+var builder = WebApplication.CreateBuilder(args);      
+
+builder.Services.AddOptionsWithValidateOnStart<AppOptions>()
+    .Bind(builder.Configuration.GetSection(nameof(AppOptions)))
+    .ValidateDataAnnotations()
+    .Validate(options => new AppOptionsValidator().Validate(options).IsValid,
+        $"{nameof(AppOptions)} validation failed");
+builder.Services.AddDbContext<MyDbContext>((serviceProvider, options) =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Dunderdb"));
+    var appOptions = serviceProvider.GetRequiredService<IOptions<AppOptions>>
+        ().Value;
+    options.UseNpgsql(Environment.GetEnvironmentVariable("Dunderdb") ?? appOptions.Dunderdb);
 });
 
 
@@ -55,3 +65,5 @@ app.UseCors(config =>
 });
 
 app.Run();
+
+public partial class Program {}
