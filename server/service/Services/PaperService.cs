@@ -32,6 +32,7 @@ public class PaperService : IPaperService
     public async Task<List<Paper>> GetAllPapers() => await _context.Papers
         .Include(p => p.OrderEntries)
         .Include(p => p.Features)
+        .AsNoTracking()
         .ToListAsync();
 
     public async Task<Paper?> GetPaper(int id) =>
