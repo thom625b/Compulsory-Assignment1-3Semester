@@ -20,13 +20,12 @@ namespace UnitTest
         public PaperTests()
         {
             var options = new DbContextOptionsBuilder<MyDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
             _context = new MyDbContext(options);
             _createPaperValidatorMock = new Mock<IValidator<CreatePaperDto>>();
             _updatePaperValidatorMock = new Mock<IValidator<UpdatePaperDto>>();
-            _paperService = new PaperService(_context, _createPaperValidatorMock.Object,
-                _updatePaperValidatorMock.Object);
+            _paperService = new PaperService(_context, _createPaperValidatorMock.Object, _updatePaperValidatorMock.Object);
         }
 
         [Fact]
@@ -67,7 +66,7 @@ namespace UnitTest
             // Arrange
             var createPaperDto = new CreatePaperDto
             {
-                Name = "", // Invalid because Name is required
+                Name = "",
                 Discontinued = false,
                 Stock = 100,
                 Price = 50.0
@@ -84,8 +83,7 @@ namespace UnitTest
             var exception = await Assert.ThrowsAsync<FluentValidation.ValidationException>(() =>
             {
                 var result = _createPaperValidatorMock.Object.Validate(createPaperDto);
-
-                // Manually throw the exception if validation fails
+                
                 if (!result.IsValid)
                 {
                     throw new FluentValidation.ValidationException(result.Errors);
@@ -101,7 +99,7 @@ namespace UnitTest
             // Arrange
             var paper = new Paper
             {
-                Id = 1,
+                Id = 9,
                 Name = "Existing Paper",
                 Discontinued = false,
                 Stock = 100,
@@ -113,7 +111,7 @@ namespace UnitTest
 
             var updatePaperDto = new UpdatePaperDto
             {
-                Id = 1,
+                Id = 9,
                 Discontinued = true,
                 Stock = 200
             };
@@ -189,7 +187,7 @@ namespace UnitTest
             // Arrange
             var paper = new Paper
             {
-                Id = 1,
+                Id = 88,
                 Name = "Sample Paper",
                 Features = new List<Feature>()
             };
@@ -206,7 +204,7 @@ namespace UnitTest
 
             var featuresToPaperDto = new FeaturesToPaperDto
             {
-                PaperId = 1,
+                PaperId = 88,
                 FeatureIds = new List<int> { 1, 2 }
             };
 
