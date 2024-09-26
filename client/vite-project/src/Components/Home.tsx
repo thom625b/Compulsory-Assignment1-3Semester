@@ -8,8 +8,8 @@ export default function Home(){
 
     return(
         <>
-            <button onClick={() => navigate(ROUTES.CUSTOMERS)} > Customers </button>
-            <button onClick={() => navigate(ROUTES.PAPER)} > Paper </button>
+            <button className="btn btn-primary " onClick={() => navigate(ROUTES.CUSTOMERS)} > Customers </button>
+            <button className="btn btn-secondary"onClick={() => navigate(ROUTES.PAPER)} > Paper </button>
         </>
     )
 }
