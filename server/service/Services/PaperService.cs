@@ -8,7 +8,7 @@ using service.Transfermodels.Responses;
 
 namespace service.Services;
 
-public class PaperService : IPaperService
+public class PaperService : IPaperService   
 {
     private readonly MyDbContext _context;
     private readonly IValidator<CreatePaperDto> _createPaperValidator;
@@ -34,7 +34,7 @@ public class PaperService : IPaperService
         .Include(p => p.Features)
         .ToListAsync();
 
-    public async Task<Paper> GetPaper(int id) =>
+    public async Task<Paper?> GetPaper(int id) =>
         await _context.Papers
             .Include(p => p.OrderEntries)
             .Include(p => p.Features)
@@ -71,7 +71,6 @@ public class PaperService : IPaperService
                 paper.Features.Add(feature);
             }
         }
-
         await _context.SaveChangesAsync();
         return PaperDto.FromEntity(paper);
     }

@@ -70,7 +70,7 @@ public class PaperController : ControllerBase
         return Ok(updatePaper);
     }
 
-    [HttpPost]
+    [HttpPut]
     [Route("{id}/features")]
     public async Task<ActionResult<PaperDto>> AddFeaturesToPaper(int id, FeaturesToPaperDto featuresToPaperDto)
     {
