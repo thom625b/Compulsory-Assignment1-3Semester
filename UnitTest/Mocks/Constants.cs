@@ -18,4 +18,11 @@ public class Constants
             .RuleFor(p => p.OrderEntries, f => new List<OrderEntry>())
             .RuleFor(p => p.Features, f => new List<Feature>());
     }
+
+    public static Feature GetFeature()
+    {
+        return new Faker<Feature>()
+            .RuleFor(f => f.Id, f => f.IndexFaker + 1)
+            .RuleFor(f => f.FeatureName, f => f.Commerce.ProductName());
+    }
 }
