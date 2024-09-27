@@ -13,5 +13,11 @@ public class TestObjects
             .RuleFor(f => f.FeatureName, f => f.Name.JobArea());
 
     }
+
+    public static Paper GetPaper()
+    {
+        return new Faker<Paper>()
+            .RuleFor(p => p.Name, p => p.Name.JobDescriptor());
+    }
     
 }
