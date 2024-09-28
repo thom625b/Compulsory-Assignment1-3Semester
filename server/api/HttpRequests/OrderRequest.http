@@ -16,3 +16,16 @@ Content-Type: application/json
     }
   ]
 }
+
+### 
+
+GET http://localhost:5153/api/Order
+Content-Type: application/json
+
+
+###
+
+# Remember to change the id to a valid number!
+GET http://localhost:5153/api/order/2
+Content-Type: application/json
+

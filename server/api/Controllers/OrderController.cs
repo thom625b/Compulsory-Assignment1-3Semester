@@ -1,3 +1,4 @@
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using service.Interfaces;
 using service.Transfermodels.Request;
@@ -28,6 +29,30 @@ public class OrderController : ControllerBase
 
         var createdOrder = await _orderService.CreateOrder(createOrderDto);
         return CreatedAtAction(nameof(CreateOrder), new { id = createdOrder.Id }, createdOrder);
+    }
+
+
+    [HttpGet]
+    [Route("")]
+    public async Task<ActionResult<List<Order>>> GetAllOrders()
+    {
+        var orders = await _orderService.GetAllOrders();
+        return Ok(orders);
+    }
+
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult<Order>> GetOrder(int id)
+    {
+        var order = await _orderService.GetOrder(id);
+
+        if (order == null)
+        {
+            return NotFound();
+        }
+
+        return order;
     }
     
 }

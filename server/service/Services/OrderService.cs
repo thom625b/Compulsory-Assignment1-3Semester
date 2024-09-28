@@ -1,4 +1,5 @@
 using DataAccess;
+using DataAccess.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using service.Interfaces;
@@ -31,4 +32,12 @@ public class OrderService : IOrderService
         await _context.SaveChangesAsync();
         return OrderDto.FromEntity(order);
     }
+
+  
+        public async Task<List<Order>> GetAllOrders() =>
+            await _context.Orders.Include(o => o.OrderEntries).ToListAsync();
+
+        public async Task<Order> GetOrder(int id) =>
+            await _context.Orders.Include(o => o.OrderEntries).FirstOrDefaultAsync(o => o.Id == id) ?? throw new InvalidOperationException();
+                
 }
