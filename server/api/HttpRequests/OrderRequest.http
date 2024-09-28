@@ -29,3 +29,14 @@ Content-Type: application/json
 GET http://localhost:5153/api/order/2
 Content-Type: application/json
 
+###
+
+# Remember to change the id to a valid number!
+PUT http://localhost:5153/api/order/update/2
+Content-Type: application/json
+
+{
+"id": 2, 
+  "deliveryDate": "2024-09-29",
+  "totalAmount": 2
+}

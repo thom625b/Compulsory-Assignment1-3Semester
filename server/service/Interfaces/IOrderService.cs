@@ -11,4 +11,6 @@ public interface IOrderService
     Task<List<Order>> GetAllOrders();
 
     Task<Order> GetOrder(int id);
+
+    Task<OrderDto> UpdateOrder(UpdateOrderDto updateOrderDto);
 }

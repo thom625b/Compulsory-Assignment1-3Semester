@@ -54,5 +54,24 @@ public class OrderController : ControllerBase
 
         return order;
     }
-    
+
+    [HttpPut]
+    [Route("update/{id}")]
+
+    public async Task<ActionResult<OrderDto>> UpdateOrder(int id, UpdateOrderDto updateOrderDto)
+    {
+        if (id != updateOrderDto.Id)
+        {
+            return BadRequest("Order not found");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var updateOrder = await _orderService.UpdateOrder(updateOrderDto);
+        return Ok(updateOrder);
+    }
+
 }
