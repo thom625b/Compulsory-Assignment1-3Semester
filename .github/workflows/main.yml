@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   test:
@@ -24,4 +25,6 @@ jobs:
  
 
     - name: Run tests
-      run: cd xunittests && dotnet test
+      run: dotnet test
+      
+    - run: cd client && npm i && npm run build
