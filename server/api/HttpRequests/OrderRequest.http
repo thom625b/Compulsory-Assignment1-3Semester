@@ -40,3 +40,15 @@ Content-Type: application/json
   "deliveryDate": "2024-09-29",
   "totalAmount": 2
 }
+
+
+###
+
+PUT http://localhost:5153/api/Order/2/DecreaseStock?productId=1&quantity=61
+Content-Type: application/json
+
+{
+  "id": 2,
+  "product_id": 1,
+  "quantity": 61
+}

@@ -73,5 +73,25 @@ public class OrderController : ControllerBase
         var updateOrder = await _orderService.UpdateOrder(updateOrderDto);
         return Ok(updateOrder);
     }
+    
+    
+    [HttpPut]
+    [Route("{id}/DecreaseStock")]
+    public async Task<ActionResult> DecreaseStock(int id, int productId, int quantity)
+    {
+        try
+        {
+            var result = await _orderService.DecreaseProductStockAsync(productId, quantity);
+            if (result)
+            {
+                return Ok("Stock decreased successfully.");
+            }
 
+            return BadRequest("Failed to decrease stock.");
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
 }

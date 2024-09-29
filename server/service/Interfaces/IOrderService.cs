@@ -13,4 +13,6 @@ public interface IOrderService
     Task<Order> GetOrder(int id);
 
     Task<OrderDto> UpdateOrder(UpdateOrderDto updateOrderDto);
+    Task<bool> DecreaseProductStockAsync(int productId, int quantity);
+
 }

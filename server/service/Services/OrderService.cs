@@ -1,3 +1,4 @@
+using System.Collections;
 using DataAccess;
 using DataAccess.Models;
 using FluentValidation;
@@ -52,4 +53,39 @@ public class OrderService : IOrderService
             await _context.SaveChangesAsync();
             return OrderDto.FromEntity(order);
         }
+
+        public async Task<bool> DecreaseProductStockAsync(int productId, int quantity)
+        {
+            try
+            {
+                // Find the paper product by its ID
+                var paper = await _context.Papers.FirstOrDefaultAsync(p => p.Id == productId);
+
+                if (paper == null)
+                {
+                    throw new Exception("Paper product not found.");
+                }
+
+                // Check if enough stock is available
+                if (paper.Stock < quantity)
+                {
+                    throw new Exception($"Not enough stock for {paper.Name}. Available: {paper.Stock}, Requested: {quantity}");
+                }
+
+                // Decrease the stock by the specified quantity
+                paper.Stock -= quantity;
+
+                // Update the paper in the database
+                _context.Papers.Update(paper);
+                await _context.SaveChangesAsync();
+
+                return true; // Stock successfully reduced
+            }
+            catch (Exception ex)
+            {
+                // Handle any exception (you might want to log it or rethrow)
+                throw new Exception("Failed to decrease stock", ex);
+            }
+        }
+
 }
