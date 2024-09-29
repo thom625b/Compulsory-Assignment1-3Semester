@@ -58,7 +58,6 @@ public class OrderService : IOrderService
         {
             try
             {
-                // Find the paper product by its ID
                 var paper = await _context.Papers.FirstOrDefaultAsync(p => p.Id == productId);
 
                 if (paper == null)
@@ -79,11 +78,10 @@ public class OrderService : IOrderService
                 _context.Papers.Update(paper);
                 await _context.SaveChangesAsync();
 
-                return true; // Stock successfully reduced
+                return true; 
             }
             catch (Exception ex)
             {
-                // Handle any exception (you might want to log it or rethrow)
                 throw new Exception("Failed to decrease stock", ex);
             }
         }
