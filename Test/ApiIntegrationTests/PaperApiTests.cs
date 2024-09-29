@@ -41,4 +41,4 @@ public class PaperApiTests : WebApplicationFactory<Program>
             Assert.Equivalent(paperList, returnedPaper);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-} 
+}  
