@@ -10,6 +10,7 @@ export default function Home(){
         <>
             <button className="btn btn-primary " onClick={() => navigate(ROUTES.CUSTOMERS)} > Customers </button>
             <button className="btn btn-secondary"onClick={() => navigate(ROUTES.PAPER)} > Paper </button>
+            <button className="btn btn-secondary"onClick={() => navigate(ROUTES.ADMINPAGE)} > Admin Page </button>
         </>
     )
 }
