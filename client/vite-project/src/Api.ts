@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
+import axios from "axios";
+
+
 export interface CustomerDto {
   /** @format int32 */
   id?: number;
@@ -214,9 +219,6 @@ export interface FeaturesToPaperDto {
   paperId?: number;
   featureIds?: number[];
 }
-
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
-import axios from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 

@@ -51,6 +51,7 @@ export default function Home() {
                     </button>
                 </div>
 
+
                 {/* Paper List */}
                 <div className="p-4 bg-gray-50 flex-grow">
                     <PaperList />
@@ -59,3 +60,14 @@ export default function Home() {
         </div>
     );
 }
+
+    return(
+        <>
+            <button className="btn btn-primary " onClick={() => navigate(ROUTES.CUSTOMERS)} > Customers </button>
+            <button className="btn btn-secondary"onClick={() => navigate(ROUTES.PAPER)} > Paper </button>
+            <button className="btn btn-secondary"onClick={() => navigate(ROUTES.ADMINPAGE)} > Admin Page </button>
+            <button className="btn btn-secondary" onClick={() => navigate(ROUTES.CUSTOMERORDERS)} > Customer orders</button>
+        </>
+    )
+}
+
