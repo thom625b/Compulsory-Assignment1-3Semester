@@ -20,22 +20,37 @@ export default function Home() {
                 <h2 className="text-lg font-semibold mb-4">Menu</h2>
                 <ul className="space-y-2 w-full">
                     <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300" onClick={() => navigate(ROUTES.HOME)}>
+                        <button className="block w-full text-left py-2 hover:bg-gray-300"
+                                onClick={() => navigate(ROUTES.ADMINPAGE)}>
+                            Admin
+                        </button>
+                    </li>
+                    <li>
+                        <button className="block w-full text-left py-2 hover:bg-gray-300"
+                                onClick={() => navigate(ROUTES.HOME)}>
                             Home
                         </button>
                     </li>
                     <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300" onClick={() => navigate(ROUTES.PAPER)}>
+                        <button className="block w-full text-left py-2 hover:bg-gray-300"
+                                onClick={() => navigate(ROUTES.PAPER)}>
                             Paper
                         </button>
                     </li>
                     <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300" onClick={() => navigate(ROUTES.CUSTOMERS)}>
+                        <button className="block w-full text-left py-2 hover:bg-gray-300"
+                                onClick={() => navigate(ROUTES.CUSTOMERS)}>
                             Customers
                         </button>
                     </li>
                     <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300" onClick={() => navigate(ROUTES.CONTACT)}>
+                        <button className="block w-full text-left py-2 hover:bg-gray-300" onClick={() => navigate(ROUTES.CUSTOMERORDERS)}>
+                            Customer orders
+                        </button>
+                    </li>
+                    <li>
+                        <button className="block w-full text-left py-2 hover:bg-gray-300"
+                                onClick={() => navigate(ROUTES.CONTACT)}>
                             Contact
                         </button>
                     </li>
@@ -46,7 +61,7 @@ export default function Home() {
             <div className="flex-1 flex flex-col">
                 {/* Top Bar */}
                 <div className="bg-gray-100 p-4 flex justify-end items-center">
-                    <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500">
+                <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500">
                         Basket ({basketItems})
                     </button>
                 </div>
@@ -59,15 +74,5 @@ export default function Home() {
             </div>
         </div>
     );
-}
-
-    return(
-        <>
-            <button className="btn btn-primary " onClick={() => navigate(ROUTES.CUSTOMERS)} > Customers </button>
-            <button className="btn btn-secondary"onClick={() => navigate(ROUTES.PAPER)} > Paper </button>
-            <button className="btn btn-secondary"onClick={() => navigate(ROUTES.ADMINPAGE)} > Admin Page </button>
-            <button className="btn btn-secondary" onClick={() => navigate(ROUTES.CUSTOMERORDERS)} > Customer orders</button>
-        </>
-    )
 }
 
