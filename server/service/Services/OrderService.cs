@@ -12,11 +12,11 @@ namespace service.Services;
 public class OrderService : IOrderService
 {
     private readonly MyDbContext _context;
-    private readonly CustomerService _customerService;
+    private readonly ICustomerService _customerService;
     private readonly IValidator<CreateOrderDto> _createOrderValidator;
     private readonly IValidator<UpdateOrderDto> _updateOrderValidator;
 
-    public OrderService(MyDbContext context, IValidator<CreateOrderDto> createOrderValidator, CustomerService customerService, IValidator<UpdateOrderDto> updateOrderValidator)
+    public OrderService(MyDbContext context, IValidator<CreateOrderDto> createOrderValidator, ICustomerService customerService, IValidator<UpdateOrderDto> updateOrderValidator)
     {
         _context = context;
         _createOrderValidator = createOrderValidator;

@@ -1,5 +1,6 @@
 using Bogus;
 using DataAccess.Models;
+using FluentValidation.AspNetCore;
 using Namotion.Reflection;
 
 namespace UnitTest.Mocks;
@@ -24,5 +25,12 @@ public class Constants
         return new Faker<Feature>()
             .RuleFor(f => f.Id, f => f.IndexFaker + 1)
             .RuleFor(f => f.FeatureName, f => f.Commerce.ProductName());
+    }
+
+    public static Order GetOrder()
+    {
+        return new Faker<Order>()
+            .RuleFor(o => o.Id, f => f.IndexFaker + 1)
+            .RuleFor(o => o.TotalAmount, o => o.Random.Int(0, 1000000));
     }
 }
