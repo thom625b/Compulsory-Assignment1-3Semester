@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "scaffold": "npx swagger-typescript-api -p http://localhost:5153/swagger/v1/swagger.json -o ./ -n src/Api.ts --axios"
   },
   "dependencies": {
+    "axios": "^1.7.4",
     "@tailwindcss/forms": "^0.5.9",
     "autoprefixer": "^10.4.20",
     "react": "^18.3.1",
