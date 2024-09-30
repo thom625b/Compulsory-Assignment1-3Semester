@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using DataAccess;
 using DataAccess.Models;
+using DotNet.Testcontainers.Clients;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -88,6 +89,25 @@ public class OrderTests
         Assert.Single(orderInDb.OrderEntries);
         Assert.Equal(1, orderInDb.OrderEntries.First().ProductId);
         Assert.Equal(1, orderInDb.OrderEntries.First().Quantity);
+    }
+
+    [Fact]
+    public async Task DecreaseStock_ShouldDecreaseStockOnPaper()
+    {
+        // Arrange: Create necessary entities and seed them into the in-memory database
+        var paper = new Paper { Id = 2, Name = "Test Product", Price = 10, Stock = 100};
+        
+        _context.Papers.Add(paper);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _orderService.DecreaseProductStockAsync(paper.Id, 10);
+        
+        // Assert: Verify that the stock was reduced by 10
+        var updatedPaper = await _context.Papers.FirstOrDefaultAsync(p => p.Id == paper.Id);
+        Assert.NotNull(updatedPaper);
+        Assert.Equal(90, updatedPaper.Stock);
+        Assert.True(result);
     }
 
     
