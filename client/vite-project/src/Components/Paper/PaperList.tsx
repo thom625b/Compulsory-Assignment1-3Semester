@@ -11,17 +11,37 @@ const PaperList = () => {
     const [papers, setPapers] = useAtom(paperAtom);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [quantities, setQuantities] = useState<Record<number, number>>({});
 
 
     const FetchPapers = async () => {
         try {
             const res = await api.api.paperGetAllPapers();
             setPapers(res.data);
+            const initialQuantity = res.data.reduce((acc: any, paper: any ) => {
+                acc[paper.id] = 10;
+                return acc;
+            }, {});
+            setQuantities(initialQuantity);
             setLoading(false);
         } catch (error){
             setError("Failed to load papers from api");
             setLoading(false);
         }
+    };
+
+    const incrementQuantity = (id: number, stock: number) => {
+        setQuantities((quantity) => ({
+            ...quantity,
+            [id]: Math.min(quantity[id] + 10, stock),
+        }));
+    };
+
+    const decreaseQuantity = (id: number) => {
+        setQuantities((quantity) => ({
+            ...quantity,
+            [id]: Math.max(0, quantity[id] - 10),
+        }));
     };
 
 
@@ -68,7 +88,37 @@ const PaperList = () => {
                                     <div className="badge badge-error">Discontinued</div>
                                 )}
                             </h2>
-                            <p>Price: {paper.price} $</p>
+                            <p>Price: {paper.price} $ / count</p>
+                            <p>
+                                Your total price: <strong>{(paper.price * quantities[paper.id]).toFixed(2)} $</strong>
+                            </p>
+
+                            <div className="my-4">
+                                <label className="block font-bold mb-2">Quantity:</label>
+                                <div className="flex items-center space-x-2">
+                                    <button
+                                        className="btn btn-outline btn-sm"
+                                        onClick={() => decreaseQuantity(paper.id, paper.stock)}
+                                        disabled={quantities[paper.id] <= 0}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="text"
+                                        value={quantities[paper.id]}
+                                        readOnly
+                                        className="input input-bordered input-sm w-20 text-center"
+                                    />
+                                    <button
+                                        className="btn btn-outline btn-sm"
+                                        onClick={() => incrementQuantity(paper.id, paper.stock)}
+                                        disabled={quantities[paper.id] >= paper.stock}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <p className="text-sm mt-1">We sell in packs of 10</p>
+                            </div>
                             <div className="card-actions justify-end">
                                 {paper.features && paper.features.length > 0 ? (
                                     paper.features.map((feature) => (
