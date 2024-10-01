@@ -23,7 +23,7 @@ const PaperList = () => {
             const res = await api.api.paperGetAllPapers();
             setPapers(res.data);
             const initialQuantity = res.data.reduce((acc: any, paper: any ) => {
-                acc[paper.id] = 10;
+                acc[paper.id] = 0;
                 return acc;
             }, {});
             setQuantities(initialQuantity);
@@ -58,6 +58,25 @@ const PaperList = () => {
     const handleAddToBasket = (paperId: number) => {
         const selectedFeature = selectedFeatures[paperId];
         const quantity = quantities[paperId];
+        const paper = papers.find(p => p.id === paperId);
+
+
+        if (quantity === 0){
+            alert("You can't add zero");
+            return;
+        }
+
+        // @ts-ignore
+        if (paper?.features?.length > 0 && !selectedFeature){
+            alert("Please select a feature")
+            return;
+        }
+
+        if (!paper){
+            alert("No paper found");
+            return;
+        }
+
         const paperInBasket = basket.find(item => item.paperId === paperId);
 
         if (paperInBasket) {
@@ -68,6 +87,7 @@ const PaperList = () => {
         } else {
             setBasket([...basket, { paperId, quantity, feature: selectedFeature }]);
         }
+        alert("Added to basket")
     }
 
 
@@ -85,106 +105,109 @@ const PaperList = () => {
     return (
         <div>
             <h1 className="text-2xl font-bold">Papers</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {papers.map((paper) => (
-                    <div key={paper.id}
-                         className="card bg-base-100 w-96 shadow-xl transition-shadow duration-300 ease-in-out"
-                         style={{
-                             boxShadow: '0 4px 6px rgba(0, 128, 0, 0.1)', // Regular shadow
-                         }}
-                         onMouseEnter={(e) =>
-                             (e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 255, 0, 0.4)')
-                         } // Green shadow on hover
-                         onMouseLeave={(e) =>
-                             (e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 128, 0, 0.1)')
-                         }>
-                        <figure>
-                            <img
-                                src="/pictures/papirA4.jpg"
-                                alt={paper.name}
-                            />
-                        </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">
-                                {paper.name}
-                                {paper.discontinued && (
-                                    <div className="badge badge-error">Discontinued</div>
-                                )}
-                            </h2>
-                            <p>Price: {paper.price} $ / count</p>
-                            <p>
-                                Your total price: <strong>{(paper.price * quantities[paper.id]).toFixed(2)} $</strong>
-                            </p>
+            <div className="h-[770px] overflow-y-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {papers.map((paper) => (
+                        <div key={paper.id}
+                             className="card bg-base-100 w-96 shadow-xl transition-shadow duration-300 ease-in-out"
+                             style={{
+                                 boxShadow: '0 4px 6px rgba(0, 128, 0, 0.1)', // Regular shadow
+                             }}
+                             onMouseEnter={(e) =>
+                                 (e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 255, 0, 0.4)')
+                             } // Green shadow on hover
+                             onMouseLeave={(e) =>
+                                 (e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 128, 0, 0.1)')
+                             }>
+                            <figure>
+                                <img
+                                    src="/pictures/papirA4.jpg"
+                                    alt={paper.name}
+                                />
+                            </figure>
+                            <div className="card-body">
+                                <h2 className="card-title">
+                                    {paper.name}
+                                    {paper.discontinued && (
+                                        <div className="badge badge-error">Discontinued</div>
+                                    )}
+                                </h2>
+                                <p>Price: {paper.price} $ / count</p>
+                                <p>
+                                    Your total
+                                    price: <strong>{(paper.price * quantities[paper.id]).toFixed(2)} $</strong>
+                                </p>
 
-                            <div className="my-4">
-                                <label className="block font-bold mb-2">Quantity:</label>
-                                <div className="flex items-center space-x-2">
-                                    <button
-                                        className="btn btn-outline btn-sm"
-                                        onClick={() => decreaseQuantity(paper.id, paper.stock)}
-                                        disabled={quantities[paper.id] <= 0}
-                                    >
-                                        -
-                                    </button>
-                                    <input
-                                        type="text"
-                                        value={quantities[paper.id]}
-                                        readOnly
-                                        className="input input-bordered input-sm w-20 text-center"
-                                    />
-                                    <button
-                                        className="btn btn-outline btn-sm"
-                                        onClick={() => incrementQuantity(paper.id, paper.stock)}
-                                        disabled={quantities[paper.id] >= paper.stock}
-                                    >
-                                        +
-                                    </button>
+                                <div className="my-4">
+                                    <label className="block font-bold mb-2">Quantity:</label>
+                                    <div className="flex items-center space-x-2">
+                                        <button
+                                            className="btn btn-outline btn-sm"
+                                            onClick={() => decreaseQuantity(paper.id, paper.stock)}
+                                            disabled={quantities[paper.id] <= 0}
+                                        >
+                                            -
+                                        </button>
+                                        <input
+                                            type="text"
+                                            value={quantities[paper.id]}
+                                            readOnly
+                                            className="input input-bordered input-sm w-20 text-center"
+                                        />
+                                        <button
+                                            className="btn btn-outline btn-sm"
+                                            onClick={() => incrementQuantity(paper.id, paper.stock)}
+                                            disabled={quantities[paper.id] >= paper.stock}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                    <p className="text-sm mt-1">We sell in packs of 10</p>
                                 </div>
-                                <p className="text-sm mt-1">We sell in packs of 10</p>
-                            </div>
 
-                            <div className="my-4">
-                                <label className="block font-bold mb-2">Select Feature:</label>
-                                <select
-                                    className="bg-gray-200 text-gray-700 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
-                                    value={selectedFeatures[paper.id] || ""}
-                                    onChange={(e) => handleFeatureChange(paper.id, e.target.value)}
-                                >
-                                    <option value="">Select Feature  </option>
+                                <div className="my-4">
+                                    <label className="block font-bold mb-2">Select Feature:</label>
+                                    <select
+                                        className="bg-gray-200 text-gray-700 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
+                                        value={selectedFeatures[paper.id] || ""}
+                                        onChange={(e) => handleFeatureChange(paper.id, e.target.value)}
+                                    >
+                                        <option value="">Select Feature</option>
+                                        {paper.features && paper.features.length > 0 ? (
+                                            paper.features.map((feature) => (
+                                                <option key={feature.id} value={feature.featureName}>
+                                                    {feature.featureName}
+                                                </option>
+                                            ))
+                                        ) : (
+                                            <option>No Features</option>
+                                        )}
+                                    </select>
+                                </div>
+
+                                <div className="card-actions justify-end">
                                     {paper.features && paper.features.length > 0 ? (
                                         paper.features.map((feature) => (
-                                            <option key={feature.id} value={feature.featureName}>
+                                            <div key={feature.id} className="badge badge-outline">
                                                 {feature.featureName}
-                                            </option>
+                                            </div>
                                         ))
                                     ) : (
-                                        <option>No Features</option>
+                                        <div className="badge badge-outline">No Features</div>
                                     )}
-                                </select>
+                                </div>
+                                <button className="btn btn-outline "
+                                        onClick={() => handleAddToBasket(paper.id)}>
+                                    Add to cart
+                                </button>
                             </div>
-
-                            <div className="card-actions justify-end">
-                                {paper.features && paper.features.length > 0 ? (
-                                    paper.features.map((feature) => (
-                                        <div key={feature.id} className="badge badge-outline">
-                                            {feature.featureName}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div className="badge badge-outline">No Features</div>
-                                )}
-                            </div>
-                            <button className="btn btn-success bg-green-600"
-                                    onClick={() => handleAddToBasket(paper.id)}>
-                                Add to basket
-                            </button>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+                </div>
             </div>
-        </div>
-    );
-};
+            );
+            };
 
 
-export default PaperList;
+            export default PaperList;
