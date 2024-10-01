@@ -75,13 +75,13 @@ public class OrderController : ControllerBase
     }
     
     
-    [HttpPut]
+    [HttpPatch]
     [Route("{id}/DecreaseStock")]
-    public async Task<ActionResult> DecreaseStock(int id, int productId, int quantity)
+    public async Task<ActionResult> DecreaseStock(int id, [FromBody] DecreaseStockDto dto)
     {
         try
         {
-            var result = await _orderService.DecreaseProductStockAsync(productId, quantity);
+            var result = await _orderService.DecreaseProductStockAsync(dto.ProductId, dto.Quantity);
             if (result)
             {
                 return Ok("Stock decreased successfully.");
@@ -94,4 +94,5 @@ public class OrderController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
 }
