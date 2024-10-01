@@ -64,8 +64,9 @@ export default function Home() {
             <div className="flex-1 flex flex-col">
                 {/* Top Bar */}
                 <div className="bg-gray-100 p-4 flex justify-end items-center">
-                <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500">
-                        Basket ({basketItems})
+                <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500"
+                                onClick={() => navigate(ROUTES.CREATEORDER)}>
+                        Cart ({basketItems})
                     </button>
                 </div>
 
