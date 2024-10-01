@@ -6,7 +6,7 @@ import Home from "./Components/Home.tsx";
 import Paper from "./Components/Paper/PaperList.tsx"
 import AdminPage from "./Components/AdminPage.tsx"
 import CustomerList from "./Components/Customer/CustomerList.tsx"
-
+import CreateOrder from "./Components/Order/OrderCreate.tsx"
 
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
                 <Route path={ROUTES.ADMINPAGE} element={<AdminPage/>}/>
                 <Route path={ROUTES.PAPER} element={<Paper/>}/>
                 <Route path={ROUTES.CUSTOMERORDERS} element={<CustomerList/>}/>
+                <Route path={ROUTES.CREATEORDER} element={<CreateOrder/>}/>
 
             </Routes>
         </>
