@@ -6,13 +6,13 @@ Content-Type: application/json
 {
   "orderDate": "2024-09-26T08:20:37.569Z",
   "deliveryDate": "2024-09-26",
-  "status": "string",
-  "totalAmount": 1,
+  "status": "Test",
+  "totalAmount": 2,
   "customerEmail": "testingmail@hotmail.com",
   "orderEntries": [
     {
-      "quantity": 1,
-      "productId": 3
+      "quantity": 30,
+      "productId": 2
     }
   ]
 }
@@ -32,11 +32,11 @@ Content-Type: application/json
 ###
 
 # Remember to change the id to a valid number!
-PUT http://localhost:5153/api/order/update/2
+PATCH http://localhost:5153/api/order/update/2
 Content-Type: application/json
 
 {
-"id": 2, 
+"id": 1, 
   "deliveryDate": "2024-09-29",
   "totalAmount": 2
 }
@@ -44,11 +44,11 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:5153/api/Order/2/DecreaseStock?productId=1&quantity=61
+PATCH http://localhost:5153/api/Order/1/DecreaseStock
 Content-Type: application/json
 
 {
-  "id": 2,
-  "product_id": 1,
-  "quantity": 61
+  "id": 1,
+  "product_id": 2,
+  "quantity": 30
 }

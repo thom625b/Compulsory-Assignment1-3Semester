@@ -25,7 +25,7 @@ Accept: application/json
 ###
 
 # Remember to change the id to a valid number!
-PUT http://localhost:5153/api/Paper/update/1
+PATCH http://localhost:5153/api/Paper/update/1
 Content-Type: application/json
 
 {

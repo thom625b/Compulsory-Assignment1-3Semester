@@ -52,7 +52,7 @@ public class PaperController : ControllerBase
         return paper;
     }
 
-    [HttpPut]
+    [HttpPatch]
     [Route("update/{id}")]
     public async Task<ActionResult<PaperDto>> UpdatePaper(int Id, UpdatePaperDto updatePaperDto)
     {
@@ -70,7 +70,7 @@ public class PaperController : ControllerBase
         return Ok(updatePaper);
     }
 
-    [HttpPut]
+    [HttpPatch]
     [Route("features/{id}")]
     public async Task<ActionResult<PaperDto>> AddFeaturesToPaper(int id, FeaturesToPaperDto featuresToPaperDto)
     {

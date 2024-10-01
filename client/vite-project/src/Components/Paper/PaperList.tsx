@@ -67,7 +67,7 @@ const PaperList = () => {
                     <div key={paper.id}
                          className="card bg-base-100 w-96 shadow-xl transition-shadow duration-300 ease-in-out"
                          style={{
-                             boxShadow: '0 4px 6px rgba(0, 128, 0, 0.1)', // Regular shadow
+                             boxShadow: '0 4px 6px rgba(0, 128, 0, 0.1)',
                          }}
                          onMouseEnter={(e) =>
                              (e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 255, 0, 0.4)')
