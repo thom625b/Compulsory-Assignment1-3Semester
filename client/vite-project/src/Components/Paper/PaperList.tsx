@@ -2,6 +2,7 @@ import {Api} from "../../Api.ts";
 import {useAtom} from "jotai";
 import {paperAtom} from "../../Atoms/PaperAtom.tsx";
 import {useEffect, useState} from "react";
+import {featureAtom} from "../../Atoms/PropertiesAtom.tsx";
 
 
 const api = new Api();
@@ -9,6 +10,7 @@ const api = new Api();
 
 const PaperList = () => {
     const [papers, setPapers] = useAtom(paperAtom);
+    const [selectedFeatures, setSelectedFeatures] = useAtom(featureAtom);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [quantities, setQuantities] = useState<Record<number, number>>({});
@@ -42,6 +44,13 @@ const PaperList = () => {
             ...quantity,
             [id]: Math.max(0, quantity[id] - 10),
         }));
+    };
+
+    const handleFeatureChange = (paperId: number, featureName: string) => {
+        setSelectedFeatures({
+            ...selectedFeatures,
+            [paperId]: featureName,
+        });
     };
 
 
@@ -119,6 +128,27 @@ const PaperList = () => {
                                 </div>
                                 <p className="text-sm mt-1">We sell in packs of 10</p>
                             </div>
+
+                            <div className="my-4">
+                                <label className="block font-bold mb-2">Select Feature:</label>
+                                <select
+                                    className="bg-gray-200 text-gray-700 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
+                                    value={selectedFeatures[paper.id] || ""}
+                                    onChange={(e) => handleFeatureChange(paper.id, e.target.value)}
+                                >
+                                    <option value="">Select Feature  </option>
+                                    {paper.features && paper.features.length > 0 ? (
+                                        paper.features.map((feature) => (
+                                            <option key={feature.id} value={feature.featureName}>
+                                                {feature.featureName}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option>No Features</option>
+                                    )}
+                                </select>
+                            </div>
+
                             <div className="card-actions justify-end">
                                 {paper.features && paper.features.length > 0 ? (
                                     paper.features.map((feature) => (
