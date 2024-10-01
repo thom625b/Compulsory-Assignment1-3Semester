@@ -44,11 +44,12 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:5153/api/Order/1/DecreaseStock
+
+//Patches order nr. 2.
+PATCH http://localhost:5153/api/Order/2/DecreaseStock
 Content-Type: application/json
 
 {
-  "id": 1,
-  "product_id": 2,
-  "quantity": 30
+  "productId": 3,
+  "quantity": 10
 }
