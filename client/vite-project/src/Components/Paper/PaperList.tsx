@@ -60,9 +60,6 @@ const PaperList = () => {
         }
     }, [papers]);
 
-    if (loading) {
-        return <div>Loading papers...</div>;
-    }
 
     if (error) {
         return <div>{error}</div>;
