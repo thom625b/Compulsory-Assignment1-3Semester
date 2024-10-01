@@ -3,6 +3,7 @@ import {useAtom} from "jotai";
 import {paperAtom} from "../../Atoms/PaperAtom.tsx";
 import {useEffect, useState} from "react";
 import {featureAtom} from "../../Atoms/PropertiesAtom.tsx";
+import {basketAtom} from "../../Atoms/BasketAtom.tsx";
 
 
 const api = new Api();
@@ -11,9 +12,10 @@ const api = new Api();
 const PaperList = () => {
     const [papers, setPapers] = useAtom(paperAtom);
     const [selectedFeatures, setSelectedFeatures] = useAtom(featureAtom);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [quantities, setQuantities] = useState<Record<number, number>>({});
+    const [basket, setBasket] = useAtom(basketAtom);
 
 
     const FetchPapers = async () => {
@@ -52,6 +54,21 @@ const PaperList = () => {
             [paperId]: featureName,
         });
     };
+
+    const handleAddToBasket = (paperId: number) => {
+        const selectedFeature = selectedFeatures[paperId];
+        const quantity = quantities[paperId];
+        const paperInBasket = basket.find(item => item.paperId === paperId);
+
+        if (paperInBasket) {
+            setBasket(basket.map(item =>
+            item.paperId === paperId? {
+                ...item, quantity: item.quantity + quantity } : item
+            ));
+        } else {
+            setBasket([...basket, { paperId, quantity, feature: selectedFeature }]);
+        }
+    }
 
 
     useEffect(() => {
@@ -157,7 +174,10 @@ const PaperList = () => {
                                     <div className="badge badge-outline">No Features</div>
                                 )}
                             </div>
-                            <button className="btn btn-success bg-green-600"> Add to basket</button>
+                            <button className="btn btn-success bg-green-600"
+                                    onClick={() => handleAddToBasket(paper.id)}>
+                                Add to basket
+                            </button>
                         </div>
                     </div>
                 ))}

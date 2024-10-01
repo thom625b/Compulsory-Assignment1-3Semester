@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../Constants/Routes.ts";
 import PaperList from "./Paper/PaperList.tsx";
+import { useAtom } from "jotai";
+import { basketAtom } from "../Atoms/BasketAtom.tsx";
 
 export default function Home() {
     const navigate = useNavigate();
-    const basketItems = 2;
     const companyLogo = "/pictures/dunder_miffin.jpg";
+    const [basket] = useAtom(basketAtom);
+    const basketItems = basket.reduce((total, item) => total + item.quantity, 0)
 
     return (
         <div className="flex h-screen">
