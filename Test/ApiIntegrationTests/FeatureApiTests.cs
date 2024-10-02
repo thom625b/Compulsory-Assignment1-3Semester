@@ -1,5 +1,4 @@
 using DataAccess;
-using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 using PgCtx;
 using Xunit.Abstractions;

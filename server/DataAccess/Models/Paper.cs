@@ -30,7 +30,6 @@ public partial class Paper
     [InverseProperty("Product")]
     public virtual ICollection<OrderEntry> OrderEntries { get; set; } = new List<OrderEntry>();
 
-    [ForeignKey("PaperId")]
-    [InverseProperty("Papers")]
-    public virtual ICollection<Feature> Features { get; set; } = new List<Feature>();
+    [InverseProperty("Paper")]
+    public virtual ICollection<PaperFeature> PaperFeatures { get; set; } = new List<PaperFeature>();
 }

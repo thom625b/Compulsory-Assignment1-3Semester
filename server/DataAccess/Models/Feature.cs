@@ -17,7 +17,6 @@ public partial class Feature
     [StringLength(255)]
     public string FeatureName { get; set; } = null!;
 
-    [ForeignKey("FeatureId")]
-    [InverseProperty("Features")]
-    public virtual ICollection<Paper> Papers { get; set; } = new List<Paper>();
+    [InverseProperty("Feature")]
+    public virtual ICollection<PaperFeature> PaperFeatures { get; set; } = new List<PaperFeature>();
 }
