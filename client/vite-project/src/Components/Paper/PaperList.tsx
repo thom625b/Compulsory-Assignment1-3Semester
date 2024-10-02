@@ -138,33 +138,6 @@ const PaperList = () => {
                                 </p>
 
                                 <div className="my-4">
-                                    <label className="block font-bold mb-2">Quantity:</label>
-                                    <div className="flex items-center space-x-2">
-                                        <button
-                                            className="btn btn-outline btn-sm"
-                                            onClick={() => decreaseQuantity(paper.id, paper.stock)}
-                                            disabled={quantities[paper.id] <= 0}
-                                        >
-                                            -
-                                        </button>
-                                        <input
-                                            type="text"
-                                            value={quantities[paper.id]}
-                                            readOnly
-                                            className="input input-bordered input-sm w-20 text-center"
-                                        />
-                                        <button
-                                            className="btn btn-outline btn-sm"
-                                            onClick={() => incrementQuantity(paper.id, paper.stock)}
-                                            disabled={quantities[paper.id] >= paper.stock}
-                                        >
-                                            +
-                                        </button>
-                                    </div>
-                                    <p className="text-sm mt-1">We sell in packs of 100</p>
-                                </div>
-
-                                <div className="my-4">
                                     <label className="block font-bold mb-2">Select Feature:</label>
                                     <select
                                         className="bg-gray-200 text-gray-700 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
@@ -183,6 +156,35 @@ const PaperList = () => {
                                         )}
                                     </select>
                                 </div>
+                                <div className="my-4">
+                                    <label className="block font-bold mb-2">Quantity:</label>
+                                    <div className="flex items-center space-x-2">
+                                        <button
+                                            className="btn btn-outline btn-sm"
+                                            onClick={() => decreaseQuantity(paper.id, paper.stock)}
+                                            disabled={!selectedFeatures[paper.id] || quantities[paper.id] <= 0}
+                                        >
+                                            -
+                                        </button>
+
+                                        <input
+                                            type="text"
+                                            value={quantities[paper.id]}
+                                            readOnly
+                                            className="input input-bordered input-sm w-20 text-center"
+                                        />
+
+                                        <button
+                                            className="btn btn-outline btn-sm"
+                                            onClick={() => incrementQuantity(paper.id, paper.stock)}
+                                            disabled={!selectedFeatures[paper.id] || quantities[paper.id] >= paper.stock}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                    <p className="text-sm mt-1">We sell in packs of 100</p>
+                                </div>
+
 
                                 <div className="card-actions justify-end">
                                     {paper.features && paper.features.length > 0 ? (
@@ -203,10 +205,10 @@ const PaperList = () => {
                         </div>
                     ))}
                 </div>
-                </div>
             </div>
-            );
-            };
+        </div>
+    );
+};
 
 
-            export default PaperList;
+export default PaperList;
