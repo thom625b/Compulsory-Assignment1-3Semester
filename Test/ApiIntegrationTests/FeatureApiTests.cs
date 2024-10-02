@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using DataAccess.Models;
 using service;
 
 namespace UnitTest.ApiIntegrationTests;

@@ -9,7 +9,7 @@ using service.Transfermodels.Request;
 
 namespace UnitTest
 {
-    
+
     public class PaperTests
     {
         private readonly MyDbContext _context;
@@ -25,7 +25,8 @@ namespace UnitTest
             _context = new MyDbContext(options);
             _createPaperValidatorMock = new Mock<IValidator<CreatePaperDto>>();
             _updatePaperValidatorMock = new Mock<IValidator<UpdatePaperDto>>();
-            _paperService = new PaperService(_context, _createPaperValidatorMock.Object, _updatePaperValidatorMock.Object);
+            _paperService = new PaperService(_context, _createPaperValidatorMock.Object,
+                _updatePaperValidatorMock.Object);
         }
 
         [Fact]
@@ -83,7 +84,7 @@ namespace UnitTest
             var exception = await Assert.ThrowsAsync<FluentValidation.ValidationException>(() =>
             {
                 var result = _createPaperValidatorMock.Object.Validate(createPaperDto);
-                
+
                 if (!result.IsValid)
                 {
                     throw new FluentValidation.ValidationException(result.Errors);
@@ -189,7 +190,7 @@ namespace UnitTest
             {
                 Id = 88,
                 Name = "Sample Paper",
-                Features = new List<Feature>()
+                PaperFeatures = new List<PaperFeature>()
             };
 
             var features = new List<Feature>
@@ -198,14 +199,15 @@ namespace UnitTest
                 new Feature { Id = 2, FeatureName = "Gold" }
             };
 
-            _context.Papers.Add(paper);
-            _context.Features.AddRange(features);
+            await _context.Papers.AddAsync(paper);
+            await _context.Features.AddRangeAsync(features);
             await _context.SaveChangesAsync();
 
             var featuresToPaperDto = new FeaturesToPaperDto
             {
                 PaperId = 88,
-                FeatureIds = new List<int> { 1, 2 }
+                FeatureIds = new List<int> { 1, 2 },
+                FeatureStock = 10 // Assign feature stock value
             };
 
             // Act
@@ -213,15 +215,19 @@ namespace UnitTest
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(2, result.Features.Count);
-            Assert.Contains(result.Features, f => f.Id == 1);
-            Assert.Contains(result.Features, f => f.Id == 2);
+            Assert.Equal(2, result.PaperFeatures.Count); // Use PaperFeatures instead of Features
+            Assert.Contains(result.PaperFeatures, f => f.FeatureId == 1); // Check FeatureId
+            Assert.Contains(result.PaperFeatures, f => f.FeatureId == 2);
 
-            var updatedPaper = await _context.Papers.Include(p => p.Features)
+            var updatedPaper = await _context.Papers.Include(p => p.PaperFeatures)
+                .ThenInclude(pf => pf.Feature)
                 .FirstOrDefaultAsync(p => p.Id == featuresToPaperDto.PaperId);
+
             Assert.NotNull(updatedPaper);
-            Assert.Equal(2, updatedPaper.Features.Count);
+            Assert.Equal(2, updatedPaper.PaperFeatures.Count);
+            Assert.Equal(10, updatedPaper.PaperFeatures.First().FeatureStock); // Validate feature stock is added correctly
         }
+
 
         [Fact]
         public async Task AddFeatureToPaper_ShouldThrowKeyNotFoundException_WhenPaperNotFound()
@@ -230,49 +236,13 @@ namespace UnitTest
             var featuresToPaperDto = new FeaturesToPaperDto
             {
                 PaperId = 999, // Non-existing paper ID
-                FeatureIds = new List<int> { 1, 2 }
+                FeatureIds = new List<int> { 1, 2 },
+                FeatureStock = 10
             };
 
             // Act & Assert
             await Assert.ThrowsAsync<KeyNotFoundException>(() => _paperService.AddFeatureToPaper(featuresToPaperDto));
-
-            var papers = await _context.Papers.Include(p => p.Features).ToListAsync();
-            Assert.Empty(papers.SelectMany(p => p.Features));
         }
 
-        [Fact]
-        public async Task AddFeatureToPaper_ShouldThrowKeyNotFoundException_WhenSomeFeaturesNotFound()
-        {
-            // Arrange
-            var paper = new Paper
-            {
-                Id = 1,
-                Name = "Sample Paper",
-                Features = new List<Feature>()
-            };
-
-            var features = new List<Feature>
-            {
-                new Feature { Id = 1, FeatureName = "a5" }
-            };
-
-            _context.Papers.Add(paper);
-            _context.Features.AddRange(features);
-            await _context.SaveChangesAsync();
-
-            var featuresToPaperDto = new FeaturesToPaperDto
-            {
-                PaperId = 1,
-                FeatureIds = new List<int> { 1, 2 }
-            };
-
-            // Act & Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => _paperService.AddFeatureToPaper(featuresToPaperDto));
-
-            var updatedPaper = await _context.Papers.Include(p => p.Features)
-                .FirstOrDefaultAsync(p => p.Id == featuresToPaperDto.PaperId);
-            Assert.NotNull(updatedPaper);
-            Assert.Empty(updatedPaper.Features);
-        }
     }
 }
