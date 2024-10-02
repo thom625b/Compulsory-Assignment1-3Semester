@@ -2,7 +2,6 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using FluentValidation;
-using DataAccess.Models;
 using FluentValidation.Results;
 using service.Services;
 using service.Transfermodels.Request;

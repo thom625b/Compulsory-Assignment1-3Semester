@@ -1,4 +1,3 @@
-using DataAccess.Models;
 using FluentValidation;
 using service.Transfermodels.Request;
 

@@ -31,14 +31,14 @@ public class PaperService : IPaperService
 
     public async Task<List<Paper>> GetAllPapers() => await _context.Papers
         .Include(p => p.OrderEntries)
-        .Include(p => p.Features)
+        .Include(p => p.PaperFeatures)
         .AsNoTracking()
         .ToListAsync();
 
     public async Task<Paper?> GetPaper(int id) =>
         await _context.Papers
             .Include(p => p.OrderEntries)
-            .Include(p => p.Features)
+            .Include(p => p.PaperFeatures)
             .FirstOrDefaultAsync(p => p.Id == id);
 
 
@@ -55,8 +55,11 @@ public class PaperService : IPaperService
 
     public async Task<PaperDto> AddFeatureToPaper(FeaturesToPaperDto featuresToPaperDto)
     {
-        var paper = await _context.Papers.Include(p => p.Features).Include(p => p.Features)
+        var paper = await _context.Papers
+            .Include(p => p.PaperFeatures)
+            .ThenInclude(pf => pf.Feature)
             .FirstOrDefaultAsync(p => p.Id == featuresToPaperDto.PaperId);
+        
         if (paper == null) throw new KeyNotFoundException("Paper not found");
 
         var features = await _context.Features
@@ -64,13 +67,31 @@ public class PaperService : IPaperService
             .ToListAsync();
         if (features.Count != featuresToPaperDto.FeatureIds.Count)
             throw new KeyNotFoundException("Some Features not found");
+
+        var featureStockValue = featuresToPaperDto.FeatureStock;
+
+        int stockAdd = 0;
         
         foreach (var feature in features)
         {
-            if (!paper.Features.Any(f => f.Id == feature.Id))
+            var existingFeature = paper.PaperFeatures.FirstOrDefault(f => f.FeatureId == feature.Id);
+
+            if (existingFeature == null)
             {
-                paper.Features.Add(feature);
+                paper.PaperFeatures.Add( new PaperFeature
+                {
+                    PaperId = paper.Id,
+                    FeatureId = feature.Id,
+                    FeatureStock = featureStockValue
+                });
+                stockAdd += featureStockValue;
             }
+            else
+            {
+                existingFeature.FeatureStock += featureStockValue;
+                stockAdd += featureStockValue;
+            }
+            
         }
         await _context.SaveChangesAsync();
         return PaperDto.FromEntity(paper);
