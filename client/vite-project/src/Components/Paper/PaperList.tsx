@@ -37,14 +37,14 @@ const PaperList = () => {
     const incrementQuantity = (id: number, stock: number) => {
         setQuantities((quantity) => ({
             ...quantity,
-            [id]: Math.min(quantity[id] + 10, stock),
+            [id]: Math.min(quantity[id] + 1, stock),
         }));
     };
 
     const decreaseQuantity = (id: number) => {
         setQuantities((quantity) => ({
             ...quantity,
-            [id]: Math.max(0, quantity[id] - 10),
+            [id]: Math.max(0, quantity[id] - 1),
         }));
     };
 
@@ -66,7 +66,6 @@ const PaperList = () => {
             return;
         }
 
-        // @ts-ignore
         if (paper?.features?.length > 0 && !selectedFeature){
             alert("Please select a feature")
             return;
@@ -85,7 +84,7 @@ const PaperList = () => {
                 ...item, quantity: item.quantity + quantity } : item
             ));
         } else {
-            setBasket([...basket, { paperId, quantity, feature: selectedFeature }]);
+            setBasket([...basket, { paperId, name: paper.name, quantity, feature: selectedFeature, price: paper.price }]);
         }
         alert("Added to basket")
     }
@@ -109,9 +108,9 @@ const PaperList = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     {papers.map((paper) => (
                         <div key={paper.id}
-                             className="card bg-base-100 w-96 shadow-xl transition-shadow duration-300 ease-in-out"
+                             className="card bg-base-100 w-96 shadow-xl transition-shadow duration-300 ease-in-out mb-6"
                              style={{
-                                 boxShadow: '0 4px 6px rgba(0, 128, 0, 0.1)', // Regular shadow
+                                 boxShadow: '0 4px 6px rgba(0, 128, 0, 0.1)',
                              }}
                              onMouseEnter={(e) =>
                                  (e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 255, 0, 0.4)')
@@ -132,7 +131,7 @@ const PaperList = () => {
                                         <div className="badge badge-error">Discontinued</div>
                                     )}
                                 </h2>
-                                <p>Price: {paper.price} $ / count</p>
+                                <p>Price: {paper.price} $ / 100 sheets</p>
                                 <p>
                                     Your total
                                     price: <strong>{(paper.price * quantities[paper.id]).toFixed(2)} $</strong>
@@ -162,7 +161,7 @@ const PaperList = () => {
                                             +
                                         </button>
                                     </div>
-                                    <p className="text-sm mt-1">We sell in packs of 10</p>
+                                    <p className="text-sm mt-1">We sell in packs of 100</p>
                                 </div>
 
                                 <div className="my-4">

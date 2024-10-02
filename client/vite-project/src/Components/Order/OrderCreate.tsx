@@ -38,7 +38,7 @@ return (
                     <>
                         {basket.map((item, index) => (
                             <div key={index} className="border-b py-2">
-                                <p><strong>Paper ID:</strong> {item.paperId}</p>
+                                <p><strong>{item.name}</strong> </p>
                                 <p><strong>Quantity:</strong> {item.quantity}</p>
                                 <p><strong>Feature:</strong> {item.feature || "None"}</p>
                                 <p><strong>Price per Unit:</strong> {item.price} $</p>
