@@ -40,6 +40,7 @@ CREATE TABLE orders (
 );
 
 CREATE TABLE paper_features (
+                                  feature_stock integer,   
                                   paper_id integer NOT NULL,
                                   feature_id integer NOT NULL,
                                   CONSTRAINT paper_features_pkey PRIMARY KEY (paper_id, feature_id),
