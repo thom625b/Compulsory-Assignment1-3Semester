@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using DataAccess;
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 using PgCtx;
 using service;
@@ -35,7 +36,7 @@ public class PaperApiTests : WebApplicationFactory<Program>
             var returnedPaper = JsonSerializer.Deserialize<List<Paper>>(
                 await response.Content.ReadAsStringAsync(),
                 new JsonSerializerOptions() {PropertyNameCaseInsensitive = true});
-        
+            
             var paperList = new List<Paper>() { paper };
             Assert.Equivalent(paperList, returnedPaper);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
