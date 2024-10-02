@@ -70,16 +70,5 @@ public class PaperController : ControllerBase
         return Ok(updatePaper);
     }
 
-    [HttpPut]
-    [Route("features/{id}")]
-    public async Task<ActionResult<PaperDto>> AddFeaturesToPaper(int id, FeaturesToPaperDto featuresToPaperDto)
-    {
-        if (id != featuresToPaperDto.PaperId)
-        {
-            return BadRequest("No such paper id");
-        }
-
-        var updatedPaper = await _paperService.AddFeatureToPaper(featuresToPaperDto);
-        return Ok(updatedPaper);
-    }
+   
 }

@@ -32,6 +32,7 @@ builder.Services.AddScoped<IPaperService, PaperService>();
 builder.Services.AddScoped<IFeatureService, FeaturesService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IFeaturePaperService, FeaturePaperService>();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -42,6 +43,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreatePaperValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFeatureValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCustomerValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddFeatureToPaperValidator>();
 builder.Services.AddOpenApiDocument();
 
 

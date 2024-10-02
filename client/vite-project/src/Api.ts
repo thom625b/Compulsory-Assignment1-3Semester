@@ -9,11 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
-import axios from "axios";
-
-
 export interface CustomerDto {
   /** @format int32 */
   id?: number;
@@ -103,7 +98,18 @@ export interface Paper {
   /** @format double */
   price?: number;
   orderEntries?: OrderEntry[];
-  features?: Feature[];
+  paperFeatures?: PaperFeature[];
+}
+
+export interface PaperFeature {
+  /** @format int32 */
+  featureStock?: number | null;
+  /** @format int32 */
+  paperId?: number;
+  /** @format int32 */
+  featureId?: number;
+  feature?: Feature;
+  paper?: Paper;
 }
 
 export interface Feature {
@@ -114,7 +120,7 @@ export interface Feature {
    * @maxLength 255
    */
   featureName?: string;
-  papers?: Paper[];
+  paperFeatures?: PaperFeature[];
 }
 
 export interface FeatureDto {
@@ -125,6 +131,27 @@ export interface FeatureDto {
 
 export interface CreateFeatureDto {
   name?: string;
+}
+
+export interface PaperDto {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+  orderEntries?: OrderEntry[];
+  paperFeatures?: PaperFeature[];
+}
+
+export interface FeaturesToPaperDto {
+  /** @format int32 */
+  paperId?: number;
+  featureIds?: number[];
+  /** @format int32 */
+  featureStock?: number;
 }
 
 export interface OrderDto {
@@ -152,19 +179,6 @@ export interface OrderEntryDto {
   /** @format int32 */
   orderId?: number | null;
   product?: PaperDto | null;
-}
-
-export interface PaperDto {
-  /** @format int32 */
-  id?: number;
-  name?: string;
-  discontinued?: boolean;
-  /** @format int32 */
-  stock?: number;
-  /** @format double */
-  price?: number;
-  orderEntries?: OrderEntry[];
-  features?: Feature[];
 }
 
 export interface CreateOrderDto {
@@ -197,6 +211,13 @@ export interface UpdateOrderDto {
   totalAmount?: number;
 }
 
+export interface DecreaseStockDto {
+  /** @format int32 */
+  productId?: number;
+  /** @format int32 */
+  quantity?: number;
+}
+
 export interface CreatePaperDto {
   name?: string;
   discontinued?: boolean;
@@ -214,11 +235,8 @@ export interface UpdatePaperDto {
   stock?: number;
 }
 
-export interface FeaturesToPaperDto {
-  /** @format int32 */
-  paperId?: number;
-  featureIds?: number[];
-}
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
+import axios from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -521,22 +539,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      *
      * @tags Order
      * @name OrderDecreaseStock
-     * @request PUT:/api/Order/{id}/DecreaseStock
+     * @request PATCH:/api/Order/{id}/DecreaseStock
      */
-    orderDecreaseStock: (
-      id: number,
-      query?: {
-        /** @format int32 */
-        productId?: number;
-        /** @format int32 */
-        quantity?: number;
-      },
-      params: RequestParams = {},
-    ) =>
+    orderDecreaseStock: (id: number, data: DecreaseStockDto, params: RequestParams = {}) =>
       this.request<File, any>({
         path: `/api/Order/${id}/DecreaseStock`,
-        method: "PUT",
-        query: query,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
 
@@ -603,18 +613,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+  };
+  featurePaper = {
+    /**
+     * No description
+     *
+     * @tags FeaturePaper
+     * @name FeaturePaperGetFeatureStock
+     * @request GET:/FeaturePaper/papers/{paperId}/features/{featureId}/stock
+     */
+    featurePaperGetFeatureStock: (paperId: number, featureId: number, params: RequestParams = {}) =>
+      this.request<number, any>({
+        path: `/FeaturePaper/papers/${paperId}/features/${featureId}/stock`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
      *
-     * @tags Paper
-     * @name PaperAddFeaturesToPaper
-     * @request PUT:/api/Paper/features/{id}
+     * @tags FeaturePaper
+     * @name FeaturePaperAddFeaturesToPaper
+     * @request PATCH:/FeaturePaper/features/{id}
      */
-    paperAddFeaturesToPaper: (id: number, data: FeaturesToPaperDto, params: RequestParams = {}) =>
+    featurePaperAddFeaturesToPaper: (id: number, data: FeaturesToPaperDto, params: RequestParams = {}) =>
       this.request<PaperDto, any>({
-        path: `/api/Paper/features/${id}`,
-        method: "PUT",
+        path: `/FeaturePaper/features/${id}`,
+        method: "PATCH",
         body: data,
         type: ContentType.Json,
         format: "json",
