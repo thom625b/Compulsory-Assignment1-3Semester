@@ -15,6 +15,8 @@ const PaperList = () => {
     const [, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [quantities, setQuantities] = useState<Record<number, number>>({});
+    const [featureStock, setfeatureStock] = useState<Record<number, number>>({});
+    const [featuresByPaper, setFeaturesByPaper] = useState<Record<number, any>>({});
     const [basket, setBasket] = useAtom(basketAtom);
 
 
@@ -27,6 +29,7 @@ const PaperList = () => {
                 return acc;
             }, {});
             setQuantities(initialQuantity);
+            await FetchPaperFeatures(res.data);
             setLoading(false);
         } catch (error){
             setError("Failed to load papers from api");
@@ -34,28 +37,59 @@ const PaperList = () => {
         }
     };
 
-    const incrementQuantity = (id: number, stock: number) => {
+    const FetchPaperFeatures = async (papers: any[]) => {
+        const featurePromises = papers.map(async (paper) => {
+            const featureDetails = await Promise.all(
+                paper.paperFeatures.map(async (pf: any) => {
+                    const feature = await api.api.featureGetFeature(pf.featureId);
+                    return { ...feature.data, featureStock: pf.featureStock }; // include stock info
+                })
+            );
+            return { paperId: paper.id, features: featureDetails };
+        });
+
+        const featureData = await Promise.all(featurePromises);
+        const featureMap = featureData.reduce((acc, item) => {
+            acc[item.paperId] = item.features;
+            return acc;
+        }, {});
+
+        setFeaturesByPaper(featureMap);
+    };
+
+    const FetchFeatureStock = async (paperId: number, featureId: number) => {
+        try {
+            const stock = await api.featurePaper.featurePaperGetFeatureStock(paperId, featureId);
+            setfeatureStock((prev) => ({...prev, [featureId]: stock.data}));
+        } catch (error) {
+            setError(`Failed to load stock on ${featureId}`);
+        }
+    };
+
+    const incrementQuantity = async (id: number, stock: number) => {
         setQuantities((quantity) => ({
             ...quantity,
             [id]: Math.min(quantity[id] + 1, stock),
         }));
     };
 
-    const decreaseQuantity = (id: number) => {
+    const decreaseQuantity = async (id: number) => {
         setQuantities((quantity) => ({
             ...quantity,
             [id]: Math.max(0, quantity[id] - 1),
         }));
     };
 
-    const handleFeatureChange = (paperId: number, featureName: string) => {
+    const handleFeatureChange = async (paperId: number, featureId: number) => {
         setSelectedFeatures({
             ...selectedFeatures,
-            [paperId]: featureName,
+            [paperId]: featureId,
         });
+
+        await FetchFeatureStock(paperId, featureId);
     };
 
-    const handleAddToBasket = (paperId: number) => {
+    const handleAddToBasket = async (paperId: number) => {
         const selectedFeature = selectedFeatures[paperId];
         const quantity = quantities[paperId];
         const paper = papers.find(p => p.id === paperId);
@@ -66,7 +100,7 @@ const PaperList = () => {
             return;
         }
 
-        if (paper?.features?.length > 0 && !selectedFeature){
+        if (paper?.paperFeatures?.length > 0 && !selectedFeature){
             alert("Please select a feature")
             return;
         }
@@ -84,7 +118,12 @@ const PaperList = () => {
                 ...item, quantity: item.quantity + quantity } : item
             ));
         } else {
-            setBasket([...basket, { paperId, name: paper.name, quantity, feature: selectedFeature, price: paper.price }]);
+            setBasket([...basket, {
+                paperId,
+                name: paper.name,
+                quantity,
+                feature: selectedFeature,
+                price: paper.price }]);
         }
         alert("Added to basket")
     }
@@ -145,9 +184,9 @@ const PaperList = () => {
                                         onChange={(e) => handleFeatureChange(paper.id, e.target.value)}
                                     >
                                         <option value="">Select Feature</option>
-                                        {paper.features && paper.features.length > 0 ? (
-                                            paper.features.map((feature) => (
-                                                <option key={feature.id} value={feature.featureName}>
+                                        {featuresByPaper[paper.id] && featuresByPaper[paper.id].length > 0 ? (
+                                            featuresByPaper[paper.id].map((feature) => (
+                                                <option key={feature.id} value={feature.id}>
                                                     {feature.featureName}
                                                 </option>
                                             ))
@@ -161,7 +200,7 @@ const PaperList = () => {
                                     <div className="flex items-center space-x-2">
                                         <button
                                             className="btn btn-outline btn-sm"
-                                            onClick={() => decreaseQuantity(paper.id, paper.stock)}
+                                            onClick={() => decreaseQuantity(paper.id)}
                                             disabled={!selectedFeatures[paper.id] || quantities[paper.id] <= 0}
                                         >
                                             -
@@ -176,8 +215,8 @@ const PaperList = () => {
 
                                         <button
                                             className="btn btn-outline btn-sm"
-                                            onClick={() => incrementQuantity(paper.id, paper.stock)}
-                                            disabled={!selectedFeatures[paper.id] || quantities[paper.id] >= paper.stock}
+                                            onClick={() => incrementQuantity(paper.id, featureStock[selectedFeatures[paper.id]] || paper.stock)}
+                                            disabled={!selectedFeatures[paper.id] || quantities[paper.id] >= (featureStock[selectedFeatures[paper.id]] || paper.stock)}
                                         >
                                             +
                                         </button>
@@ -187,8 +226,8 @@ const PaperList = () => {
 
 
                                 <div className="card-actions justify-end">
-                                    {paper.features && paper.features.length > 0 ? (
-                                        paper.features.map((feature) => (
+                                    {featuresByPaper[paper.id] && featuresByPaper[paper.id].length > 0 ? (
+                                        featuresByPaper[paper.id].map((feature) => (
                                             <div key={feature.id} className="badge badge-outline">
                                                 {feature.featureName}
                                             </div>

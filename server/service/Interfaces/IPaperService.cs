@@ -14,6 +14,6 @@ public interface IPaperService
 
     Task<Paper> GetPaper(int id);
 
-    Task<PaperDto> AddFeatureToPaper(FeaturesToPaperDto featuresToPaperDto);
+    
 
 }
