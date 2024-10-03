@@ -3,10 +3,13 @@ import {customerAtom} from "../../Atoms/CustomerAtom.tsx";
 import {useEffect, useState} from "react";
 import {Api, Order, OrderEntry} from "../../Api.ts";
 import {basketAtom} from "../../Atoms/BasketAtom.tsx";
+import {ROUTES} from "../../Constants/Routes.ts";
+import {useNavigate} from "react-router-dom";
 
 
 const OrderCreate = () => {
     const [customers, setCustomers] = useAtom(customerAtom);
+    const navigate = useNavigate();
     const [basket] = useAtom(basketAtom);
     const [orders, setOrders] = useState<Order[]>([]);
     const [orderEntry, setOrderEntry] = useState<OrderEntry[]>([]);
@@ -52,7 +55,8 @@ return (
                 )}
             </div>
             <div>
-                <button className=" btn btn-neutra left l">
+                <button className=" btn btn-neutra left l"
+                        onClick={() => navigate(ROUTES.PAYMENT)}>
                     Register
                 </button>
             </div>
