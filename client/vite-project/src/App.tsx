@@ -10,6 +10,7 @@ import CreateOrder from "./Components/Order/OrderCreate.tsx"
 import Payment from "./Components/Order/OrderPaySite.tsx"
 import {DevTools} from "jotai-devtools";
 import  "jotai-devtools/styles.css";
+import PaperCreate from "./Components/Paper/PaperCreate.tsx";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                     <Route path={ROUTES.CUSTOMERORDERS} element={<CustomerList />} />
                     <Route path={ROUTES.CREATEORDER} element={<CreateOrder />} />
                     <Route path={ROUTES.PAYMENT} element={<Payment />} />
+                    <Route path={ROUTES.CREATEPAPER} element={<PaperCreate/>}/>
                 </Route>
             </Routes>
             <DevTools/>
