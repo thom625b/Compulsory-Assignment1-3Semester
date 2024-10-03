@@ -51,6 +51,11 @@ return (
                     </>
                 )}
             </div>
+            <div>
+                <button className=" btn btn-neutra left l">
+                    Register
+                </button>
+            </div>
         </div>
     </>
 )
