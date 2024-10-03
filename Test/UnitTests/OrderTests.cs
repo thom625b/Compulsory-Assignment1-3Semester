@@ -53,7 +53,7 @@ public class OrderTests
         {
             OrderDate = DateTime.Parse("2024-09-26T08:20:37.569Z"),
             DeliveryDate = DateOnly.Parse("2024-09-26"),
-            Status = "string",
+            Status = OrderStatus.Pending, 
             TotalAmount = 1,
             CustomerEmail = "testingmail@hotmail.com",
             OrderEntries = new List<CreateOrderEntryDto>
