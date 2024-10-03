@@ -6,9 +6,9 @@ Content-Type: application/json
 {
   "orderDate": "2024-09-26T08:20:37.569Z",
   "deliveryDate": "2024-09-26",
-  "status": "string",
+  "status": "Pending",
   "totalAmount": 1,
-  "customerEmail": "testingmail@hotmail.com",
+  "customerEmail": "john.doe@example.com",
   "orderEntries": [
     {
       "quantity": 1,
@@ -16,6 +16,7 @@ Content-Type: application/json
     }
   ]
 }
+
 
 ### 
 
@@ -31,15 +32,16 @@ Content-Type: application/json
 
 ###
 
-# Remember to change the id to a valid number!
 PUT http://localhost:5153/api/order/update/2
 Content-Type: application/json
 
 {
-"id": 2, 
+  "id": 2,
   "deliveryDate": "2024-09-29",
+  "status": "Shipped", 
   "totalAmount": 2
 }
+
 
 
 ###
@@ -52,3 +54,4 @@ Content-Type: application/json
   "productId": 3,
   "quantity": 10
 }
+

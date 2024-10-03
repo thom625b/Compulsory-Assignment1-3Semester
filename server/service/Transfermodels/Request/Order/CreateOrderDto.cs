@@ -18,7 +18,7 @@ namespace service.Transfermodels.Request
                 CustomerId = customerId,
                 OrderDate = OrderDate,
                 DeliveryDate = DeliveryDate,
-                Status = Status.ToString(), 
+                Status = Status, 
                 TotalAmount = TotalAmount,
                 OrderEntries = OrderEntries.Select(oe => oe.ToOrderEntry()).ToList()
             };
