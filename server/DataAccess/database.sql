@@ -32,7 +32,7 @@ CREATE TABLE orders (
 --  PSA: I recommend using DateTime.UtcNow for making timestamps with entity framework for the above order_date
 
                         delivery_date date,
-                        status character varying(50) NOT NULL DEFAULT ('pending'::character varying),
+                        status character varying(50) NOT NULL DEFAULT 'pending' CHECK (status IN ('Pending', 'Shipped', 'Delivered')),
                         total_amount double precision NOT NULL,
                         customer_id integer,
                         CONSTRAINT orders_pkey PRIMARY KEY (id),

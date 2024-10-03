@@ -94,5 +94,17 @@ public class OrderController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+    
+    [HttpGet("statuses")]
+    public IActionResult GetOrderStatuses()
+    {
+        var statuses = Enum.GetValues(typeof(OrderStatus))
+            .Cast<OrderStatus>()
+            .Select(s => s.ToString())
+            .ToList();
+
+        return Ok(statuses);
+    }
+
 
 }
