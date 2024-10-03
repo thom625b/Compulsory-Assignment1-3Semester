@@ -24,18 +24,21 @@ const PaperList = () => {
         try {
             const res = await api.api.paperGetAllPapers();
             setPapers(res.data);
-            const initialQuantity = res.data.reduce((acc: any, paper: any ) => {
-                acc[paper.id] = 0;
+
+            const initialQuantity = res.data.reduce((acc: Record<number, number>, paper: any) => {
+                acc[paper.id] = 0; // Ensure quantities start at 0
                 return acc;
             }, {});
             setQuantities(initialQuantity);
+
             await FetchPaperFeatures(res.data);
             setLoading(false);
-        } catch (error){
-            setError("Failed to load papers from api");
+        } catch (error) {
+            setError("Failed to load papers from API");
             setLoading(false);
         }
     };
+
 
     const FetchPaperFeatures = async (papers: any[]) => {
         const featurePromises = papers.map(async (paper) => {
@@ -66,19 +69,36 @@ const PaperList = () => {
         }
     };
 
+    useEffect(() => {
+        if (papers.length > 0) {
+            // Reset the quantities to 0 when navigating back
+            const resetQuantities = papers.reduce((acc: Record<number, number>, paper: any) => {
+                acc[paper.id] = 0;
+                return acc;
+            }, {});
+            setQuantities(resetQuantities);
+
+            // Fetch features for the papers
+            FetchPaperFeatures(papers);
+        }
+    }, [papers]);
+
+
+
     const incrementQuantity = async (id: number, stock: number) => {
         setQuantities((quantity) => ({
             ...quantity,
-            [id]: Math.min(quantity[id] + 1, stock),
+            [id]: Math.min((quantity[id] || 0) + 1, stock), // Ensure quantity[id] is at least 0
         }));
     };
 
     const decreaseQuantity = async (id: number) => {
         setQuantities((quantity) => ({
             ...quantity,
-            [id]: Math.max(0, quantity[id] - 1),
+            [id]: Math.max(0, (quantity[id] || 0) - 1), // Ensure quantity[id] is at least 0
         }));
     };
+
 
     const handleFeatureChange = async (paperId: number, featureId: number) => {
         setSelectedFeatures({
@@ -131,6 +151,22 @@ const PaperList = () => {
         alert("Added to basket")
     }
 
+    useEffect(() => {
+        const savedPapers = localStorage.getItem('papers');
+        const savedQuantities = localStorage.getItem('quantities');
+        const savedFeatures = localStorage.getItem('selectedFeatures');
+
+        if (savedPapers) setPapers(JSON.parse(savedPapers));
+        if (savedQuantities) setQuantities(JSON.parse(savedQuantities));
+        if (savedFeatures) setSelectedFeatures(JSON.parse(savedFeatures));
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('papers', JSON.stringify(papers));
+        localStorage.setItem('quantities', JSON.stringify(quantities));
+        localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
+    }, [papers, quantities, selectedFeatures]);
+
 
     useEffect(() => {
         if ((papers.length === 0 )) {
@@ -175,9 +211,13 @@ const PaperList = () => {
                                 </h2>
                                 <p>Price: {paper.price} $ / 100 sheets</p>
                                 <p>
-                                    Your total
-                                    price: <strong>{(paper.price * quantities[paper.id]).toFixed(2)} $</strong>
+                                    Your total price:
+                                    <strong>
+                                        {(paper.price && quantities[paper.id] !== undefined
+                                            ? (paper.price * quantities[paper.id])
+                                            : 0).toFixed(2)} $</strong>
                                 </p>
+
 
                                 <div className="my-4">
                                     <label className="block font-bold mb-2">Select Feature:</label>
@@ -185,18 +225,16 @@ const PaperList = () => {
                                         className="bg-gray-200 text-gray-700 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                                         value={selectedFeatures[paper.id] || ""}
                                         onChange={(e) => handleFeatureChange(paper.id, e.target.value)}
+                                        disabled={!featuresByPaper[paper.id] || featuresByPaper[paper.id].length === 0}
                                     >
                                         <option value="">Select Feature</option>
-                                        {featuresByPaper[paper.id] && featuresByPaper[paper.id].length > 0 ? (
-                                            featuresByPaper[paper.id].map((feature) => (
-                                                <option key={feature.id} value={feature.id}>
-                                                    {feature.featureName}
-                                                </option>
-                                            ))
-                                        ) : (
-                                            <option>No Features</option>
-                                        )}
+                                        {featuresByPaper[paper.id]?.map((feature) => (
+                                            <option key={feature.id} value={feature.id}>
+                                                {feature.featureName}
+                                            </option>
+                                        ))}
                                     </select>
+
                                 </div>
                                 <div className="my-4">
                                     <label className="block font-bold mb-2">Quantity:</label>
