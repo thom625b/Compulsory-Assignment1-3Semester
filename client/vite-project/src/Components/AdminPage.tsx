@@ -15,9 +15,12 @@ export default function AdminPage() {
                 <CustomerList/>
             </div>
             <div className="ml-5 p-1 " >
-                <button className="btn btn-success">Create Paper</button>
-                <button className="btn btn-success ml-2">Create Feature</button>
-                <button className="btn btn-success ml-2">Add Feature to Paper</button>
+                <button className="btn btn-success"
+                        onClick={() => navigate(ROUTES.CREATEPAPER)}
+                >Create Paper
+                </button>
+                <button className="btn btn-error ml-2">Create Feature</button>
+                <button className="btn btn-warning ml-2">Add Feature to Paper</button>
             </div>
         </>
     );
