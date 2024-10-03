@@ -20,9 +20,9 @@ INSERT INTO feature (feature_name) VALUES
 
 -- Insert into orders with updated status (matching enum values)
 INSERT INTO orders (order_date, delivery_date, status, total_amount, customer_id) VALUES
-                                                                                      (CURRENT_TIMESTAMP, '2024-10-05', 'Shipped', 45.97, 1),
-                                                                                      (CURRENT_TIMESTAMP, '2024-10-10', 'Pending', 19.99, 2),
-                                                                                      (CURRENT_TIMESTAMP, '2024-10-12', 'Delivered', 30.00, 3);
+                                                                                      (CURRENT_TIMESTAMP, '2024-10-05', 1, 45.97, 1),  -- 1: Shipped
+                                                                                      (CURRENT_TIMESTAMP, '2024-10-10', 0, 19.99, 2),  -- 0: Pending
+                                                                                      (CURRENT_TIMESTAMP, '2024-10-12', 2, 30.00, 3);  -- 2: Delivered
 
 -- Insert into paper_features (ensuring unique combinations and realistic stock)
 INSERT INTO paper_features (paper_id, feature_id, feature_stock) VALUES

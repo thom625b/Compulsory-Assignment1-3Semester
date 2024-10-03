@@ -2,8 +2,9 @@ namespace DataAccess.Models
 {
     public enum OrderStatus
     {
-        Pending,
-        Shipped,
-        Delivered
+        Pending = 0,
+        Shipped = 1,
+        Delivered = 2
     }
+
 }
