@@ -2,7 +2,6 @@ import { Api } from "../../Api.ts";
 import { useAtom } from "jotai";
 import { customerAtom } from "../../Atoms/CustomerAtom.tsx";
 import { useEffect, useState } from "react";
-import React from "react";
 
 const api = new Api();
 
@@ -40,44 +39,39 @@ const CustomerList = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const fetchCustomers = async () => {
+    const fetchCustomersAndOrders = async () => {
         try {
-            const res = await api.api.customerGetAllCustomers();
-            setCustomers(res.data);
+            const customerRes = await api.api.customerGetAllCustomers();
+            const orderRes = await api.api.orderGetAllOrders();
+
+            const customersWithOrders = customerRes.data.map((customer: any) => {
+                const customerOrders = orderRes.data.filter((order: Order) => order.customerId === customer.id);
+                return { ...customer, orders: customerOrders }; // Add orders to the customer object
+            });
+
+            setCustomers(customersWithOrders);
+            setOrders(orderRes.data);
             setLoading(false);
         } catch (error) {
-            setError("Failed to load customer list");
-            setLoading(false);
-        }
-    };
-
-    const fetchOrders = async () => {
-        try {
-            const res = await api.api.orderGetAllOrders();
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            setOrders(res.data);
-        } catch (error) {
-            setError("Failed to load orders");
-        }
-        finally {
+            setError("Failed to load customer or order data");
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        if (customers.length === 0) {
-            fetchCustomers().then();
-        } else {
-            fetchOrders().then();
-        }
-    }, [customers]);
+        fetchCustomersAndOrders().then();
+    }, []);
 
-    const handleCheckboxChange = (customerId: number | undefined) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
+    const handleIconClick = (customerId: number | undefined) => {
         setSelectedCustomerId(prev => (prev === customerId ? null : customerId));
+        setIsModalOpen(true); // Open the modal when an icon is clicked
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false); // Close modal when needed
+        setSelectedCustomerId(null); // Deselect customer
     };
 
     if (loading) {
@@ -92,7 +86,6 @@ const CustomerList = () => {
         <>
             <div className="overflow-x-auto">
                 <table className="table">
-                    {/* head */}
                     <thead>
                     <tr>
                         <th></th>
@@ -104,75 +97,75 @@ const CustomerList = () => {
                     </thead>
                     <tbody>
                     {customers.map((customer) => (
-                        <React.Fragment key={customer.id}>
-                            <tr>
-                                <th>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            className="checkbox"
-                                            checked={selectedCustomerId === customer.id}
-                                            onChange={() => handleCheckboxChange(customer.id)}
-                                        />
-                                    </label>
-                                </th>
-                                <td>
-                                    <div className="flex items-center gap-3">
-                                        <div className="avatar">
-                                            <div className="mask mask-squircle h-12 w-12">
-                                                <img
-                                                    src="https://avatars.githubusercontent.com/u/41024316?v=4"
-                                                    alt="Avatar Tailwind CSS Component"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="font-bold">{customer.name}</div>
-                                            <div className="text-sm opacity-50">{customer.address}</div>
-                                            <div className="text-sm opacity-50">{customer.email}</div>
+                        <tr key={customer.id}>
+                            <th>
+                                <button
+                                    className="text-2xl"
+                                    onClick={() => handleIconClick(customer.id)}
+                                >
+                                    +
+                                </button>
+                            </th>
+                            <td>
+                                <div className="flex items-center gap-3">
+                                    <div className="avatar">
+                                        <div className="mask mask-squircle h-12 w-12">
+                                            <img
+                                                src="https://avatars.githubusercontent.com/u/41024316?v=4"
+                                                alt="Avatar Tailwind CSS Component"
+                                            />
                                         </div>
                                     </div>
-                                </td>
-                                <td>{customer.phone}</td>
-                                <td>{customer.email}</td>
-                            </tr>
-                            {selectedCustomerId === customer.id && (
-                                <tr>
-                                    <td colSpan={5}>
-                                        <table className="table w-full">
-                                            <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Order Date</th>
-                                                <th>Delivery Date</th>
-                                                <th>Status</th>
-                                                <th>Total Amount</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {orders
-                                                .filter(order => order.customerId === customer.id)
-                                                .map(order => (
-                                                    <tr key={order.id}>
-                                                        <td></td>
-                                                        <td>{formatDateTime(order.orderDate)}</td>
-                                                        <td>{formatDate(order.deliveryDate)}</td>
-                                                        <td>{order.status}</td>
-                                                        <td>{order.totalAmount}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            )}
-                        </React.Fragment>
+                                    <div>
+                                        <div className="font-bold">{customer.name}</div>
+                                        <div className="text-sm opacity-50">Orders: {customer.orders?.length}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{customer.address}</td>
+                            <td>{customer.phone}</td>
+                            <td>{customer.email}</td>
+                        </tr>
                     ))}
                     </tbody>
                 </table>
             </div>
+
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-2/3">
+                        <h2 className="text-2xl font-bold mb-4">
+                            Orders for Customer ID: {selectedCustomerId}
+                        </h2>
+                        <button className="btn btn-sm" onClick={closeModal}>Close</button>
+                        <table className="table w-full mt-4">
+                            <thead>
+                            <tr>
+                                <th>Order Date</th>
+                                <th>Delivery Date</th>
+                                <th>Status</th>
+                                <th>Total Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {orders
+                                .filter(order => order.customerId === selectedCustomerId)
+                                .map(order => (
+                                    <tr key={order.id}>
+                                        <td>{formatDateTime(order.orderDate)}</td>
+                                        <td>{formatDate(order.deliveryDate)}</td>
+                                        <td>{order.status}</td>
+                                        <td>{order.totalAmount}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
 
 export default CustomerList;
+
