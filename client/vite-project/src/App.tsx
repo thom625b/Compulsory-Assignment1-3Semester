@@ -8,6 +8,8 @@ import AdminPage from "./Components/AdminPage.tsx"
 import CustomerList from "./Components/Customer/CustomerList.tsx"
 import CreateOrder from "./Components/Order/OrderCreate.tsx"
 import Payment from "./Components/Order/OrderPaySite.tsx"
+import {DevTools} from "jotai-devtools";
+import  "jotai-devtools/styles.css";
 
 
 function App() {
@@ -28,6 +30,7 @@ function App() {
                 <Route path={ROUTES.PAYMENT} element={<Payment/>}/>
 
             </Routes>
+            <DevTools/>
         </>
     )
 }
