@@ -32,6 +32,7 @@ namespace UnitTest
             _paperService = new PaperService(_context, _createPaperValidatorMock.Object,
                 _updatePaperValidatorMock.Object);
             _featurePaperService = new FeaturePaperService(_context, _paperFeatureValidatorMock.Object);
+           
         }
 
         [Fact]
