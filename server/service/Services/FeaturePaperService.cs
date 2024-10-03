@@ -1,19 +1,23 @@
 using DataAccess;
 using DataAccess.Models;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using service.Interfaces;
 using service.Transfermodels.Request;
 using service.Transfermodels.Responses;
+using service.Validators;
 
 namespace service.Services;
 
 public class FeaturePaperService : IFeaturePaperService
 {
     private readonly MyDbContext _context;
+    private readonly IValidator<FeaturesToPaperDto> _validator;
 
-    public FeaturePaperService(MyDbContext context)
+    public FeaturePaperService(MyDbContext context, IValidator<FeaturesToPaperDto> validator)
     {
         _context = context;
+        _validator = validator;
     }
 
     public async Task<List<PaperFeature>> GetAllPaperFeatures()
@@ -24,6 +28,7 @@ public class FeaturePaperService : IFeaturePaperService
     
     public async Task<PaperDto> AddFeatureToPaper(FeaturesToPaperDto featuresToPaperDto)
     {
+        _validator.ValidateAndThrow(featuresToPaperDto);
         var paper = await _context.Papers
             .Include(p => p.PaperFeatures)
             .ThenInclude(pf => pf.Feature)

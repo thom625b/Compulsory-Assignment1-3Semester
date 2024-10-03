@@ -90,7 +90,7 @@ const PaperList = () => {
     };
 
     const handleAddToBasket = async (paperId: number) => {
-        const selectedFeature = selectedFeatures[paperId];
+        const selectedFeatureId = selectedFeatures[paperId];
         const quantity = quantities[paperId];
         const paper = papers.find(p => p.id === paperId);
 
@@ -100,7 +100,7 @@ const PaperList = () => {
             return;
         }
 
-        if (paper?.paperFeatures?.length > 0 && !selectedFeature){
+        if (paper?.paperFeatures?.length > 0 && !selectedFeatureId){
             alert("Please select a feature")
             return;
         }
@@ -110,6 +110,9 @@ const PaperList = () => {
             return;
         }
 
+        const selectedFeatureName = featuresByPaper[paperId]?.find(
+            (feature) => feature.id === Number(selectedFeatureId)
+        )?.featureName;
         const paperInBasket = basket.find(item => item.paperId === paperId);
 
         if (paperInBasket) {
@@ -122,7 +125,7 @@ const PaperList = () => {
                 paperId,
                 name: paper.name,
                 quantity,
-                feature: selectedFeature,
+                feature: selectedFeatureName || "None",
                 price: paper.price }]);
         }
         alert("Added to basket")
