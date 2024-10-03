@@ -58,17 +58,19 @@ export interface Order {
   orderDate?: string;
   /** @format date */
   deliveryDate?: string | null;
-  /**
-   * @minLength 0
-   * @maxLength 50
-   */
-  status?: string;
+  status?: OrderStatus;
   /** @format double */
   totalAmount?: number;
   /** @format int32 */
   customerId?: number | null;
   customer?: Customer | null;
   orderEntries?: OrderEntry[];
+}
+
+export enum OrderStatus {
+  Pending = 0,
+  Shipped = 1,
+  Delivered = 2,
 }
 
 export interface OrderEntry {
@@ -161,12 +163,18 @@ export interface OrderDto {
   orderDate?: string;
   /** @format date */
   deliveryDate?: string | null;
-  status?: string;
+  status?: OrderStatus2;
   /** @format double */
   totalAmount?: number;
   /** @format int32 */
   customerId?: number | null;
   orderEntries?: OrderEntryDto[];
+}
+
+export enum OrderStatus2 {
+  Pending = "Pending",
+  Shipped = "Shipped",
+  Delivered = "Delivered",
 }
 
 export interface OrderEntryDto {
@@ -186,7 +194,7 @@ export interface CreateOrderDto {
   orderDate?: string;
   /** @format date */
   deliveryDate?: string | null;
-  status?: string;
+  status?: OrderStatus2;
   /** @format double */
   totalAmount?: number;
   customerEmail?: string;
@@ -547,6 +555,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "PATCH",
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderGetOrderStatuses
+     * @request GET:/api/Order/statuses
+     */
+    orderGetOrderStatuses: (params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Order/statuses`,
+        method: "GET",
         ...params,
       }),
 

@@ -17,18 +17,13 @@ function App() {
     return (
         <>
             <Routes>
-                <Route path={ROUTES.HOME} element={<Home/>}/>
-
-                {/* <Route path={ROUTES.CUSTOMERS} element={<Customers/>}/>
-                 <Route path={ROUTES.PAPER} element={<Paper/>}/>*/}
-
-                {/* <Route path={ROUTES.CUSTOMERS} element={<Customers/>}/>*/}
-                <Route path={ROUTES.ADMINPAGE} element={<AdminPage/>}/>
-                <Route path={ROUTES.PAPER} element={<Paper/>}/>
-                <Route path={ROUTES.CUSTOMERORDERS} element={<CustomerList/>}/>
-                <Route path={ROUTES.CREATEORDER} element={<CreateOrder/>}/>
-                <Route path={ROUTES.PAYMENT} element={<Payment/>}/>
-
+                <Route path={ROUTES.HOME} element={<Home />}>
+                    <Route index element={<Paper />} />
+                    <Route path={ROUTES.ADMINPAGE} element={<AdminPage />} />
+                    <Route path={ROUTES.CUSTOMERORDERS} element={<CustomerList />} />
+                    <Route path={ROUTES.CREATEORDER} element={<CreateOrder />} />
+                    <Route path={ROUTES.PAYMENT} element={<Payment />} />
+                </Route>
             </Routes>
             <DevTools/>
         </>

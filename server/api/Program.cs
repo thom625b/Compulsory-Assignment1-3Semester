@@ -27,7 +27,6 @@ builder.Services.AddDbContext<MyDbContext>((serviceProvider, options) =>
 
 
 builder.Services.AddScoped<CustomerService>();
-builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<IPaperService, PaperService>();
 builder.Services.AddScoped<IFeatureService, FeaturesService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();

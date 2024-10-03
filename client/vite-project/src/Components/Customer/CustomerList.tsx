@@ -46,6 +46,9 @@ const CustomerList = () => {
             const customerRes = await api.api.customerGetAllCustomers();
             const orderRes = await api.api.orderGetAllOrders();
 
+            console.log('Customer Response:', customerRes);  // Debugging line
+            console.log('Order Response:', orderRes);
+
             const customersWithOrders = customerRes.data.map((customer: any) => {
                 const customerOrders = orderRes.data.filter((order: Order) => order.customerId === customer.id);
                 return { ...customer, orders: customerOrders }; // Add orders to the customer object
@@ -55,6 +58,7 @@ const CustomerList = () => {
             setOrders(orderRes.data);
             setLoading(false);
         } catch (error) {
+            console.error("API error:", error);
             setError("Failed to load customer or order data");
             setLoading(false);
         }

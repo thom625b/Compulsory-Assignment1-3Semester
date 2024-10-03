@@ -1,14 +1,34 @@
-import { useNavigate } from "react-router-dom";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import { ROUTES } from "../Constants/Routes.ts";
-import PaperList from "./Paper/PaperList.tsx";
 import { useAtom } from "jotai";
 import { basketAtom } from "../Atoms/BasketAtom.tsx";
+import {useState} from "react";
+
 
 export default function Home() {
     const navigate = useNavigate();
+    const location = useLocation();
     const companyLogo = "/pictures/dunder_miffin.jpg";
     const [basket] = useAtom(basketAtom);
     const basketItems = basket.reduce((total, item) => total + item.quantity, 0)
+    const isActive = (path: string) => location.pathname === path;
+    const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
+    const [passwordInput, setPasswordInput] = useState("");
+
+
+    const handleLogin = () => {
+        setShowPasswordPrompt(true);
+    };
+
+
+    const handlePasswordSubmit = () => {
+        if (passwordInput === "dunder") {
+            setShowPasswordPrompt(false);
+            navigate(ROUTES.ADMINPAGE);
+        } else {
+            alert("Incorrect password. Access denied.");
+        }
+    };
 
     return (
         <div className="flex h-screen">
@@ -23,36 +43,29 @@ export default function Home() {
                 <h2 className="text-lg font-semibold mb-4">Menu</h2>
                 <ul className="space-y-2 w-full">
                     <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300"
-                                onClick={() => navigate(ROUTES.ADMINPAGE)}>
+                        <button className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.ADMINPAGE) ? "bg-gray-300 font-bold" : ""
+                        }`}
+                                onClick={handleLogin}>
                             Admin
                         </button>
                     </li>
                     <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300"
+                        <button  className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.HOME) ? "bg-gray-300 font-bold" : ""
+                        }`}
                                 onClick={() => navigate(ROUTES.HOME)}>
                             Home
                         </button>
                     </li>
                     <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300"
-                                onClick={() => navigate(ROUTES.PAPER)}>
-                            Paper
-                        </button>
-                    </li>
-                    <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300"
-                                onClick={() => navigate(ROUTES.CUSTOMERS)}>
-                            Customers
-                        </button>
-                    </li>
-                    <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300" onClick={() => navigate(ROUTES.CUSTOMERORDERS)}>
+                        <button className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CUSTOMERORDERS) ? "bg-gray-300 font-bold" : ""
+                        }`}
+                                onClick={() => navigate(ROUTES.CUSTOMERORDERS)}>
                             Customer orders
                         </button>
                     </li>
                     <li>
-                        <button className="block w-full text-left py-2 hover:bg-gray-300"
+                        <button className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CONTACT) ? "bg-gray-300 font-bold" : ""
+                        }`}
                                 onClick={() => navigate(ROUTES.CONTACT)}>
                             Contact
                         </button>
@@ -73,9 +86,39 @@ export default function Home() {
 
                 {/* Paper List */}
                 <div className="p-4 bg-gray-50 flex-grow">
-                    <PaperList />
+                    <Outlet />
                 </div>
             </div>
+
+            {/* Password Prompt Modal */}
+            {showPasswordPrompt && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded shadow-md">
+                        <h2 className="text-xl font-semibold mb-4">Enter Admin Password</h2>
+                        <input
+                            type="password"
+                            className="border border-gray-300 p-2 mb-4 w-full"
+                            placeholder="Password"
+                            value={passwordInput}
+                            onChange={(e) => setPasswordInput(e.target.value)}
+                        />
+                        <div className="flex justify-end space-x-2">
+                            <button
+                                className="bg-red-500 text-white px-4 py-2 rounded"
+                                onClick={() => setShowPasswordPrompt(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                onClick={handlePasswordSubmit}
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
