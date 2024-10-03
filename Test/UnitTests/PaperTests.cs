@@ -6,6 +6,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using service.Services;
 using service.Transfermodels.Request;
+using service.Transfermodels.Responses;
 
 namespace UnitTest
 {
@@ -15,7 +16,9 @@ namespace UnitTest
         private readonly MyDbContext _context;
         private readonly Mock<IValidator<CreatePaperDto>> _createPaperValidatorMock;
         private readonly Mock<IValidator<UpdatePaperDto>> _updatePaperValidatorMock;
+        private readonly Mock<IValidator<FeaturesToPaperDto>> _paperFeatureValidatorMock;
         private readonly PaperService _paperService;
+        private readonly FeaturePaperService _featurePaperService;
 
         public PaperTests()
         {
@@ -25,8 +28,11 @@ namespace UnitTest
             _context = new MyDbContext(options);
             _createPaperValidatorMock = new Mock<IValidator<CreatePaperDto>>();
             _updatePaperValidatorMock = new Mock<IValidator<UpdatePaperDto>>();
+            _paperFeatureValidatorMock = new Mock<IValidator<FeaturesToPaperDto>>();
             _paperService = new PaperService(_context, _createPaperValidatorMock.Object,
                 _updatePaperValidatorMock.Object);
+            _featurePaperService = new FeaturePaperService(_context, _paperFeatureValidatorMock.Object);
+           
         }
 
         [Fact]
@@ -211,7 +217,7 @@ namespace UnitTest
             };
 
             // Act
-            var result = await _paperService.AddFeatureToPaper(featuresToPaperDto);
+            var result = await _featurePaperService.AddFeatureToPaper(featuresToPaperDto);
 
             // Assert
             Assert.NotNull(result);
@@ -241,7 +247,7 @@ namespace UnitTest
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => _paperService.AddFeatureToPaper(featuresToPaperDto));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() => _featurePaperService.AddFeatureToPaper(featuresToPaperDto));
         }
 
     }
