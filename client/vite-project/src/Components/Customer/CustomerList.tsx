@@ -32,7 +32,6 @@ const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleString(undefined, options); // Format date and time
 };
-
 const CustomerList = () => {
     const [customers, setCustomers] = useAtom(customerAtom);
     const [orders, setOrders] = useState<Order[]>([]);
@@ -70,12 +69,17 @@ const CustomerList = () => {
 
     const handleIconClick = (customerId: number | undefined) => {
         setSelectedCustomerId(prev => (prev === customerId ? null : customerId));
-        setIsModalOpen(true); // Open the modal when an icon is clicked
+        setIsModalOpen(true);
     };
 
     const closeModal = () => {
-        setIsModalOpen(false); // Close modal when needed
+        setIsModalOpen(false);
         setSelectedCustomerId(null); // Deselect customer
+    };
+
+    const getSelectedCustomerName = () => {
+        const selectedCustomer = customers.find(customer => customer.id === selectedCustomerId);
+        return selectedCustomer ? selectedCustomer.name : 'Unknown Customer'; // Fallback to 'Unknown Customer' if not found
     };
 
     if (loading) {
@@ -142,7 +146,7 @@ const CustomerList = () => {
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-2/3">
                         <h2 className="text-2xl font-bold mb-4">
-                            Orders for Customer ID: {selectedCustomerId}
+                            Orders for {getSelectedCustomerName()}
                         </h2>
                         <button className="btn btn-sm" onClick={closeModal}>Close</button>
                         <table className="table w-full mt-4">
