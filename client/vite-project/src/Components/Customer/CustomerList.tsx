@@ -87,7 +87,10 @@ const CustomerList = () => {
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div>
+            <span className="loading loading-spinner text-neutral"></span>
+            <div> {error}</div>
+        </div>;
     }
 
     return (
