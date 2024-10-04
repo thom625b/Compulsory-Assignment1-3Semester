@@ -54,6 +54,19 @@ public class OrderService : IOrderService
             return OrderDto.FromEntity(order);
         }
 
+        
+        public async Task UpdateOrderStatus(int orderId, OrderStatus newStatus)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order == null)
+            {
+                throw new InvalidOperationException("Order not found.");
+            }
+
+            order.Status = newStatus; 
+            await _context.SaveChangesAsync(); 
+        }
+
         public async Task<bool> DecreaseProductStockAsync(int productId, int quantity)
         {
             try

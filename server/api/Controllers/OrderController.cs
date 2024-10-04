@@ -95,6 +95,21 @@ public class OrderController : ControllerBase
         }
     }
     
+    [HttpPatch("{id}/ChangeOrderStatus")]
+    public async Task<ActionResult> ChangeOrderStatus(int id, [FromBody] OrderChangeStatusDto dto)
+    {
+        try
+        {
+            await _orderService.UpdateOrderStatus(id, dto.NewStatus);
+            return Ok("Order status updated successfully.");
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+
     [HttpGet("statuses")]
     public IActionResult GetOrderStatuses()
     {

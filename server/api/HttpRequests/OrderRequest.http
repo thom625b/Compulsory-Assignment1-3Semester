@@ -55,3 +55,11 @@ Content-Type: application/json
   "quantity": 10
 }
 
+###
+
+PATCH http://localhost:5153/api/Order/1/ChangeOrderStatus
+Content-Type: application/json
+
+{
+"newStatus": 2
+}
