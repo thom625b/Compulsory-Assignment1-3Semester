@@ -12,6 +12,7 @@ import {DevTools} from "jotai-devtools";
 import  "jotai-devtools/styles.css";
 import PaperCreate from "./Components/Paper/PaperCreate.tsx";
 import FeatureCreate from "./Components/Features/FeatureCreate.tsx";
+import AddFeature from "./Components/Features/AddFeature.tsx";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                     <Route path={ROUTES.PAYMENT} element={<Payment />} />
                     <Route path={ROUTES.CREATEPAPER} element={<PaperCreate/>}/>
                     <Route path={ROUTES.CREATEFEATURE} element={<FeatureCreate/>}/>
+                    <Route path={ROUTES.ADDFEATURETOPAPER} element={<AddFeature/>}/>
                 </Route>
             </Routes>
             <DevTools/>

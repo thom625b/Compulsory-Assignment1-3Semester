@@ -14,15 +14,18 @@ export default function AdminPage() {
         <>
             <h1>Admin page</h1>
             <div className="ml-5 p-1 ">
-                <button className="btn btn-success"
+                <button className="btn btn-primary"
                         onClick={() => navigate(ROUTES.CREATEPAPER)}>
                     Create Paper
                 </button>
-                <button className="btn btn-secondary ml-2"
+                <button className="btn btn-primary ml-2"
                         onClick={() => navigate(ROUTES.CREATEFEATURE)}>
                     Create Feature
                 </button>
-                <button className="btn btn-warning ml-2">Add Feature to Paper</button>
+                <button className="btn btn-primary ml-2"
+                onClick={() => navigate(ROUTES.ADDFEATURETOPAPER)}>
+                    Add Feature to Paper
+                </button>
             </div>
             <div className="mb-6">
                 <label className="font-extrabold text-xl mb-6">Orders of customers</label>
@@ -34,7 +37,7 @@ export default function AdminPage() {
             </div>
             <div className="mb-6">
                 <label className="font-extrabold text-xl mb-6">Features</label>
-                <FeatureTable/> {/* Add FeatureList table here */}
+                <FeatureTable/>
             </div>
 
         </>

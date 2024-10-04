@@ -1,9 +1,12 @@
 import {Api} from "../../Api.ts";
 import React, {useState} from "react";
+import {useNavigate} from "react-router-dom"
+import {ROUTES} from "../../Constants/Routes.ts";
 
 
 const FeatureCreate = () => {
     const api = new Api();
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -22,6 +25,10 @@ const FeatureCreate = () => {
             setErrorMessage("Feature not created");
             setSuccessMessage('');
         }
+    }
+
+    const handleGoBack = () => {
+        navigate(ROUTES.ADMINPAGE);
     }
 
 
@@ -52,6 +59,11 @@ const FeatureCreate = () => {
                         Create Feature
                     </button>
                 </form>
+                <button
+                    onClick={handleGoBack}
+                    className="w-full bg-gray-500 text-white py-2 px-4 rounded mt-4 hover:bg-gray-600 transition duration-200">
+                    Back
+                </button>
             </div>
         </>
     )

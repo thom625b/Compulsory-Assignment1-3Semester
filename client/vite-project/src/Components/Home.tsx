@@ -57,13 +57,6 @@ export default function Home() {
                         </button>
                     </li>
                     <li>
-                        <button className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CUSTOMERORDERS) ? "bg-gray-300 font-bold" : ""
-                        }`}
-                                onClick={() => navigate(ROUTES.CUSTOMERORDERS)}>
-                            Customer orders
-                        </button>
-                    </li>
-                    <li>
                         <button className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CONTACT) ? "bg-gray-300 font-bold" : ""
                         }`}
                                 onClick={() => navigate(ROUTES.CONTACT)}>
