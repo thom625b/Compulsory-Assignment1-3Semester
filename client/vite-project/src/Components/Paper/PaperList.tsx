@@ -34,7 +34,7 @@ const PaperList = () => {
             await FetchPaperFeatures(res.data);
             setLoading(false);
         } catch (error) {
-            setError("Failed to load papers from API");
+            setError("Failed to load paper data");
             setLoading(false);
         }
     };
@@ -176,7 +176,10 @@ const PaperList = () => {
 
 
     if (error) {
-        return <div>{error}</div>;
+        return <div>
+            <span className="loading loading-spinner text-neutral"></span>
+            <div> {error}</div>
+        </div>;
     }
 
     return (
