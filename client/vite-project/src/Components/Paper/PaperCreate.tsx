@@ -1,10 +1,13 @@
 import {Api} from "../../Api.ts";
 import React, {useState} from "react";
+import {ROUTES} from "../../Constants/Routes.ts";
+import {useNavigate} from "react-router-dom";
 
 
 const PaperCreate = () => {
 
     const api = new Api();
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0.0)
     const [stock, setStock] = useState(0);
@@ -29,6 +32,10 @@ const PaperCreate = () => {
             setSuccessMessage('');
         }
     };
+
+    const handleGoBack = () => {
+        navigate(ROUTES.ADMINPAGE);
+    }
 
 
     return(
@@ -84,6 +91,11 @@ const PaperCreate = () => {
                         Create Paper
                     </button>
                 </form>
+                <button
+                    onClick={handleGoBack}
+                    className="w-full bg-gray-500 text-white py-2 px-4 rounded mt-4 hover:bg-gray-600 transition duration-200">
+                    Back
+                </button>
             </div>
         </>
     )

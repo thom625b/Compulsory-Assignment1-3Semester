@@ -22,7 +22,10 @@ export default function AdminPage() {
                         onClick={() => navigate(ROUTES.CREATEFEATURE)}>
                     Create Feature
                 </button>
-                <button className="btn btn-warning ml-2">Add Feature to Paper</button>
+                <button className="btn btn-warning ml-2"
+                onClick={() => navigate(ROUTES.ADDFEATURETOPAPER)}>
+                    Add Feature to Paper
+                </button>
             </div>
             <div className="mb-6">
                 <label className="font-extrabold text-xl mb-6">Orders of customers</label>
@@ -34,7 +37,7 @@ export default function AdminPage() {
             </div>
             <div className="mb-6">
                 <label className="font-extrabold text-xl mb-6">Features</label>
-                <FeatureTable/> {/* Add FeatureList table here */}
+                <FeatureTable/>
             </div>
 
         </>
