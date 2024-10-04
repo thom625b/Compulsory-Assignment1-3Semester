@@ -15,4 +15,5 @@ public interface IOrderService
     Task<OrderDto> UpdateOrder(UpdateOrderDto updateOrderDto);
     Task<bool> DecreaseProductStockAsync(int productId, int quantity);
 
+    Task UpdateOrderStatus(int orderId, OrderStatus newStatus);
 }
