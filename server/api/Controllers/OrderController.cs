@@ -95,7 +95,8 @@ public class OrderController : ControllerBase
         }
     }
     
-    [HttpPatch("{id}/ChangeOrderStatus")]
+    [HttpPatch]
+    [Route("{id}/ChangeOrderStatus")]
     public async Task<ActionResult> ChangeOrderStatus(int id, [FromBody] OrderChangeStatusDto dto)
     {
         try
@@ -110,7 +111,8 @@ public class OrderController : ControllerBase
     }
 
 
-    [HttpGet("statuses")]
+    [HttpGet]
+    [Route("statuses")]
     public IActionResult GetOrderStatuses()
     {
         var statuses = Enum.GetValues(typeof(OrderStatus))
