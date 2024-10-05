@@ -1,4 +1,4 @@
-import { Api } from "../../Api.ts";
+import { Api, OrderStatus } from "../../Api.ts";
 import { useAtom } from "jotai";
 import { customerAtom } from "../../Atoms/CustomerAtom.tsx";
 import { useEffect, useState } from "react";
@@ -10,14 +10,14 @@ interface Order {
     customerId: number;
     orderDate: string;
     deliveryDate: string;
-    status: string;
+    status: OrderStatus;
     totalAmount: number;
 }
 
 const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, options); // Format date to "Month Day, Year" e.g., "September 29, 2024"
+    return date.toLocaleDateString(undefined, options);
 };
 
 const formatDateTime = (dateString: string) => {
@@ -30,8 +30,9 @@ const formatDateTime = (dateString: string) => {
         hour12: false,
     };
     const date = new Date(dateString);
-    return date.toLocaleString(undefined, options); // Format date and time
+    return date.toLocaleString(undefined, options);
 };
+
 const CustomerList = () => {
     const [customers, setCustomers] = useAtom(customerAtom);
     const [orders, setOrders] = useState<Order[]>([]);
@@ -39,18 +40,23 @@ const CustomerList = () => {
     const [error, setError] = useState<string | null>(null);
     const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [statuses, setStatuses] = useState<string[]>([]);
 
     const fetchCustomersAndOrders = async () => {
         try {
             const customerRes = await api.api.customerGetAllCustomers();
             const orderRes = await api.api.orderGetAllOrders();
-
-            console.log('Customer Response:', customerRes);  // Debugging line
-            console.log('Order Response:', orderRes);
+            console.log("Fetched orders:", orderRes.data); // Debug log
 
             const customersWithOrders = customerRes.data.map((customer: any) => {
-                const customerOrders = orderRes.data.filter((order: Order) => order.customerId === customer.id);
-                return { ...customer, orders: customerOrders }; // Add orders to the customer object
+                const customerOrders = orderRes.data
+                    .filter((order: Order) => order.customerId === customer.id)
+                    .map((order: Order) => ({
+                        ...order,
+                        status: OrderStatus[order.status as keyof typeof OrderStatus]
+                    }));
+
+                return { ...customer, orders: customerOrders };
             });
 
             setCustomers(customersWithOrders);
@@ -63,9 +69,6 @@ const CustomerList = () => {
         }
     };
 
-    useEffect(() => {
-        fetchCustomersAndOrders().then();
-    }, []);
 
     const handleIconClick = (customerId: number | undefined) => {
         setSelectedCustomerId(prev => (prev === customerId ? null : customerId));
@@ -74,23 +77,60 @@ const CustomerList = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setSelectedCustomerId(null); // Deselect customer
+        setSelectedCustomerId(null);
     };
 
     const getSelectedCustomerName = () => {
-        const selectedCustomer = customers.find(customer => customer.id === selectedCustomerId);
-        return selectedCustomer ? selectedCustomer.name : 'Unknown Customer'; // Fallback to 'Unknown Customer' if not found
+        const selectedCustomer = customers?.find(customer => customer.id === selectedCustomerId);
+        return selectedCustomer ? selectedCustomer.name : 'Unknown Customer';
     };
+
+    const fetchOrderStatuses = async () => {
+        try {
+            const response = await api.api.orderGetOrderStatuses();
+            setStatuses(response.data || []); // Ensure statuses is always an array
+        } catch (error) {
+            console.error("Failed to load order statuses:", error);
+            setStatuses([]); // Set statuses to an empty array on error
+        }
+    };
+
+    useEffect(() => {
+        fetchOrderStatuses();
+    }, []);
+
+    const handleChangeStatus = async (orderId: number, newStatus: number) => {
+        console.log(`Changing status for order ${orderId} to ${newStatus}`);
+        try {
+            const response = await api.api.orderChangeOrderStatus(orderId, { newStatus });
+            console.log("API Response:", response); // Log the response from the API
+
+            // Update the order state directly if the response includes the updated order
+            setOrders(prevOrders =>
+                prevOrders.map(order => (order.id === orderId ? { ...order, status: newStatus } : order))
+            );
+        } catch (error) {
+            console.error("Failed to change order status:", error);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchCustomersAndOrders();
+        console.log("Orders after fetch:", orders); // Log the updated orders
+    }, []);
+
+
+
+
+
 
     if (loading) {
         return <div>Loading customers...</div>;
     }
 
     if (error) {
-        return <div>
-            <span className="loading loading-spinner text-neutral"></span>
-            <div> {error}</div>
-        </div>;
+        return <div>{error}</div>;
     }
 
     return (
@@ -107,7 +147,7 @@ const CustomerList = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {customers.map((customer) => (
+                    {customers?.map((customer) => (
                         <tr key={customer.id}>
                             <th>
                                 <button
@@ -123,7 +163,7 @@ const CustomerList = () => {
                                         <div className="mask mask-squircle h-12 w-12">
                                             <img
                                                 src="https://avatars.githubusercontent.com/u/41024316?v=4"
-                                                alt="Avatar Tailwind CSS Component"
+                                                alt="Avatar"
                                             />
                                         </div>
                                     </div>
@@ -160,12 +200,29 @@ const CustomerList = () => {
                             </thead>
                             <tbody>
                             {orders
-                                .filter(order => order.customerId === selectedCustomerId)
-                                .map(order => (
+                                ?.filter(order => order.customerId === selectedCustomerId)
+                                ?.map(order => (
                                     <tr key={order.id}>
                                         <td>{formatDateTime(order.orderDate)}</td>
                                         <td>{formatDate(order.deliveryDate)}</td>
-                                        <td>{order.status}</td>
+                                        <td>
+                                            <select
+                                                name={`orderStatus-${order.id}`}
+                                                value={order.status} // Set the current order status
+                                                onChange={(e) => handleChangeStatus(order.id, Number(e.target.value))} // Convert string to number
+                                                className="border rounded p-1"
+                                            >
+                                                {Object.keys(OrderStatus)
+                                                    .filter(key => isNaN(Number(key))) // Filter out numeric keys
+                                                    .map((status) => (
+                                                        <option key={status} value={OrderStatus[status]}>
+                                                            {status}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </td>
+
+
                                         <td>{order.totalAmount}</td>
                                     </tr>
                                 ))}
@@ -179,4 +236,3 @@ const CustomerList = () => {
 };
 
 export default CustomerList;
-
