@@ -206,20 +206,22 @@ const CustomerList = () => {
                                         <td>{formatDateTime(order.orderDate)}</td>
                                         <td>{formatDate(order.deliveryDate)}</td>
                                         <td>
-                                            <select
-                                                name={`orderStatus-${order.id}`}
-                                                value={order.status} // Set the current order status
-                                                onChange={(e) => handleChangeStatus(order.id, Number(e.target.value))} // Convert string to number
-                                                className="border rounded p-1"
-                                            >
-                                                {Object.keys(OrderStatus)
-                                                    .filter(key => isNaN(Number(key))) // Filter out numeric keys
-                                                    .map((status) => (
-                                                        <option key={status} value={OrderStatus[status]}>
-                                                            {status}
-                                                        </option>
-                                                    ))}
-                                            </select>
+                                            <div className="relative">
+                                                <select
+                                                    name={`orderStatus-${order.id}`}
+                                                    value={order.status} // Set the current order status
+                                                    onChange={(e) => handleChangeStatus(order.id, Number(e.target.value))} // Convert string to number
+                                                    className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded shadow leading-tight focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                                                >
+                                                    {Object.keys(OrderStatus)
+                                                        .filter(key => isNaN(Number(key))) // Filter out numeric keys
+                                                        .map((status) => (
+                                                            <option key={status} value={OrderStatus[status]}>
+                                                                {status}
+                                                            </option>
+                                                        ))}
+                                                </select>
+                                            </div>
                                         </td>
 
 
