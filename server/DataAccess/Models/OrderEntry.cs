@@ -21,6 +21,9 @@ public partial class OrderEntry
     [Column("product_id")]
     public int? ProductId { get; set; }
 
+    [Column("feature_id")]
+    public int? FeatureId { get; set; }
+
     [Column("order_id")]
     public int? OrderId { get; set; }
 
