@@ -54,5 +54,23 @@ public class CustomerController : ControllerBase
         return customer;
     }
     
+    [HttpGet]
+    [Route("GetByEmail/{email}")]
+    public async Task<ActionResult<CustomerDto>> GetCustomerByEmail(string email)
+    {
+        // Call the service method to get the customer by email
+        var customerDto = await _customerService.GetCustomerIdByEmail(email);
+
+        // Check if the customer was found
+        if (customerDto == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(customerDto);
+    }
+
+
+    
     
 }

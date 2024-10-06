@@ -13,5 +13,7 @@ public interface ICustomerService
 
     Task<Customer?> GetCustomer(int id);
 
-    Task<int?> GetCustomerIdByEmail(string email);
+    Task<CustomerDto> GetCustomerIdByEmail(string email);
+
+
 }

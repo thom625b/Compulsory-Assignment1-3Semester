@@ -74,7 +74,14 @@ public class OrderTests
         // Mock customer service behavior
         _customerServiceMock
             .Setup(s => s.GetCustomerIdByEmail(createOrderDto.CustomerEmail))
-            .ReturnsAsync(() => customer.Id);
+            .ReturnsAsync(new CustomerDto 
+            { 
+                Id = customer.Id, 
+                Email = customer.Email, 
+                Name = customer.Name, 
+                Address = customer.Address
+            });
+
 
         // Act
         var result = await _orderService.CreateOrder(createOrderDto);

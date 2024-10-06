@@ -28,11 +28,22 @@ public class CustomerService : ICustomerService
         return CustomerDto.FromEntity(customer);
     }
 
-    public async Task<int?> GetCustomerIdByEmail(string email)
+    public async Task<CustomerDto> GetCustomerIdByEmail(string email)
     {
         var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == email);
-        return customer?.Id;
+        if (customer == null) return null;
+
+        // Map to CustomerDto (assuming you have a mapping method)
+        return new CustomerDto
+        {
+            Id = customer.Id,
+            Name = customer.Name,
+            Address = customer.Address,
+            Phone = customer.Phone,
+            Email = customer.Email
+        };
     }
+
 
     public async Task<List<Customer>> GetAllCustomers() => await _context.Customers.ToListAsync();
     public async Task<Customer?> GetCustomer(int id) => await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
