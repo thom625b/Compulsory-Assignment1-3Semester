@@ -21,7 +21,7 @@ public partial class Order
     public DateOnly? DeliveryDate { get; set; }
 
     [Column("status")]
-    public OrderStatus Status { get; set; } // Make this non-nullable
+    public int Status { get; set; }
 
     [Column("total_amount")]
     public double TotalAmount { get; set; }
