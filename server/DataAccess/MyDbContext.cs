@@ -41,7 +41,7 @@ public partial class MyDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("orders_pkey");
 
             entity.Property(e => e.OrderDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
-            entity.Property(e => e.Status).HasDefaultValue(OrderStatus.Pending); // Set default value as enum
+            entity.Property(e => e.Status).HasDefaultValue(0);
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .OnDelete(DeleteBehavior.Cascade)

@@ -92,7 +92,7 @@ public class OrderTests
         Assert.Equal(createOrderDto.OrderDate, orderInDb.OrderDate);
         Assert.Equal(createOrderDto.DeliveryDate, orderInDb.DeliveryDate);
         Assert.Equal(createOrderDto.TotalAmount, orderInDb.TotalAmount);
-        Assert.Equal(createOrderDto.Status, orderInDb.Status);
+        Assert.Equal(createOrderDto.Status, (OrderStatus)orderInDb.Status);
         Assert.Single(orderInDb.OrderEntries);
         Assert.Equal(1, orderInDb.OrderEntries.First().ProductId);
         Assert.Equal(1, orderInDb.OrderEntries.First().Quantity);

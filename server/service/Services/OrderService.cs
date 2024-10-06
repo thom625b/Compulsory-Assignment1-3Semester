@@ -28,13 +28,17 @@ public class OrderService : IOrderService
     {
         _createOrderValidator.ValidateAndThrow(createOrderDto);
 
-       var customer = await _context.Customers.FirstAsync(c => c.Email == createOrderDto.CustomerEmail);
-    
+        var customer = await _context.Customers.FirstAsync(c => c.Email == createOrderDto.CustomerEmail);
+
         var order = createOrderDto.ToOrder(customer.Id);
+        // Convert enum to int
+        order.Status = (int)createOrderDto.Status;
+
         await _context.Orders.AddAsync(order);
         await _context.SaveChangesAsync();
         return OrderDto.FromEntity(order);
     }
+
 
   
         public async Task<List<Order>> GetAllOrders() =>
@@ -63,9 +67,11 @@ public class OrderService : IOrderService
                 throw new InvalidOperationException("Order not found.");
             }
 
-            order.Status = newStatus; 
+            // Convert enum to int
+            order.Status = (int)newStatus; 
             await _context.SaveChangesAsync(); 
         }
+
 
         public async Task<bool> DecreaseProductStockAsync(int productId, int quantity)
         {
