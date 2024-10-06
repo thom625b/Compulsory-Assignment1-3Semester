@@ -9,6 +9,7 @@ namespace DataAccess.Models;
 [Table("order_entries")]
 [Index("OrderId", Name = "IX_order_entries_order_id")]
 [Index("ProductId", Name = "IX_order_entries_product_id")]
+[Index("FeatureId", Name = "IX_order_entries_feature_id")]
 public partial class OrderEntry
 {
     [Key]
@@ -20,6 +21,9 @@ public partial class OrderEntry
 
     [Column("product_id")]
     public int? ProductId { get; set; }
+    
+    [Column("feature_id")]
+    public int? FeatureId { get; set; }
 
     [Column("order_id")]
     public int? OrderId { get; set; }

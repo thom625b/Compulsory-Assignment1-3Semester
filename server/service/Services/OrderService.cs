@@ -4,6 +4,7 @@ using DataAccess.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using service.Interfaces;
+using service.Converters;
 using service.Transfermodels.Request;
 using service.Transfermodels.Responses;
 
@@ -35,6 +36,26 @@ public class OrderService : IOrderService
         order.Status = (int)createOrderDto.Status;
 
         await _context.Orders.AddAsync(order);
+        await _context.SaveChangesAsync();
+
+        foreach (var entryDto in createOrderDto.OrderEntries)
+        {
+            var newOrderEntry = OrderEntryConverter.ConvertToOrderEntry(entryDto, order.Id);
+            
+            var existingEntry =
+                order.OrderEntries.FirstOrDefault(
+                    e => e.ProductId == newOrderEntry.ProductId && e.FeatureId == newOrderEntry.FeatureId);
+
+            if (existingEntry != null)
+            {
+                existingEntry.Quantity += newOrderEntry.Quantity;
+            }
+            else
+            {
+                order.OrderEntries.Add(newOrderEntry);
+            }
+        }
+
         await _context.SaveChangesAsync();
         return OrderDto.FromEntity(order);
     }
