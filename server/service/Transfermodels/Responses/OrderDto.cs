@@ -19,16 +19,17 @@ namespace service.Transfermodels.Responses
 
         public static OrderDto FromEntity(Order order)
         {
-            return new OrderDto()
+            return new OrderDto
             {
                 Id = order.Id,
                 OrderDate = order.OrderDate,
                 DeliveryDate = order.DeliveryDate,
-                Status = (OrderStatus)order.Status,  
+                // Convert int to enum
+                Status = (OrderStatus)order.Status, 
                 TotalAmount = order.TotalAmount,
-                CustomerId = order.CustomerId,
-                OrderEntries = order.OrderEntries.Select(oe => OrderEntryDto.FromEntity(oe)).ToList()
+                OrderEntries = order.OrderEntries.Select(OrderEntryDto.FromEntity).ToList()
             };
         }
+
     }
 }

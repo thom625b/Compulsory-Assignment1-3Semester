@@ -33,7 +33,7 @@ INSERT INTO paper_features (paper_id, feature_id, feature_stock) VALUES
                                                                      (4, 2, 50);  -- Recycled Paper with Recycled Material
 
 -- Insert into order_entries
-INSERT INTO order_entries (quantity, product_id, order_id) VALUES
-                                                               (3, 1, 1), -- 3 units of A4 Paper for Order 1
-                                                               (2, 2, 2), -- 2 units of Letter Paper for Order 2
-                                                               (1, 3, 3); -- 1 unit of Glossy Photo Paper for Order 3
+INSERT INTO order_entries (quantity, product_id, order_id, feature_id) VALUES
+                                                               (3, 1, 1, 3), -- 3 units of A4 Paper, Heavy for Order 1
+                                                               (2, 2, 2, 4), -- 2 units of Letter Paper, Glossy Finish for Order 2
+                                                               (1, 3, 3, 4); -- 1 unit of Glossy Photo Paper, Glossy for Order 3

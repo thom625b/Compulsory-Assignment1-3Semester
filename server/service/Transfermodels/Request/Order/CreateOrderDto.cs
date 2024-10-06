@@ -22,11 +22,12 @@ namespace service.Transfermodels.Request
                 CustomerId = customerId,
                 OrderDate = OrderDate,
                 DeliveryDate = DeliveryDate,
-                Status = Status, 
+                // Convert enum to int
+                Status = (int)Status, 
                 TotalAmount = TotalAmount,
-                OrderEntries = OrderEntries.Select(oe => oe.ToOrderEntry()).ToList()
             };
             return o;
         }
+
     }
 }
