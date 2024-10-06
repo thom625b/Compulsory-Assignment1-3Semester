@@ -26,17 +26,24 @@ const OrderPaySite = () => {
             return;
         }
 
-        const newCustomer = {
-            name,
-            address,
-            phone,
-            email,
-        };
-
         try {
-            // Create the customer
-            const response = await api.api.customerCreateCustomer(newCustomer);
-            const createdCustomer = response.data;
+            // Check if the customer already exists by email
+            let createdCustomer;
+            try {
+                const response = await api.api.customerGetCustomerByEmail(email);
+                createdCustomer = response.data;
+            } catch (error) {
+                // If the customer does not exist, create a new customer
+                const newCustomer = {
+                    name,
+                    address,
+                    phone,
+                    email,
+                };
+
+                const customerResponse = await api.api.customerCreateCustomer(newCustomer);
+                createdCustomer = customerResponse.data;
+            }
 
             const orderDate = new Date();
             const deliveryDate = new Date();
@@ -62,7 +69,7 @@ const OrderPaySite = () => {
             // @ts-expect-error
             await api.api.orderCreateOrder(order);
 
-            setSuccessMessage("Customer and order created successfully");
+            setSuccessMessage("Order created successfully");
             setErrorMessage('');
 
             // Clear input fields
@@ -89,7 +96,7 @@ const OrderPaySite = () => {
 
     return (
         <>
-            <h1 className="text-lg font-bold">Create Customer</h1>
+            <h1 className="text-lg font-bold">Buy Order</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 {errorMessage && <div className="text-red-500">{errorMessage}</div>}
                 {successMessage && <div className="text-green-500">{successMessage}</div>}
@@ -144,7 +151,7 @@ const OrderPaySite = () => {
 
                 <button type="submit"
                         className="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200">
-                    Create Customer
+                    Create order
                 </button>
             </form>
 
