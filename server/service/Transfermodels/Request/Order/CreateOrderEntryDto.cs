@@ -7,6 +7,7 @@ public class CreateOrderEntryDto
     public int Quantity { get; set; }
     
     public int ProductId { get; set; }
+    public int FeatureId { get; set; }
     
     public int OrderId { get; set; }
     
@@ -16,6 +17,7 @@ public class CreateOrderEntryDto
         {
             Quantity = Quantity,
             ProductId = ProductId,
+            FeatureId = FeatureId,
             OrderId = OrderId
         };
     }

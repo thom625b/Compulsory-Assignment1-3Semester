@@ -25,7 +25,6 @@ namespace service.Transfermodels.Request
                 // Convert enum to int
                 Status = (int)Status, 
                 TotalAmount = TotalAmount,
-                OrderEntries = OrderEntries.Select(oe => oe.ToOrderEntry()).ToList()
             };
             return o;
         }

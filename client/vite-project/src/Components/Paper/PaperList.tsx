@@ -133,20 +133,27 @@ const PaperList = () => {
         const selectedFeatureName = featuresByPaper[paperId]?.find(
             (feature) => feature.id === Number(selectedFeatureId)
         )?.featureName;
-        const paperInBasket = basket.find(item => item.paperId === paperId);
+
+        const paperInBasket = basket
+            .find(item => item.paperId === paperId && item.featureId === selectedFeatureId);
 
         if (paperInBasket) {
+            // Update quantity if paper with the same feature already exists
             setBasket(basket.map(item =>
-            item.paperId === paperId? {
-                ...item, quantity: item.quantity + quantity } : item
+                item.paperId === paperId && item.featureId === selectedFeatureId
+                    ? { ...item, quantity: item.quantity + quantity }
+                    : item
             ));
         } else {
+            // Add new entry if this paper-feature combination does not exist
             setBasket([...basket, {
                 paperId,
+                featureId: selectedFeatureId,  // Add featureId to basket item
                 name: paper.name,
                 quantity,
                 feature: selectedFeatureName || "None",
-                price: paper.price }]);
+                price: paper.price
+            }]);
         }
         alert("Added to basket")
     }

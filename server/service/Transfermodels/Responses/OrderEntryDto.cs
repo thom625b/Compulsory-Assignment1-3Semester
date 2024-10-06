@@ -7,6 +7,7 @@ public class OrderEntryDto
     public int Id { get; set; }
     public int Quantity { get; set; }
     public int? ProductId { get; set; }
+    public int? FeatureId { get; set; }
     public int? OrderId { get; set; }
     public PaperDto? Product { get; set; }
     
@@ -17,6 +18,7 @@ public class OrderEntryDto
             Id = orderEntry.Id,
             Quantity = orderEntry.Quantity,
             ProductId = orderEntry.ProductId,
+            FeatureId = orderEntry.FeatureId,
             OrderId = orderEntry.OrderId,
             Product = orderEntry.Product != null ? PaperDto.FromEntity(orderEntry.Product) : null
         };
