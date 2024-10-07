@@ -25,7 +25,7 @@ const PaperCreate = () => {
             discontinued,
         };
         try {
-            const res = await api.api.paperCreatePaper(newPaper);
+            await api.api.paperCreatePaper(newPaper);
             setSuccessMessage("Paper created successfully")
         } catch (error) {
             setErrorMessage("Failed to create paper")

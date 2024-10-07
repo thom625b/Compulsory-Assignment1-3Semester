@@ -40,7 +40,7 @@ const CustomerList = () => {
     const [error, setError] = useState<string | null>(null);
     const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [statuses, setStatuses] = useState<string[]>([]);
+    const [, setStatuses] = useState<string[]>([]);
 
     const fetchCustomersAndOrders = async () => {
         try {

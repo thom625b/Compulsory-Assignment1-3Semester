@@ -31,9 +31,9 @@ export default function Home() {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="min-h-screen flex">
             {/* Sidebar */}
-            <div className="w-1/5 bg-gray-200 p-4 flex flex-col items-center">
+            <div className=" w-1/5 bg-gray-200 p-4 flex flex-col items-center">
                 {/* Company Logo */}
                 <img
                     src={companyLogo}

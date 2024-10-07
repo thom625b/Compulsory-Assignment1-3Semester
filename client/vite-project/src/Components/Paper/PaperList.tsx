@@ -237,7 +237,7 @@ const PaperList = () => {
                                         onChange={(e) => handleFeatureChange(paper.id, e.target.value)}
                                         disabled={!featuresByPaper[paper.id] || featuresByPaper[paper.id].length === 0}
                                     >
-                                        <option  disabled selected value="">Select Feature</option>
+                                        <option  disabled value="">Select Feature</option>
                                         {featuresByPaper[paper.id]?.map((feature) => (
                                             <option key={feature.id} value={feature.id}>
                                                 {feature.featureName}
@@ -259,8 +259,7 @@ const PaperList = () => {
 
                                         <input
                                             type="text"
-                                            value={quantities[paper.id]}
-                                            readOnly
+                                            value={quantities[paper.id] || 0}                                            readOnly
                                             className="input input-bordered input-sm w-20 text-center"
                                         />
 
