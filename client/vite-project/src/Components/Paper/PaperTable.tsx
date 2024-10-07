@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {Api, Paper} from "../../Api.ts";
 
 export default function PaperTable() {
