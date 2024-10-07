@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Field, Label, Switch } from '@headlessui/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../index.css';
+
 
 
 export default function ContactPage() {
@@ -20,6 +22,18 @@ export default function ContactPage() {
         });
     };
 
+
+    const toastFormula = () => {
+        toast.info("Submitted - We will contact you by email.",{
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
     return (
         <div className="isolate bg-white px-4 py-2 lg:px-4 max-h-screen overflow-hidden"> {/* Minimized padding and added max height */}
             <div aria-hidden="true" className="absolute inset-x-0 top-[-4rem] -z-10 transform-gpu overflow-hidden blur-3xl">
@@ -147,8 +161,9 @@ export default function ContactPage() {
                 </div>
                 <div className="mt-8">
                     <button
-                        type="submit"
+                        type="button"
                         className="block w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-indigo-600"
+                        onClick={toastFormula}
                     >
                         Send formula
                     </button>
