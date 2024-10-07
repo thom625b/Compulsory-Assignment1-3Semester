@@ -259,8 +259,7 @@ const PaperList = () => {
 
                                         <input
                                             type="text"
-                                            value={quantities[paper.id]}
-                                            readOnly
+                                            value={quantities[paper.id] || 0}                                            readOnly
                                             className="input input-bordered input-sm w-20 text-center"
                                         />
 

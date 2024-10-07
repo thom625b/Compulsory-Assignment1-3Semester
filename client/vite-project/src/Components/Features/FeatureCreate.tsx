@@ -18,7 +18,7 @@ const FeatureCreate = () => {
             name,
         };
         try {
-            const res = await api.api.featureCreateFeature(newFeature);
+            await api.api.featureCreateFeature(newFeature);
             setSuccessMessage("Feature created");
             setName('');
         } catch (error) {

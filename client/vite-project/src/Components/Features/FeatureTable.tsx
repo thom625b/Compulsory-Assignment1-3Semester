@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {Api, Feature} from "../../Api.ts"; // Adjust the import path to your API client
 
 export default function FeatureTable() {

@@ -1,24 +1,13 @@
 import {useAtom} from "jotai/index";
-import {customerAtom} from "../../Atoms/CustomerAtom.tsx";
 import {useEffect, useState} from "react";
-import {Api, Order, OrderEntry} from "../../Api.ts";
 import {basketAtom} from "../../Atoms/BasketAtom.tsx";
 import {ROUTES} from "../../Constants/Routes.ts";
 import {useNavigate} from "react-router-dom";
 
 
 const OrderCreate = () => {
-    const [customers, setCustomers] = useAtom(customerAtom);
     const navigate = useNavigate();
     const [basket] = useAtom(basketAtom);
-    const [orders, setOrders] = useState<Order[]>([]);
-    const [orderEntry, setOrderEntry] = useState<OrderEntry[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
-    const api = new Api();
-
-
     const [totalAmount, setTotalAmount] = useState<number>(0);
 
     useEffect(() => {
