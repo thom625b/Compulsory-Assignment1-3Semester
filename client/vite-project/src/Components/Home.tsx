@@ -3,6 +3,7 @@ import { ROUTES } from "../Constants/Routes.ts";
 import { useAtom } from "jotai";
 import { basketAtom } from "../Atoms/BasketAtom.tsx";
 import {useState} from "react";
+import SearchBar from "./SearchBar.tsx";
 
 
 export default function Home() {
@@ -16,10 +17,20 @@ export default function Home() {
     const [passwordInput, setPasswordInput] = useState("");
 
 
+    const handleSearch = (searchParam) => {
+        console.log("Searched for: ", searchParam)
+    };
+
+    const searchOptions = isActive(ROUTES.CUSTOMERORDERS)
+        ? [{ value: 'email', label: 'Email' }, { value: 'name', label: 'Name' }]
+        : [{ value: 'all', label: 'All Categories' }, { value: 'paper', label: 'Paper' }, { value: 'features', label: 'Features' }];
+
+    const searchDisabled = isActive(ROUTES.CONTACT);
+
+
     const handleLogin = () => {
         setShowPasswordPrompt(true);
     };
-
 
     const handlePasswordSubmit = () => {
         if (passwordInput === "dunder") {
@@ -43,23 +54,34 @@ export default function Home() {
                 <h2 className="text-lg font-semibold mb-4">Menu</h2>
                 <ul className="space-y-2 w-full">
                     <li>
-                        <button className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.ADMINPAGE) ? "bg-gray-300 font-bold" : ""
-                        }`}
-                                onClick={handleLogin}>
+                        <button
+                            className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.ADMINPAGE) ? "bg-gray-300 font-bold" : ""
+                            }`}
+                            onClick={handleLogin}>
                             Admin
                         </button>
                     </li>
                     <li>
-                        <button  className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.HOME) ? "bg-gray-300 font-bold" : ""
-                        }`}
-                                onClick={() => navigate(ROUTES.HOME)}>
+                        <button
+                            className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.HOME) ? "bg-gray-300 font-bold" : ""
+                            }`}
+                            onClick={() => navigate(ROUTES.HOME)}>
                             Home
                         </button>
                     </li>
                     <li>
-                        <button className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CONTACT) ? "bg-gray-300 font-bold" : ""
-                        }`}
-                                onClick={() => navigate(ROUTES.CONTACT)}>
+                        <button
+                            className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CUSTOMERORDERS) ? "bg-gray-300 font-bold" : ""
+                            }`}
+                            onClick={() => navigate(ROUTES.CUSTOMERORDERS)}>
+                            Orders
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CONTACT) ? "bg-gray-300 font-bold" : ""
+                            }`}
+                            onClick={() => navigate(ROUTES.CONTACT)}>
                             Contact
                         </button>
                     </li>
@@ -68,18 +90,24 @@ export default function Home() {
 
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col">
-                {/* Top Bar */}
-                <div className="bg-gray-100 p-4 flex justify-end items-center">
-                <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500"
+                <div className="bg-gray-100 p-4 flex justify-end items-center relative">
+
+                    <div className="absolute right-4">
+                        <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500"
                                 onClick={() => navigate(ROUTES.CREATEORDER)}>
-                        Cart ({basketItems})
-                    </button>
+                            Cart ({basketItems})
+                        </button>
+                    </div>
+                    <div className="flex-grow flex justify-center">
+                        <SearchBar onSearch={handleSearch} searchOptions={searchOptions} disabled={searchDisabled}/>
+                    </div>
+
                 </div>
 
 
                 {/* Paper List */}
                 <div className="p-4 bg-gray-50 flex-grow">
-                    <Outlet />
+                    <Outlet/>
                 </div>
             </div>
 
