@@ -114,19 +114,29 @@ const PaperList = () => {
         const quantity = quantities[paperId];
         const paper = papers.find(p => p.id === paperId);
 
-
-        if (quantity === 0){
+        if (quantity === 0) {
             alert("You can't add zero");
             return;
         }
 
-        if (paper?.paperFeatures?.length > 0 && !selectedFeatureId){
-            alert("Please select a feature")
+        if (paper?.paperFeatures?.length > 0 && !selectedFeatureId) {
+            alert("Please select a feature");
             return;
         }
 
-        if (!paper){
+        if (!paper) {
             alert("No paper found");
+            return;
+        }
+
+        if (paper.stock < quantity) {
+            alert(`Not enough stock for ${paper.name}. Available: ${paper.stock}, Requested: ${quantity}`);
+            return;
+        }
+
+        const selectedFeature = paper.paperFeatures?.find(feature => feature.id === Number(selectedFeatureId));
+        if (selectedFeature && selectedFeature.featureStock < quantity) {
+            alert(`Not enough stock for feature. Available: ${selectedFeature.featureStock}, Requested: ${quantity}`);
             return;
         }
 
@@ -138,25 +148,34 @@ const PaperList = () => {
             .find(item => item.paperId === paperId && item.featureId === selectedFeatureId);
 
         if (paperInBasket) {
-            // Update quantity if paper with the same feature already exists
             setBasket(basket.map(item =>
                 item.paperId === paperId && item.featureId === selectedFeatureId
                     ? { ...item, quantity: item.quantity + quantity }
                     : item
             ));
         } else {
-            // Add new entry if this paper-feature combination does not exist
             setBasket([...basket, {
                 paperId,
-                featureId: selectedFeatureId,  // Add featureId to basket item
+                featureId: selectedFeatureId,
                 name: paper.name,
                 quantity,
                 feature: selectedFeatureName || "None",
                 price: paper.price
             }]);
         }
-        alert("Added to basket")
-    }
+
+        try {
+            const decreaseStockDto = {
+                productId: paperId,
+                quantity: quantity
+            };
+            await api.api.orderDecreaseStock(paperId, decreaseStockDto);
+            alert("Added to basket and stock updated");
+        } catch (error) {
+            console.error(error);
+            alert("Failed to update stock");
+        }
+    };
 
     useEffect(() => {
         const savedPapers = localStorage.getItem('papers');

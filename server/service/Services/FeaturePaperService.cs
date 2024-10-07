@@ -67,6 +67,7 @@ public class FeaturePaperService : IFeaturePaperService
             }
             
         }
+        paper.Stock += stockAdd;
         await _context.SaveChangesAsync();
         return PaperDto.FromEntity(paper);
     }

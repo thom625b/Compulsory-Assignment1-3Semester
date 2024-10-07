@@ -58,19 +58,14 @@ export interface Order {
   orderDate?: string;
   /** @format date */
   deliveryDate?: string | null;
-  status?: OrderStatus;
+  /** @format int32 */
+  status?: number;
   /** @format double */
   totalAmount?: number;
   /** @format int32 */
   customerId?: number | null;
   customer?: Customer | null;
   orderEntries?: OrderEntry[];
-}
-
-export enum OrderStatus {
-  Pending = 0,
-  Shipped = 1,
-  Delivered = 2,
 }
 
 export interface OrderEntry {
@@ -80,6 +75,8 @@ export interface OrderEntry {
   quantity?: number;
   /** @format int32 */
   productId?: number | null;
+  /** @format int32 */
+  featureId?: number | null;
   /** @format int32 */
   orderId?: number | null;
   order?: Order | null;
@@ -163,7 +160,7 @@ export interface OrderDto {
   orderDate?: string;
   /** @format date */
   deliveryDate?: string | null;
-  status?: OrderStatus2;
+  status?: OrderStatus;
   /** @format double */
   totalAmount?: number;
   /** @format int32 */
@@ -171,7 +168,7 @@ export interface OrderDto {
   orderEntries?: OrderEntryDto[];
 }
 
-export enum OrderStatus2 {
+export enum OrderStatus {
   Pending = "Pending",
   Shipped = "Shipped",
   Delivered = "Delivered",
@@ -185,6 +182,8 @@ export interface OrderEntryDto {
   /** @format int32 */
   productId?: number | null;
   /** @format int32 */
+  featureId?: number | null;
+  /** @format int32 */
   orderId?: number | null;
   product?: PaperDto | null;
 }
@@ -194,7 +193,7 @@ export interface CreateOrderDto {
   orderDate?: string;
   /** @format date */
   deliveryDate?: string | null;
-  status?: OrderStatus2;
+  status?: OrderStatus;
   /** @format double */
   totalAmount?: number;
   customerEmail?: string;
@@ -206,6 +205,8 @@ export interface CreateOrderEntryDto {
   quantity?: number;
   /** @format int32 */
   productId?: number;
+  /** @format int32 */
+  featureId?: number;
   /** @format int32 */
   orderId?: number;
 }
@@ -227,7 +228,13 @@ export interface DecreaseStockDto {
 }
 
 export interface OrderChangeStatusDto {
-  newStatus?: OrderStatus;
+  newStatus?: OrderStatus2;
+}
+
+export enum OrderStatus2 {
+  Pending = 0,
+  Shipped = 1,
+  Delivered = 2,
 }
 
 export interface CreatePaperDto {
