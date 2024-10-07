@@ -4,27 +4,51 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../index.css';
 
-
-
 export default function ContactPage() {
     const [agreed, setAgreed] = useState(false);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        address: '',
+        email: '',
+        phoneNumber: '',
+        message: ''
+    });
 
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormData({ ...formData, [id]: value });
+    };
 
     const showToast = () => {
         toast.info("JUST AGREE IT'S EASIER FOR EVERYONE!", {
-            position: "top-right", // Position of the toast
-            autoClose: 3000, // Duration in milliseconds before it closes
-            hideProgressBar: true, // Hide the progress bar
-            closeOnClick: true, // Close on click
-            pauseOnHover: true, // Pause on hover
-            draggable: true, // Allow dragging
-            progress: undefined, // Progress bar
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
         });
     };
 
-
     const toastFormula = () => {
-        toast.info("Submitted - We will contact you by email.",{
+        const { firstName, lastName, address, email, phoneNumber, message } = formData;
+
+        if (!firstName || !lastName || !address || !email || !phoneNumber || !message) {
+            toast.error("Please fill out all required fields!", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined
+            });
+            return;
+        }
+
+        toast.info("Submitted - We will contact you by email.", {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: true,
@@ -34,8 +58,9 @@ export default function ContactPage() {
             progress: undefined,
         });
     };
+
     return (
-        <div className="isolate bg-white px-4 py-2 lg:px-4 max-h-screen overflow-hidden"> {/* Minimized padding and added max height */}
+        <div className="isolate bg-white px-4 py-2 lg:px-4 max-h-screen overflow-hidden">
             <div aria-hidden="true" className="absolute inset-x-0 top-[-4rem] -z-10 transform-gpu overflow-hidden blur-3xl">
                 <div
                     style={{
@@ -52,26 +77,28 @@ export default function ContactPage() {
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="firstName" className="block text-sm font-semibold leading-6 text-gray-900">
                             First name
                         </label>
                         <input
-                            id="first-name"
-                            name="first-name"
+                            id="firstName"
+                            name="firstName"
                             type="text"
-                            autoComplete="given-name"
+                            autoComplete="given-name" // Ensure autocomplete is set
+                            onChange={handleInputChange}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
                     </div>
                     <div>
-                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="lastName" className="block text-sm font-semibold leading-6 text-gray-900">
                             Last name
                         </label>
                         <input
-                            id="last-name"
-                            name="last-name"
+                            id="lastName"
+                            name="lastName"
                             type="text"
-                            autoComplete="family-name"
+                            autoComplete="family-name" // Ensure autocomplete is set
+                            onChange={handleInputChange}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
                     </div>
@@ -83,7 +110,8 @@ export default function ContactPage() {
                             id="address"
                             name="address"
                             type="text"
-                            autoComplete="organization"
+                            autoComplete="address-line1" // Ensure autocomplete is set
+                            onChange={handleInputChange}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
                     </div>
@@ -95,12 +123,13 @@ export default function ContactPage() {
                             id="email"
                             name="email"
                             type="email"
-                            autoComplete="email"
+                            autoComplete="email" // Ensure autocomplete is set
+                            onChange={handleInputChange}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
                     </div>
                     <div className="sm:col-span-2">
-                        <label htmlFor="phone-number" className="block text-sm font-semibold leading-6 text-gray-900">
+                        <label htmlFor="phoneNumber" className="block text-sm font-semibold leading-6 text-gray-900">
                             Phone number
                         </label>
                         <div className="relative">
@@ -116,10 +145,11 @@ export default function ContactPage() {
                                 </select>
                             </div>
                             <input
-                                id="phone-number"
-                                name="phone-number"
+                                id="phoneNumber"
+                                name="phoneNumber"
                                 type="tel"
-                                autoComplete="tel"
+                                autoComplete="tel" // Ensure autocomplete is set
+                                onChange={handleInputChange}
                                 className="block w-full rounded-md border-0 px-3 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                             />
                         </div>
@@ -131,6 +161,7 @@ export default function ContactPage() {
                         <textarea
                             id="message"
                             name="message"
+                            onChange={handleInputChange}
                             rows={3}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
@@ -145,7 +176,7 @@ export default function ContactPage() {
                                 <span className="sr-only">Agree to policies</span>
                                 <span
                                     aria-hidden="true"
-                                    className="h-4 w-4 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out group-data-[checked]:translate-x-3.5"
+                                    className="h-4 w-4 rounded-full bg-white shadow ring-1 ring-gray-900/5 transition duration-200 ease-in-out group-data-[checked]:translate-x-3 group-data-[checked]:ring-0"
                                 />
                             </Switch>
                         </div>
@@ -156,19 +187,18 @@ export default function ContactPage() {
                             </a>.
                         </Label>
                     </Field>
-
-                    <ToastContainer />
                 </div>
-                <div className="mt-8">
+                <div className="mt-6">
                     <button
                         type="button"
-                        className="block w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-indigo-600"
                         onClick={toastFormula}
+                        className="block w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                        Send formula
+                        Submit
                     </button>
                 </div>
             </form>
+            <ToastContainer />
         </div>
     );
 }
