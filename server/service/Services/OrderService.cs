@@ -98,24 +98,43 @@ public class OrderService : IOrderService
         {
             try
             {
-                var paper = await _context.Papers.FirstOrDefaultAsync(p => p.Id == productId);
+                var paper = await _context.Papers
+                    .Include(p => p.PaperFeatures)
+                    .FirstOrDefaultAsync(p => p.Id == productId);
 
                 if (paper == null)
                 {
                     throw new Exception("Paper product not found.");
                 }
-
-                // Check if enough stock is available
+                
                 if (paper.Stock < quantity)
                 {
                     throw new Exception($"Not enough stock for {paper.Name}. Available: {paper.Stock}, Requested: {quantity}");
                 }
 
-                // Decrease the stock by the specified quantity
+                foreach (var paperFeature in paper.PaperFeatures)
+                {
+                    if (paperFeature.FeatureStock < quantity)
+                    {
+                        throw new Exception(
+                            $"Not enough stock for the feature: {paperFeature.Feature.FeatureName}, Available: {paperFeature.FeatureStock}");
+                    }
+                }
+                
                 paper.Stock -= quantity;
 
+                foreach (var paperFeature in paper.PaperFeatures)
+                {
+                    paperFeature.FeatureStock -= quantity;
+                }
                 // Update the paper in the database
                 _context.Papers.Update(paper);
+
+                foreach (var paperFeature in paper.PaperFeatures)
+                {
+                    _context.PaperFeatures.Update(paperFeature);
+                }
+                
                 await _context.SaveChangesAsync();
 
                 return true; 
