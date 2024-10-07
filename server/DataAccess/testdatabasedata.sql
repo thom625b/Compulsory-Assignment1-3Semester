@@ -343,5 +343,5 @@ INSERT INTO order_entries (quantity, product_id, order_id, feature_id) VALUES
                                                                            (3, 8, 38, 26), -- 3 units of Heavyweight Bond Paper, Smooth Surface for Chris Miller's second order
                                                                            (2, 9, 39, 27), -- 2 units of Translucent Vellum Paper, Heat Resistant for Emma Thompson's second order
                                                                            (4, 10, 40, 30), -- 4 units of Parchment Paper, Rigid for James Anderson's second order
-                                                                           (5, 11, 41, 36), -- 5 units of Cotton Paper, Decorative Edges for Olivia Martinez's second order
-                                                                           (5, 50, 42, 97); -- 5 units of Artist Paper, Ultra Glossy for Ethan Green's third order
+                                                                           (5, 11, 41, 36); -- 5 units of Cotton Paper, Decorative Edges for Olivia Martinez's second order
+                                                                           
