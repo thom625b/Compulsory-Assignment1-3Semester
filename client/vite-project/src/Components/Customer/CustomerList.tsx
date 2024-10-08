@@ -41,6 +41,7 @@ const CustomerList = () => {
     const [selectedCustomerId, setSelectedCustomerId] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [, setStatuses] = useState<string[]>([]);
+    const [searchInput, setSearchInput] = useState<string>("");
 
     const fetchCustomersAndOrders = async () => {
         try {
@@ -120,10 +121,9 @@ const CustomerList = () => {
         console.log("Orders after fetch:", orders); // Log the updated orders
     }, []);
 
-
-
-
-
+    const filteredCustomers = customers.filter(customer => customer.name
+        .toLowerCase()
+        .includes(searchInput.toLowerCase()))
 
     if (loading) {
         return <div>Loading customers...</div>;
@@ -136,6 +136,15 @@ const CustomerList = () => {
     return (
         <>
             <div className="overflow-x-auto">
+                <div className="mb-4">
+                    <input
+                        type="text"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        placeholder="Search customer by name..."
+                        className="input input-bordered w-full"
+                    />
+                </div>
                 <table className="table">
                     <thead>
                     <tr>
@@ -147,7 +156,7 @@ const CustomerList = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {customers?.map((customer) => (
+                    {filteredCustomers.map((customer) => (
                         <tr key={customer.id}>
                             <th>
                                 <button
@@ -225,7 +234,7 @@ const CustomerList = () => {
                                         </td>
 
 
-                                        <td>{order.totalAmount}</td>
+                                        <td>{order.totalAmount} $</td>
                                     </tr>
                                 ))}
                             </tbody>

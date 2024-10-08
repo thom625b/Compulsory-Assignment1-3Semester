@@ -45,7 +45,17 @@ public class CustomerService : ICustomerService
     }
 
 
-    public async Task<List<Customer>> GetAllCustomers() => await _context.Customers.ToListAsync();
+    public async Task<List<Customer>> GetAllCustomers(string searchParam = null)
+    {
+        if (string.IsNullOrEmpty(searchParam))
+        {
+            return await _context.Customers.ToListAsync();
+        }
+
+        return await _context.Customers
+            .Where(c => c.Name.Contains(searchParam))
+            .ToListAsync();
+    }
     public async Task<Customer?> GetCustomer(int id) => await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
 
 }
