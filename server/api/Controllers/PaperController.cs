@@ -33,9 +33,9 @@ public class PaperController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    public async Task<ActionResult<List<Paper>>> GetAllPapers()
+    public async Task<ActionResult<List<Paper>>> GetAllPapers([FromQuery] string name = null)
     {
-        var papers = await _paperService.GetAllPapers();
+        var papers = await _paperService.GetAllPapers(name);
         return Ok(papers);
     }
 

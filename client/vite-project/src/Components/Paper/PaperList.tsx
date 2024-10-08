@@ -18,6 +18,8 @@ const PaperList = () => {
     const [featureStock, setfeatureStock] = useState<Record<number, number>>({});
     const [featuresByPaper, setFeaturesByPaper] = useState<Record<number, any>>({});
     const [basket, setBasket] = useAtom(basketAtom);
+    const [searchInput, setSearchInput] = useState<string>("");
+
 
 
     const FetchPapers = async () => {
@@ -208,12 +210,26 @@ const PaperList = () => {
         </div>;
     }
 
+    const filteredPapers = searchInput
+        ? papers.filter((paper) => paper.name.toLowerCase().includes(searchInput.toLowerCase()))
+        : papers;
+
     return (
         <div>
             <h1 className="text-2xl font-bold">Papers</h1>
+            {/* Search Input */}
+            <div className="mb-4">
+                <input
+                    type="text"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    placeholder="Search by paper name..."
+                    className="input input-bordered w-full"
+                />
+            </div>
             <div className="h-[770px] overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {papers.map((paper) => (
+                    {filteredPapers.map((paper) => (
                         <div key={paper.id}
                              className="card bg-base-100 w-96 shadow-xl transition-shadow duration-300 ease-in-out mb-6"
                              style={{
@@ -227,7 +243,7 @@ const PaperList = () => {
                              }>
                             <figure>
                                 <img
-                                    src="/pictures/papirA4.jpg"
+                                    src="/pictures/papirA4.jpg" // Use the correct image URL based on your data
                                     alt={paper.name}
                                 />
                             </figure>
@@ -256,7 +272,7 @@ const PaperList = () => {
                                         onChange={(e) => handleFeatureChange(paper.id, e.target.value)}
                                         disabled={!featuresByPaper[paper.id] || featuresByPaper[paper.id].length === 0}
                                     >
-                                        <option  disabled value="">Select Feature</option>
+                                        <option disabled value="">Select Feature</option>
                                         {featuresByPaper[paper.id]?.map((feature) => (
                                             <option key={feature.id} value={feature.id}>
                                                 {feature.featureName}
@@ -278,7 +294,7 @@ const PaperList = () => {
 
                                         <input
                                             type="text"
-                                            value={quantities[paper.id] || 0}                                            readOnly
+                                            value={quantities[paper.id] || 0} readOnly
                                             className="input input-bordered input-sm w-20 text-center"
                                         />
 

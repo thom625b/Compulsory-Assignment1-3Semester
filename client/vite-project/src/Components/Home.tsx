@@ -3,7 +3,6 @@ import { ROUTES } from "../Constants/Routes.ts";
 import { useAtom } from "jotai";
 import { basketAtom } from "../Atoms/BasketAtom.tsx";
 import {useState} from "react";
-import SearchBar from "./SearchBar.tsx";
 
 
 export default function Home() {
@@ -15,18 +14,6 @@ export default function Home() {
     const isActive = (path: string) => location.pathname === path;
     const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
     const [passwordInput, setPasswordInput] = useState("");
-
-
-    const handleSearch = (searchParam) => {
-        console.log("Searched for: ", searchParam)
-    };
-
-    const searchOptions = isActive(ROUTES.CUSTOMERORDERS)
-        ? [{ value: 'email', label: 'Email' }, { value: 'name', label: 'Name' }]
-        : [{ value: 'all', label: 'All Categories' }, { value: 'paper', label: 'Paper' }, { value: 'features', label: 'Features' }];
-
-    const searchDisabled = isActive(ROUTES.CONTACT);
-
 
     const handleLogin = () => {
         setShowPasswordPrompt(true);
@@ -98,10 +85,6 @@ export default function Home() {
                             Cart ({basketItems})
                         </button>
                     </div>
-                    <div className="flex-grow flex justify-center">
-                        <SearchBar onSearch={handleSearch} searchOptions={searchOptions} disabled={searchDisabled}/>
-                    </div>
-
                 </div>
 
 
