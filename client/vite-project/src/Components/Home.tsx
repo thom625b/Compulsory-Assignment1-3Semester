@@ -77,7 +77,7 @@ export default function Home() {
 
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col">
-                <div className="bg-gray-100 p-4 flex justify-end items-center relative">
+                <div className="bg-gray-100 p-4 flex justify-end items-center relative h-2">
 
                     <div className="absolute right-4">
                         <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500"
