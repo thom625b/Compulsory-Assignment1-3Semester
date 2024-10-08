@@ -638,10 +638,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name PaperGetAllPapers
      * @request GET:/api/Paper
      */
-    paperGetAllPapers: (params: RequestParams = {}) =>
+    paperGetAllPapers: (
+      query?: {
+        name?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Paper[], any>({
         path: `/api/Paper`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),

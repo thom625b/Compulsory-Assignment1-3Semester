@@ -10,7 +10,7 @@ public interface IPaperService
     
     Task<PaperDto> CreatePaper(CreatePaperDto createPaperDto);
 
-    Task<List<Paper>> GetAllPapers();
+    Task<List<Paper>> GetAllPapers(string name = null);
 
     Task<Paper> GetPaper(int id);
 
