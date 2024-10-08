@@ -33,11 +33,17 @@ public class PaperController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    public async Task<ActionResult<List<Paper>>> GetAllPapers([FromQuery] string name = null)
+    public async Task<ActionResult<List<Paper>>> GetAllPapers(
+        [FromQuery] string name = null, 
+        [FromQuery] decimal? minPrice = null, 
+        [FromQuery] decimal? maxPrice = null, 
+        [FromQuery] decimal? maxValue = null,  
+        [FromQuery] bool? discontinued = null)
     {
-        var papers = await _paperService.GetAllPapers(name);
+        var papers = await _paperService.GetAllPapers(name, minPrice, maxPrice, maxValue, discontinued);
         return Ok(papers);
     }
+
 
     [HttpGet]
     [Route("{id}")]

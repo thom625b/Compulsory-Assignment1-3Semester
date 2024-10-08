@@ -29,24 +29,54 @@ public class PaperService : IPaperService
         return PaperDto.FromEntity(paper);
     }
 
-  
+    
 
-    public async Task<List<Paper>> GetAllPapers(string name = null)
+
+    public async Task<List<Paper>> GetAllPapers(
+        string name = null, 
+        decimal? minPrice = null, 
+        decimal? maxPrice = null, 
+        decimal? maxValue = null,   // Accept max value in service method
+        bool? discontinued = null)
     {
         var query = _context.Papers
             .Include(p => p.OrderEntries)
             .Include(p => p.PaperFeatures)
             .AsNoTracking()
             .AsQueryable();
-        
-        // Apply search filter if name is provided
+
+        // Apply name filter if provided
         if (!string.IsNullOrEmpty(name))
         {
-            query = query.Where(p => p.Name.Contains(name));  // Search papers by name
+            query = query.Where(p => p.Name.Contains(name));
         }
-        return await query.ToListAsync();
 
+        // Apply price filter if min or max price is provided
+        if (minPrice.HasValue)
+        {
+            query = query.Where(p => (decimal)p.Price >= minPrice.Value);
+        }
+
+        if (maxPrice.HasValue)
+        {
+            query = query.Where(p => (decimal)p.Price <= maxPrice.Value);
+        }
+
+        if (maxValue.HasValue)
+        {
+            query = query.Where(p => (decimal)p.Price <= maxValue.Value);
+        }
+
+
+        // Apply discontinued filter if provided
+        if (discontinued.HasValue)
+        {
+            query = query.Where(p => p.Discontinued == discontinued.Value);
+        }
+
+        return await query.ToListAsync();
     }
+
 
     public async Task<Paper?> GetPaper(int id) =>
         await _context.Papers
