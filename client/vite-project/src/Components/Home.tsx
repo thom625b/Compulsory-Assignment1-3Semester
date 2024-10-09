@@ -31,45 +31,68 @@ export default function Home() {
     return (
         <div className="min-h-screen flex">
             {/* Sidebar */}
-            <div className=" w-1/5 bg-gray-200 p-4 flex flex-col items-center">
+            <div className=" w-1/5 bg-gray-200 p-4 flex flex-col items-left">
                 {/* Company Logo */}
                 <img
                     src={companyLogo}
                     alt="Company Logo"
                     className="84 84 mb-6 object-contain"
                 />
-                <h2 className="text-lg font-semibold mb-4">Menu</h2>
+                <h2 className="text-lg font-semibold mb-4 underline">Menu</h2>
                 <ul className="space-y-2 w-full">
                     <li>
                         <button
-                            className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.ADMINPAGE) ? "bg-gray-300 font-bold" : ""
+                            className={`block w-full text-left py-2 hover:bg-gray-300 flex items-center space-x-2 ${isActive(ROUTES.ADMINPAGE) ? "bg-gray-300 font-bold" : ""
                             }`}
                             onClick={handleLogin}>
-                            Admin
+                            <div className="avatar">
+                                <div className="w-8 rounded-full">
+                                    <img src="https://icon-library.com/images/admin-icon/admin-icon-10.jpg"/>
+                                </div>
+                            </div>
+                            <span>Admin</span>
                         </button>
                     </li>
                     <li>
                         <button
-                            className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.HOME) ? "bg-gray-300 font-bold" : ""
+                            className={`block w-full text-left py-2 hover:bg-gray-300 flex items-center space-x-2 ${isActive(ROUTES.HOME) ? "bg-gray-300 font-bold" : ""
                             }`}
                             onClick={() => navigate(ROUTES.HOME)}>
-                            Home
+                            <div className="avatar">
+                                <div className="w-8 rounded-full">
+                                    <img
+                                        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F000%2F425%2F085%2Foriginal%2Fhouse-icon-vector-illustration.jpg&f=1&nofb=1&ipt=d3d539e767de0d11a6182e3f0c26dee678380f4f73ff332c0245dad74c9392d1&ipo=images"/>
+                                </div>
+                            </div>
+                            <span>Home</span>
                         </button>
                     </li>
                     <li>
                         <button
-                            className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CUSTOMERORDERS) ? "bg-gray-300 font-bold" : ""
+                            className={`block w-full text-left py-2 hover:bg-gray-300 flex items-center space-x-2 ${isActive(ROUTES.CUSTOMERORDERS) ? "bg-gray-300 font-bold" : ""
                             }`}
                             onClick={() => navigate(ROUTES.CUSTOMERORDERS)}>
-                            Orders
+                            <div className="avatar">
+                                <div className="w-8 rounded-full">
+                                    <img
+                                        src="https://t4.ftcdn.net/jpg/05/21/94/81/360_F_521948178_WUlWgu8X5k2TyHH5bDJDY1tRfJEvz4CN.jpg"/>
+                                </div>
+                            </div>
+                            <span>Customers</span>
                         </button>
                     </li>
                     <li>
                         <button
-                            className={`block w-full text-left py-2 hover:bg-gray-300 ${isActive(ROUTES.CONTACT) ? "bg-gray-300 font-bold" : ""
+                            className={`block w-full text-left py-2 hover:bg-gray-300 flex items-center space-x-2 ${isActive(ROUTES.CONTACT) ? "bg-gray-300 font-bold" : ""
                             }`}
                             onClick={() => navigate(ROUTES.CONTACT)}>
-                            Contact
+                            <div className="avatar">
+                                <div className="w-8 rounded-full">
+                                    <img
+                                        src="https://www.clipartmax.com/png/middle/92-926082_contact-us-contact-us-icon-png.png"/>
+                                </div>
+                            </div>
+                            <span>Contact</span>
                         </button>
                     </li>
                 </ul>
