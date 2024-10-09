@@ -121,9 +121,11 @@ const CustomerList = () => {
         console.log("Orders after fetch:", orders); // Log the updated orders
     }, []);
 
-    const filteredCustomers = customers.filter(customer => customer.name
-        .toLowerCase()
-        .includes(searchInput.toLowerCase()))
+    const filteredCustomers = customers.length > 0
+        ? customers.filter(customer =>
+            customer.name.toLowerCase().includes(searchInput.toLowerCase())
+        )
+        : [];
 
     if (loading) {
         return <div>Loading customers...</div>;

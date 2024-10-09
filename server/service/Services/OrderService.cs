@@ -127,7 +127,6 @@ public class OrderService : IOrderService
                 {
                     paperFeature.FeatureStock -= quantity;
                 }
-                // Update the paper in the database
                 _context.Papers.Update(paper);
 
                 foreach (var paperFeature in paper.PaperFeatures)
