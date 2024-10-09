@@ -59,13 +59,13 @@ export default function FeatureTable() {
 
                 {/* Pagination Controls */}
                 <div className="flex justify-between items-center mt-4">
-                    <button onClick={handlePreviousPage} disabled={currentPage === 1} className="btn btn-secondary">
+                    <button onClick={handlePreviousPage} disabled={currentPage === 1} className="btn btn-outline hover:accent-gray-100">
                         Previous
                     </button>
 
                     <span>Page {currentPage} of {totalPages}</span>
 
-                    <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-info">
+                    <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-outline hover:accent-gray-100">
                         Next
                     </button>
                 </div>
