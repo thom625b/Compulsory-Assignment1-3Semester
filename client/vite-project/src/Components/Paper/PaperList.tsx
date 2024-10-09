@@ -196,12 +196,9 @@ const PaperList = () => {
         localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
     }, [papers, quantities, selectedFeatures]);
 
-
     useEffect(() => {
-        if ((papers.length === 0 )) {
             FetchPapers();
-        }
-    }, [papers]);
+    }, []);
 
 
     if (error) {
@@ -334,6 +331,13 @@ const PaperList = () => {
                                     </select>
 
                                 </div>
+                                <label className="block font-bold mb-2">Stock: {paper.stock}</label>
+                                {/* Display the feature stock */}
+                                <label className="block font-bold mb-2">
+                                    Feature Stock: {selectedFeatures[paper.id] && featureStock[selectedFeatures[paper.id]] !== undefined
+                                    ? featureStock[selectedFeatures[paper.id]]
+                                    : 'Select a feature'}
+                                </label>
                                 <div className="my-4">
                                     <label className="block font-bold mb-2">Quantity:</label>
                                     <div className="flex items-center space-x-2">
