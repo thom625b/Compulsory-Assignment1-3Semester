@@ -4,7 +4,7 @@ import {Api, Feature} from "../../Api.ts"; // Adjust the import path to your API
 export default function FeatureTable() {
     const [features, setFeatures] = useState<Feature[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 3;
+    const itemsPerPage = 5;
     const api = new Api();
 
     useEffect(() => {
@@ -40,6 +40,7 @@ export default function FeatureTable() {
 
     return (
         <div>
+
             <table className="table-auto w-full border-collapse border border-gray-400">
                 <thead>
                 <tr>
