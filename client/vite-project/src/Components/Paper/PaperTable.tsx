@@ -174,13 +174,13 @@ export default function PaperTable() {
                             </div>
                             <div className="flex justify-end">
                                 <button
-                                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                    className="btn btn-outline hover:bg-red-200 px-4 rounded mr-2"
                                     onClick={closeModal}
                                 >
                                     Cancel
                                 </button>
                                 <button
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    className="btn btn-outline hover:bg-green-200"
                                     onClick={handleUpdate}
                                 >
                                     Update
