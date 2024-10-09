@@ -32,7 +32,6 @@ export default function Home() {
         <div className="min-h-screen flex">
             {/* Sidebar */}
             <div className=" w-1/5 bg-gray-200 p-4 flex flex-col items-left">
-                {/* Company Logo */}
                 <img
                     src={companyLogo}
                     alt="Company Logo"

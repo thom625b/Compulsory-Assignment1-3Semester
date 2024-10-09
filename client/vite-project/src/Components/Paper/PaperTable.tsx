@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {Api, Paper} from "../../Api.ts";
 import {ToastContainer, toast} from "react-toastify";
 
@@ -10,6 +10,7 @@ export default function PaperTable() {
     const [updatedStock, setUpdatedStock] = useState<number>(0);
     const [updatedDiscontinued, setUpdatedDiscontinued] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchInput, setSearchInput] = useState("");
     const itemsPerPage = 5;
 
     useEffect(() => {
@@ -21,15 +22,18 @@ export default function PaperTable() {
                 console.error("Error fetching papers:", error);
             }
         };
-
         fetchPapers();
     }, []);
 
+    const filteredPapers = papers.filter((paper) =>
+            paper.name.toLowerCase()
+                .includes(searchInput.toLowerCase()))
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentPapers = papers.slice(indexOfFirstItem, indexOfLastItem);
+    const currentPapers = filteredPapers.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(papers.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredPapers.length / itemsPerPage);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -85,7 +89,18 @@ export default function PaperTable() {
 
     return (
         <>
-            <table className="table-auto border-collapse border border-gray-400">
+        <div>
+            <h1 className="text-2xl font-bold underline mb-0.5">Papers</h1>
+            <div className="mb-4">
+                <input
+                    type="text"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    placeholder="Search paper by name..."
+                    className="input input-bordered w-full max-w-xs"
+                />
+            </div>
+            <table className="table-auto w-full border-collapse border border-gray-400">
                 <thead>
                 <tr>
                     <th className="border border-gray-400 px-4 py-2">Paper name</th>
@@ -97,20 +112,15 @@ export default function PaperTable() {
                 </thead>
                 <tbody>
                 {currentPapers.map((paper) => (
-                    <tr
-                        key={paper.id}
-                        className={`${paper.discontinued ? "bg-red-200" : ""}`}
-                    >
+                    <tr key={paper.id} className={`${paper.discontinued ? "bg-red-200" : ""}`}>
                         <td className="border border-gray-400 px-4 py-2">
-                                <span className={`${paper.discontinued ? "line-through" : ""}`}>
-                                    {paper.name}
-                                </span>
+                        <span className={`${paper.discontinued ? "line-through" : ""}`}>
+                            {paper.name}
+                        </span>
                         </td>
                         <td className="border border-gray-400 px-4 py-2">{paper.stock}</td>
                         <td className="border border-gray-400 px-4 py-2">{paper.price} $</td>
-                        <td className="border border-gray-400 px-4 py-2">
-                            {paper.discontinued ? "Yes" : "No"}
-                        </td>
+                        <td className="border border-gray-400 px-4 py-2">{paper.discontinued ? "Yes" : "No"}</td>
                         <td className="border border-gray-400 px-4 py-2">
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -125,73 +135,64 @@ export default function PaperTable() {
             </table>
 
             {/* Pagination Controls */}
-            <div className=" ml-0 w-[275px]">
-                <div className="flex justify-between items-center mt-4">
-                    <button
-                        onClick={handlePreviousPage}
-                        disabled={currentPage === 1}
-                        className="btn btn-secondary"
-                    >
-                        Previous
-                    </button>
+            <div className="flex justify-between items-center mt-4">
+                <button onClick={handlePreviousPage} disabled={currentPage === 1} className="btn btn-secondary">
+                    Previous
+                </button>
 
-                    <span>
-                    Page {currentPage} of {totalPages}
-                </span>
+                <span>Page {currentPage} of {totalPages}</span>
 
-                    <button
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
-                        className="btn btn-info"
-                    >
-                        Next
-                    </button>
-                </div>
+                <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-info">
+                    Next
+                </button>
+            </div>
+        </div>
 
-                {modalOpen && (
-                    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-                        <div className="bg-white p-8 rounded shadow-lg w-96">
-                            <h2 className="text-2xl font-bold mb-4">Update Paper</h2>
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium">Stock</label>
-                                <input
-                                    type="number"
-                                    className="w-full border border-gray-300 px-4 py-2 mt-2"
-                                    value={updatedStock}
-                                    onChange={(e) => setUpdatedStock(Number(e.target.value))}
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="inline-flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        className="form-checkbox"
-                                        checked={updatedDiscontinued}
-                                        onChange={() => setUpdatedDiscontinued(!updatedDiscontinued)}
-                                    />
-                                    <span className="ml-2">Discontinued</span>
-                                </label>
-                            </div>
-                            <div className="flex justify-end">
-                                <button
-                                    className="btn btn-outline hover:bg-red-200 px-4 rounded mr-2"
-                                    onClick={closeModal}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    className="btn btn-outline hover:bg-green-200"
-                                    onClick={handleUpdate}
-                                >
-                                    Update
-                                </button>
-                            </div>
-                        </div>
+        {modalOpen && (
+            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+                <div className="bg-white p-8 rounded shadow-lg w-96">
+                    <h2 className="text-2xl font-bold mb-4">Update Paper</h2>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium">Stock</label>
+                        <input
+                            type="number"
+                            className="w-full border border-gray-300 px-4 py-2 mt-2"
+                            value={updatedStock}
+                            onChange={(e) => setUpdatedStock(Number(e.target.value))}
+                        />
                     </div>
-
-                )}
-            <ToastContainer position="top-center" autoClose={3500} hideProgressBar={false} closeOnClick pauseOnHover />
+                    <div className="mb-4">
+                        <label className="inline-flex items-center">
+                            <input
+                                type="checkbox"
+                                className="form-checkbox"
+                                checked={updatedDiscontinued}
+                                onChange={() => setUpdatedDiscontinued(!updatedDiscontinued)}
+                            />
+                            <span className="ml-2">Discontinued</span>
+                        </label>
+                    </div>
+                    <div className="flex justify-end">
+                        <button
+                            className="btn btn-outline hover:bg-red-200 px-4 rounded mr-2"
+                            onClick={closeModal}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            className="btn btn-outline hover:bg-green-200"
+                            onClick={handleUpdate}
+                        >
+                            Update
+                        </button>
+                    </div>
                 </div>
-        </>
-    );
+            </div>
+
+        )}
+        <ToastContainer position="top-center" autoClose={3500} hideProgressBar={false} closeOnClick pauseOnHover/>
+        <div/>
+            <div/>
+</>
+);
 }
