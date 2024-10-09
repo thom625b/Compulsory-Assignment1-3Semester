@@ -1,7 +1,7 @@
 import {Api} from "../../Api.ts";
 import {useAtom} from "jotai";
 import {paperAtom} from "../../Atoms/PaperAtom.tsx";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {featureAtom} from "../../Atoms/PropertiesAtom.tsx";
 import {basketAtom} from "../../Atoms/BasketAtom.tsx";
 import {ToastContainer, toast} from "react-toastify";
@@ -138,7 +138,7 @@ const PaperList = () => {
             return;
         }
 
-        const selectedFeature = paper.paperFeatures?.find(feature => feature.id === Number(selectedFeatureId));
+        const selectedFeature = paper.paperFeatures?.find(feature => feature.featureId === Number(selectedFeatureId));
         if (selectedFeature && selectedFeature.featureStock < quantity) {
             toast.error(`Not enough stock for feature. Available: ${selectedFeature.featureStock}, Requested: ${quantity}`);
             return;

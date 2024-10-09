@@ -221,7 +221,7 @@ const CustomerTable = () => {
                         <button
                             onClick={handlePreviousPage}
                             disabled={currentPage === 1}
-                            className="btn btn-secondary"
+                            className="btn btn-outline"
                         >
                             Previous
                         </button>
@@ -233,7 +233,7 @@ const CustomerTable = () => {
                         <button
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages}
-                            className="btn btn-info"
+                            className="btn btn-outline"
                         >
                             Next
                         </button>
