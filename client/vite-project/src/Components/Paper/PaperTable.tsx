@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Api, Paper} from "../../Api.ts";
+import {ToastContainer, toast} from "react-toastify";
 
 export default function PaperTable() {
     const api = new Api();
@@ -60,7 +61,7 @@ export default function PaperTable() {
                 stock: updatedStock,
                 discontinued: updatedDiscontinued,
             };
-
+            toast.success("Updated paper")
             console.log("Updating paper with data:", payload);
             try {
                 await api.api.paperUpdatePaper(selectedPaper.id!, {
@@ -76,6 +77,7 @@ export default function PaperTable() {
             );
                 closeModal();
             } catch (error) {
+                toast.error("Failed to update paper")
                 console.error("Error updating paper:", error);
             }
         }
@@ -188,7 +190,8 @@ export default function PaperTable() {
                     </div>
 
                 )}
-            </div>
+            <ToastContainer position="top-center" autoClose={3500} hideProgressBar={false} closeOnClick pauseOnHover />
+                </div>
         </>
     );
 }

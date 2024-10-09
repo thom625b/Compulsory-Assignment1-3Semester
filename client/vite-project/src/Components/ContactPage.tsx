@@ -84,7 +84,7 @@ export default function ContactPage() {
                             id="firstName"
                             name="firstName"
                             type="text"
-                            autoComplete="given-name" // Ensure autocomplete is set
+                            autoComplete="given-name"
                             onChange={handleInputChange}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
@@ -97,7 +97,7 @@ export default function ContactPage() {
                             id="lastName"
                             name="lastName"
                             type="text"
-                            autoComplete="family-name" // Ensure autocomplete is set
+                            autoComplete="family-name"
                             onChange={handleInputChange}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
@@ -110,7 +110,7 @@ export default function ContactPage() {
                             id="address"
                             name="address"
                             type="text"
-                            autoComplete="address-line1" // Ensure autocomplete is set
+                            autoComplete="address-line1"
                             onChange={handleInputChange}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
@@ -123,7 +123,7 @@ export default function ContactPage() {
                             id="email"
                             name="email"
                             type="email"
-                            autoComplete="email" // Ensure autocomplete is set
+                            autoComplete="email"
                             onChange={handleInputChange}
                             className="block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                         />
@@ -148,7 +148,7 @@ export default function ContactPage() {
                                 id="phoneNumber"
                                 name="phoneNumber"
                                 type="tel"
-                                autoComplete="tel" // Ensure autocomplete is set
+                                autoComplete="tel"
                                 onChange={handleInputChange}
                                 className="block w-full rounded-md border-0 px-3 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                             />
