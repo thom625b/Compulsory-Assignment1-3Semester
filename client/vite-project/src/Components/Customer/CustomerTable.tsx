@@ -76,11 +76,15 @@ const CustomerTable = () => {
         }
     };
 
+    const filteredCustomers = customers.filter(customer => customer.name
+        .toLowerCase()
+        .includes(searchInput.toLowerCase()))
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentCustomers = customers.slice(indexOfFirstItem, indexOfLastItem);
+    const currentCustomers = filteredCustomers.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(customers.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -145,9 +149,7 @@ const CustomerTable = () => {
         console.log("Orders after fetch:", orders); // Log the updated orders
     }, []);
 
-    const filteredCustomers = customers.filter(customer => customer.name
-        .toLowerCase()
-        .includes(searchInput.toLowerCase()))
+
 
     if (loading) {
         return <div>Loading customers...</div>;
@@ -160,7 +162,7 @@ const CustomerTable = () => {
     return (
         <>
             <div className="overflow-x-auto">
-                <h1 className="text-2xl font-bold">Customers</h1>
+                <h1 className="text-2xl font-bold underline">Customers</h1>
                 <div className="mb-4">
                     <input
                         type="text"

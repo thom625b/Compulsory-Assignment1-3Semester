@@ -36,7 +36,7 @@ public class PaperService : IPaperService
         string name = null, 
         decimal? minPrice = null, 
         decimal? maxPrice = null, 
-        decimal? maxValue = null,   // Accept max value in service method
+        decimal? maxValue = null,
         bool? discontinued = null)
     {
         var query = _context.Papers
@@ -44,14 +44,12 @@ public class PaperService : IPaperService
             .Include(p => p.PaperFeatures)
             .AsNoTracking()
             .AsQueryable();
-
-        // Apply name filter if provided
+        
         if (!string.IsNullOrEmpty(name))
         {
             query = query.Where(p => p.Name.Contains(name));
         }
-
-        // Apply price filter if min or max price is provided
+        
         if (minPrice.HasValue)
         {
             query = query.Where(p => (decimal)p.Price >= minPrice.Value);
@@ -67,8 +65,6 @@ public class PaperService : IPaperService
             query = query.Where(p => (decimal)p.Price <= maxValue.Value);
         }
 
-
-        // Apply discontinued filter if provided
         if (discontinued.HasValue)
         {
             query = query.Where(p => p.Discontinued == discontinued.Value);
