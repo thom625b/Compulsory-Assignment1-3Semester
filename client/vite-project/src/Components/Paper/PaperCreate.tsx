@@ -2,6 +2,7 @@ import {Api} from "../../Api.ts";
 import React, {useState} from "react";
 import {ROUTES} from "../../Constants/Routes.ts";
 import {useNavigate} from "react-router-dom";
+import {ToastContainer, toast} from "react-toastify";
 
 
 const PaperCreate = () => {
@@ -26,9 +27,9 @@ const PaperCreate = () => {
         };
         try {
             await api.api.paperCreatePaper(newPaper);
-            setSuccessMessage("Paper created successfully")
+            toast.success("Paper created successfully")
         } catch (error) {
-            setErrorMessage("Failed to create paper")
+            toast.error("Failed to create paper")
             setSuccessMessage('');
         }
     };
@@ -97,6 +98,7 @@ const PaperCreate = () => {
                     Back
                 </button>
             </div>
+            <ToastContainer position="top-center" autoClose={3500} hideProgressBar={false} closeOnClick pauseOnHover />
         </>
     )
 }

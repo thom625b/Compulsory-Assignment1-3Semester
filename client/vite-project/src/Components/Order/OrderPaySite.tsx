@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Constants/Routes.ts";
 import {useAtom} from "jotai/index";
 import {basketAtom} from "../../Atoms/BasketAtom.tsx";
+import {ToastContainer, toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const OrderPaySite = () => {
     const api = new Api();
@@ -21,7 +24,7 @@ const OrderPaySite = () => {
         e.preventDefault();
 
         if (!name || !address || !phone || !email) {
-            setErrorMessage("All fields are required.");
+            toast.error("All fields are required.");
             setSuccessMessage('');
             return;
         }
@@ -47,12 +50,10 @@ const OrderPaySite = () => {
 
             const orderDate = new Date();
             const deliveryDate = new Date();
-            deliveryDate.setDate(deliveryDate.getDate() + 4); // Set delivery date to 4 days after the order date
-            // needs the toISOString().slice(0, 10) so it can be converted correctly and matches the database
-            const formattedDeliveryDate = deliveryDate.toISOString().slice(0, 10); // Extract only YYYY-MM-DD
+            deliveryDate.setDate(deliveryDate.getDate() + 4);
+            const formattedDeliveryDate = deliveryDate.toISOString().slice(0, 10);
 
 
-            // Create the order with the newly created customer ID
             const order = {
                 orderDate: orderDate,
                 deliveryDate: formattedDeliveryDate,
@@ -69,7 +70,8 @@ const OrderPaySite = () => {
             // @ts-expect-error
             await api.api.orderCreateOrder(order);
 
-            setSuccessMessage("Order created successfully");
+            toast.success("Order created successful. " +
+                `You can expect delivery on:  ${formattedDeliveryDate} `)
             setErrorMessage('');
 
             // Clear input fields
@@ -77,15 +79,12 @@ const OrderPaySite = () => {
             setAddress('');
             setPhone('');
             setEmail('');
-            navigate(ROUTES.CUSTOMERORDERS);
+            setTimeout(() => navigate(ROUTES.CUSTOMERORDERS), 3500);
         } catch (error) {
-            setErrorMessage("Failed to create customer or order");
+            toast.error("Failed to create order")
             setSuccessMessage('');
         }
     };
-
-
-
 
     const [totalAmount, setTotalAmount] = useState<number>(0);
 
@@ -93,6 +92,8 @@ const OrderPaySite = () => {
         const total = basket.reduce((acc, item) => acc + item.quantity * item.price, 0);
         setTotalAmount(total);
     }, [basket]);
+
+
 
     return (
         <>
@@ -180,6 +181,7 @@ const OrderPaySite = () => {
                     )}
                 </div>
             </div>
+            <ToastContainer position="top-center" autoClose={3500} hideProgressBar={false} closeOnClick pauseOnHover />
         </>
     );
 };
