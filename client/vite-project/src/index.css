@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.table-container {
+    @apply flex;
+}
+
+.paper-table {
+    @apply w-3/4;
+}
+
+.feature-table {
+    @apply w-1/4;
+}
+
+.feature-table {
+    @apply w-1/4 ml-4;
+}

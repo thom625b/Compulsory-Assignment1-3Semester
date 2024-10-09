@@ -9,7 +9,7 @@ export default function PaperTable() {
     const [updatedStock, setUpdatedStock] = useState<number>(0);
     const [updatedDiscontinued, setUpdatedDiscontinued] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 2;
+    const itemsPerPage = 5;
 
     useEffect(() => {
         const fetchPapers = async () => {
@@ -83,11 +83,11 @@ export default function PaperTable() {
 
     return (
         <>
-            <table className="table-auto w-full border-collapse border border-gray-400">
+            <table className="table-auto border-collapse border border-gray-400">
                 <thead>
                 <tr>
-                    <th className="border border-gray-400 px-4 py-2">Name</th>
-                    <th className="border border-gray-400 px-4 py-2">Stock Total</th>
+                    <th className="border border-gray-400 px-4 py-2">Paper name</th>
+                    <th className="border border-gray-400 px-4 py-2">Total stock</th>
                     <th className="border border-gray-400 px-4 py-2">Price</th>
                     <th className="border border-gray-400 px-4 py-2">Discontinued</th>
                     <th className="border border-gray-400 px-4 py-2">Actions</th>
@@ -123,69 +123,72 @@ export default function PaperTable() {
             </table>
 
             {/* Pagination Controls */}
-            <div className="flex justify-between items-center mt-4">
-                <button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    className="btn btn-secondary"
-                >
-                    Previous
-                </button>
+            <div className=" ml-0 w-[275px]">
+                <div className="flex justify-between items-center mt-4">
+                    <button
+                        onClick={handlePreviousPage}
+                        disabled={currentPage === 1}
+                        className="btn btn-secondary"
+                    >
+                        Previous
+                    </button>
 
-                <span>
+                    <span>
                     Page {currentPage} of {totalPages}
                 </span>
 
-                <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    className="btn btn-info"
-                >
-                    Next
-                </button>
-            </div>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                        className="btn btn-info"
+                    >
+                        Next
+                    </button>
+                </div>
 
-            {modalOpen && (
-                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-8 rounded shadow-lg w-96">
-                        <h2 className="text-2xl font-bold mb-4">Update Paper</h2>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium">Stock</label>
-                            <input
-                                type="number"
-                                className="w-full border border-gray-300 px-4 py-2 mt-2"
-                                value={updatedStock}
-                                onChange={(e) => setUpdatedStock(Number(e.target.value))}
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="inline-flex items-center">
+                {modalOpen && (
+                    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+                        <div className="bg-white p-8 rounded shadow-lg w-96">
+                            <h2 className="text-2xl font-bold mb-4">Update Paper</h2>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium">Stock</label>
                                 <input
-                                    type="checkbox"
-                                    className="form-checkbox"
-                                    checked={updatedDiscontinued}
-                                    onChange={() => setUpdatedDiscontinued(!updatedDiscontinued)}
+                                    type="number"
+                                    className="w-full border border-gray-300 px-4 py-2 mt-2"
+                                    value={updatedStock}
+                                    onChange={(e) => setUpdatedStock(Number(e.target.value))}
                                 />
-                                <span className="ml-2">Discontinued</span>
-                            </label>
-                        </div>
-                        <div className="flex justify-end">
-                            <button
-                                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                onClick={closeModal}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                onClick={handleUpdate}
-                            >
-                                Update
-                            </button>
+                            </div>
+                            <div className="mb-4">
+                                <label className="inline-flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        className="form-checkbox"
+                                        checked={updatedDiscontinued}
+                                        onChange={() => setUpdatedDiscontinued(!updatedDiscontinued)}
+                                    />
+                                    <span className="ml-2">Discontinued</span>
+                                </label>
+                            </div>
+                            <div className="flex justify-end">
+                                <button
+                                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                    onClick={closeModal}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={handleUpdate}
+                                >
+                                    Update
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+
+                )}
+            </div>
         </>
     );
 }

@@ -1,8 +1,9 @@
 import {ROUTES} from "../Constants/Routes.ts";
 import {useNavigate} from "react-router-dom";
-import CustomerList from "./Customer/CustomerList.tsx";
 import FeatureTable from "./Features/FeatureTable.tsx";
 import PaperTable from "./Paper/PaperTable.tsx";
+import '../index.css';
+import CustomerTable from "./Customer/CustomerTable.tsx";
 
 
 
@@ -22,21 +23,24 @@ export default function AdminPage() {
                     Create Feature
                 </button>
                 <button className="btn btn-primary ml-2"
-                onClick={() => navigate(ROUTES.ADDFEATURETOPAPER)}>
+                        onClick={() => navigate(ROUTES.ADDFEATURETOPAPER)}>
                     Add Feature to Paper
                 </button>
             </div>
             <div className="mb-6">
-                <CustomerList/>
+                <CustomerTable/>
             </div>
-            <div className="mb-6">
-                <label className="font-extrabold text-xl mb-6">Papers</label>
-                <PaperTable/>
+            <div className="table-container">
+                <div className="paper-table">
+                    {/* PaperTable component goes here */}
+                    <PaperTable/>
+                </div>
+                <div className="feature-table">
+                    {/* FeatureTable component goes here */}
+                    <FeatureTable/>
+                </div>
             </div>
-            <div className="mb-6">
-                <label className="font-extrabold text-xl mb-6">Features</label>
-                <FeatureTable/>
-            </div>
+
 
         </>
     );
