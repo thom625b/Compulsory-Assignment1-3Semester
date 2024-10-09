@@ -247,9 +247,9 @@ const PaperList = () => {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder="Search by paper name..."
-                    className="input input-bordered w-full"
-                />
+                    className="input input-bordered w-[490px]"/>
             </div>
+
 
             <div className="mb-4">
                 <label className="mr-2">Filter:</label>
@@ -334,7 +334,8 @@ const PaperList = () => {
                                 <label className="block font-bold mb-2">Stock: {paper.stock}</label>
                                 {/* Display the feature stock */}
                                 <label className="block font-bold mb-2">
-                                    Feature Stock: {selectedFeatures[paper.id] && featureStock[selectedFeatures[paper.id]] !== undefined
+                                    Feature
+                                    Stock: {selectedFeatures[paper.id] && featureStock[selectedFeatures[paper.id]] !== undefined
                                     ? featureStock[selectedFeatures[paper.id]]
                                     : 'Select a feature'}
                                 </label>

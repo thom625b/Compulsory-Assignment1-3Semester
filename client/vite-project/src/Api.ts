@@ -641,6 +641,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     paperGetAllPapers: (
       query?: {
         name?: string;
+        /** @format decimal */
+        minPrice?: number | null;
+        /** @format decimal */
+        maxPrice?: number | null;
+        /** @format decimal */
+        maxValue?: number | null;
+        discontinued?: boolean | null;
       },
       params: RequestParams = {},
     ) =>

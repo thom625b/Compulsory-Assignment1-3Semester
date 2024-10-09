@@ -136,14 +136,14 @@ const CustomerList = () => {
     return (
         <>
             <div className="overflow-x-auto">
+                <h1 className="text-2xl font-bold">Customers</h1>
                 <div className="mb-4">
                     <input
                         type="text"
                         value={searchInput}
                         onChange={(e) => setSearchInput(e.target.value)}
                         placeholder="Search customer by name..."
-                        className="input input-bordered w-full"
-                    />
+                        className="input input-bordered w-[490px]"/>
                 </div>
                 <table className="table">
                     <thead>
