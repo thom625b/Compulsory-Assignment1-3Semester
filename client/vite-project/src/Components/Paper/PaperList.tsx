@@ -1,9 +1,10 @@
 import {Api} from "../../Api.ts";
 import {useAtom} from "jotai";
 import {paperAtom} from "../../Atoms/PaperAtom.tsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {featureAtom} from "../../Atoms/PropertiesAtom.tsx";
 import {basketAtom} from "../../Atoms/BasketAtom.tsx";
+import {ToastContainer, toast} from "react-toastify";
 
 
 const api = new Api();
@@ -118,28 +119,28 @@ const PaperList = () => {
         const paper = papers.find(p => p.id === paperId);
 
         if (quantity === 0) {
-            alert("You can't add zero");
+            toast.error("You cant add zero to basket")
             return;
         }
 
         if (paper?.paperFeatures?.length > 0 && !selectedFeatureId) {
-            alert("Please select a feature");
+            toast.error("Please select a feature before proceeding")
             return;
         }
 
         if (!paper) {
-            alert("No paper found");
+            console.log("Paper not found")
             return;
         }
 
         if (paper.stock < quantity) {
-            alert(`Not enough stock for ${paper.name}. Available: ${paper.stock}, Requested: ${quantity}`);
+            toast.error(`Not enough stock for ${paper.name}. Available: ${paper.stock}, Requested: ${quantity}`);
             return;
         }
 
         const selectedFeature = paper.paperFeatures?.find(feature => feature.id === Number(selectedFeatureId));
         if (selectedFeature && selectedFeature.featureStock < quantity) {
-            alert(`Not enough stock for feature. Available: ${selectedFeature.featureStock}, Requested: ${quantity}`);
+            toast.error(`Not enough stock for feature. Available: ${selectedFeature.featureStock}, Requested: ${quantity}`);
             return;
         }
 
@@ -173,10 +174,9 @@ const PaperList = () => {
                 quantity: quantity
             };
             await api.api.orderDecreaseStock(paperId, decreaseStockDto);
-            alert("Added to basket and stock updated");
+            toast.success("Product added to basket")
         } catch (error) {
             console.error(error);
-            alert("Failed to update stock");
         }
     };
 
@@ -233,13 +233,8 @@ const PaperList = () => {
         });
 
 
-   // const filteredPapers = searchInput
-     //   ? papers.filter((paper) => paper.name.toLowerCase().includes(searchInput.toLowerCase()))
-     //   : papers;
-
     return (
-        <div>
-            <h1 className="text-2xl font-bold">Papers</h1>
+        <div >
             {/* Search Input */}
             <div className="mb-4">
                 <input
@@ -387,7 +382,9 @@ const PaperList = () => {
                     ))}
                 </div>
             </div>
+            <ToastContainer position="top-center" autoClose={3500} hideProgressBar={false} closeOnClick pauseOnHover />
         </div>
+
     );
 };
 

@@ -4,6 +4,7 @@ import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 import {useNavigate} from "react-router-dom"
 import {ROUTES} from "../../Constants/Routes.ts";
+import {toast, ToastContainer} from "react-toastify";
 
 
 const AddFeature =() => {
@@ -29,7 +30,8 @@ const AddFeature =() => {
         setSelectedFeature(parseInt(event.target.value));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (event: React.ChangeEvent) => {
+        event.preventDefault()
         if (selectedPaper && selectedFeature && featureStock > 0){
             const data: FeaturesToPaperDto = {
                 paperId: selectedPaper,
@@ -39,16 +41,17 @@ const AddFeature =() => {
 
             api.featurePaper.featurePaperAddFeaturesToPaper(selectedPaper, data)
                 .then(() => {
-                    alert("Feature and stock successfully added to paper");
+                    toast.success("Feature and stock successfully added to paper");
                     setSelectedPaper(null);
                     setSelectedFeature(null);
                     setFeatureStock(0);
                 })
                 .catch(error => {
+                    toast.error("Error adding feature to paper");
                     console.log("Error adding feature to paper", error);
                 });
         } else {
-            alert("Please select a paper, feature and enter a valid stock");
+            toast.error("Please select a paper, feature and enter a valid stock");
         }
     }
 
@@ -121,6 +124,7 @@ const AddFeature =() => {
                     Back
                 </button>
             </div>
+            <ToastContainer position="top-center" autoClose={3500} hideProgressBar={false} closeOnClick pauseOnHover />
         </>
     )
 

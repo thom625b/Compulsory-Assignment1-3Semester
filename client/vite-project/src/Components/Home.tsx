@@ -82,7 +82,7 @@ export default function Home() {
                     <div className="absolute right-4">
                         <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500"
                                 onClick={() => navigate(ROUTES.CREATEORDER)}>
-                            Cart ({basketItems})
+                            Basket ({basketItems})
                         </button>
                     </div>
                 </div>

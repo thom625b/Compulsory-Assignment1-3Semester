@@ -2,6 +2,7 @@ import {Api} from "../../Api.ts";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom"
 import {ROUTES} from "../../Constants/Routes.ts";
+import {ToastContainer, toast} from "react-toastify";
 
 
 const FeatureCreate = () => {
@@ -19,10 +20,10 @@ const FeatureCreate = () => {
         };
         try {
             await api.api.featureCreateFeature(newFeature);
-            setSuccessMessage("Feature created");
+            toast.success("Feature created");
             setName('');
         } catch (error) {
-            setErrorMessage("Feature not created");
+            toast.error("Feature not created");
             setSuccessMessage('');
         }
     }
@@ -65,6 +66,7 @@ const FeatureCreate = () => {
                     Back
                 </button>
             </div>
+            <ToastContainer position="top-center" autoClose={3500} hideProgressBar={false} closeOnClick pauseOnHover />
         </>
     )
 }
