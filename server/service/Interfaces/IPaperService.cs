@@ -10,7 +10,12 @@ public interface IPaperService
     
     Task<PaperDto> CreatePaper(CreatePaperDto createPaperDto);
 
-    Task<List<Paper>> GetAllPapers(string name = null);
+    Task<List<Paper>> GetAllPapers(
+        string name = null,
+        decimal? minPrice = null,
+        decimal? maxPrice = null,
+        decimal? maxValue = null, 
+        bool? discontinued = null);
 
     Task<Paper> GetPaper(int id);
 

@@ -19,7 +19,8 @@ const PaperList = () => {
     const [featuresByPaper, setFeaturesByPaper] = useState<Record<number, any>>({});
     const [basket, setBasket] = useAtom(basketAtom);
     const [searchInput, setSearchInput] = useState<string>("");
-
+    const [filter, setFilter] = useState<string>("all"); // Filter state
+    const [sortOrder, setSortOrder] = useState<string>("none"); // Sort order state
 
 
     const FetchPapers = async () => {
@@ -210,9 +211,34 @@ const PaperList = () => {
         </div>;
     }
 
-    const filteredPapers = searchInput
-        ? papers.filter((paper) => paper.name.toLowerCase().includes(searchInput.toLowerCase()))
-        : papers;
+    const filteredPapers = papers
+        .filter((paper) => {
+            const matchesSearch = paper.name.toLowerCase().includes(searchInput.toLowerCase());
+            const matchesFilter = filter === "all" ||
+                (filter === "discontinued" && paper.discontinued) ||
+                (filter === "not-discontinued" && !paper.discontinued);
+            return matchesSearch && matchesFilter;
+        })
+        .sort((a, b) => {
+            if (sortOrder === "price-asc") {
+                return a.price - b.price;
+            }
+            else if (sortOrder === "price-desc"){
+                return b.price - a.price;
+            }
+            else if (sortOrder === "stock-asc") {
+                return a.stock - b.stock;
+            }
+            else if (sortOrder === "stock-desc") {
+                return b.stock - a.stock;
+            }
+            return 0; // No sorting
+        });
+
+
+   // const filteredPapers = searchInput
+     //   ? papers.filter((paper) => paper.name.toLowerCase().includes(searchInput.toLowerCase()))
+     //   : papers;
 
     return (
         <div>
@@ -227,6 +253,33 @@ const PaperList = () => {
                     className="input input-bordered w-full"
                 />
             </div>
+
+            <div className="mb-4">
+                <label className="mr-2">Filter:</label>
+                <select
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="select select-bordered"
+                >
+                    <option value="all">All Papers</option>
+                    <option value="discontinued">Discontinued Papers</option>
+                    <option value="not-discontinued">In stock</option>
+                </select>
+
+                <label className="mr-2 ml-4">Sort by:</label>
+                <select
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                    className="select select-bordered"
+                >
+                    <option value="none">None</option>
+                    <option value="price-asc">Price ascending</option>
+                    <option value="price-desc">Price descending</option>
+                    <option value="stock-asc">Stock ascending</option>
+                    <option value="stock-desc">Stock ascending</option>
+                </select>
+            </div>
+
             <div className="h-[770px] overflow-y-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     {filteredPapers.map((paper) => (
