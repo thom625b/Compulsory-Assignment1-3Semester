@@ -247,56 +247,107 @@ INSERT INTO orders (order_date, delivery_date, status, total_amount, customer_id
 
 -- Insert into paper_features (ensuring unique combinations and realistic stock)
 -- Insert into paper_features (combining papers with 3 to 5 features)
+-- Distribute paper stock evenly across all its features
 INSERT INTO paper_features (paper_id, feature_id, feature_stock) VALUES
-                                                                     (1, 1, 30), (1, 3, 25), (1, 6, 20), -- Paper 1: A4 Office Paper with Waterproof, Heavyweight, Acid-Free
-                                                                     (2, 2, 50), (2, 4, 45), (2, 5, 40), -- Paper 2: Letter Size Paper with Recycled, Glossy, Matte Finish
-                                                                     (3, 7, 50), (3, 8, 35), (3, 10, 30), -- Paper 3: Glossy Photo Paper with Archival, Double-Sided Print, Smudge-Proof
-                                                                     (4, 11, 60), (4, 12, 55), (4, 13, 50), -- Paper 4: Recycled Copy Paper with Perforated, Tear-Resistant, Writable
-                                                                     (5, 14, 40), (5, 15, 30), (5, 16, 25), -- Paper 5: Cardstock Paper with Ultra Bright White, Quick Dry, Laser Compatible
-                                                                     (6, 17, 20), (6, 18, 15), (6, 19, 10), -- Paper 6: Matte Photo Paper with Inkjet Compatible, Eco-Friendly, Bleed-Resistant
-                                                                     (7, 20, 35), (7, 21, 30), (7, 22, 25), (7, 23, 20), -- Paper 7: Premium Laser Paper with Textured Surface, Durable, Vibrant Colors, Opaque
-                                                                     (8, 24, 50), (8, 25, 40), (8, 26, 35), -- Paper 8: Heavyweight Bond Paper with Soft Touch Finish, Smooth Surface, Tear-Away Edges
-                                                                     (9, 27, 60), (9, 28, 55), (9, 29, 50), -- Paper 9: Translucent Vellum Paper with Heat Resistant, Cold Resistant, Lightweight
-                                                                     (10, 30, 45), (10, 31, 40), (10, 32, 35), (10, 33, 30), -- Paper 10: Parchment Paper with Rigid, UV Resistant, High Density, Low Reflection
-                                                                     (11, 34, 30), (11, 35, 25), (11, 36, 20), -- Paper 11: Cotton Paper with Non-Yellowing, Embossed, Decorative Edges
-                                                                     (12, 37, 20), (12, 38, 15), (12, 39, 10), (12, 40, 5), -- Paper 12: Synthetic Paper with Ultra Fine Finish, Lightfast, Scratch Resistant, Anti-Curling
-                                                                     (13, 41, 25), (13, 42, 20), (13, 43, 15), -- Paper 13: Metallic Paper with Low-Gloss Finish, High-Gloss Finish, Satin Finish
-                                                                     (14, 44, 30), (14, 45, 25), (14, 46, 20), (14, 47, 15), -- Paper 14: Waterproof Paper with Semi-Gloss Finish, Frosted Surface, Silky Feel, Natural Finish
-                                                                     (15, 48, 60), (15, 49, 50), (15, 50, 40), -- Paper 15: Perforated Paper with Bright Colors, Extra Soft Feel, Printable Both Sides
-                                                                     (16, 51, 55), (16, 52, 50), (16, 53, 45), -- Paper 16: Tabloid Size Paper with Resin Coated, Anti-Static, Metallic Finish
-                                                                     (17, 54, 40), (17, 55, 35), (17, 56, 30), -- Paper 17: Colored Cardstock with Textured Fiber, Extra Thick, Colored Core
-                                                                     (18, 57, 25), (18, 58, 20), (18, 59, 15), -- Paper 18: High-Gloss Inkjet Paper with Writable, PVC Free, Low-Dust
-                                                                     (19, 60, 50), (19, 61, 45), (19, 62, 40), -- Paper 19: Engineering Bond Paper with Colorfast, Resistant to Bleeding, Impact Resistant
-                                                                     (20, 63, 55), (20, 64, 50), (20, 65, 45), -- Paper 20: Linen Paper with High Precision, Water Absorbent, Quick Dry Ink
-                                                                     (21, 66, 40), (21, 67, 35), (21, 68, 30), (21, 69, 25), -- Paper 21: Textured Paper with FSC Certified, Ultra Thin, Environmentally Friendly, Weather Resistant
-                                                                     (22, 70, 30), (22, 71, 25), (22, 72, 20), -- Paper 22: Double-Sided Matte Paper with Smooth Writing Surface, Highly Absorbent, UV Protection
-                                                                     (23, 73, 60), (23, 74, 50), (23, 75, 40), -- Paper 23: Thermal Paper with Low Dust Emission, Easy to Erase, High Clarity
-                                                                     (24, 76, 55), (24, 77, 50), (24, 78, 45), -- Paper 24: Antique Finish Paper with Resistant to Fading, Chlorine-Free, Fine Grain
-                                                                     (25, 79, 45), (25, 80, 40), (25, 81, 35), -- Paper 25: Carbonless Paper with Reinforced Strength, Treated for Durability, Resistant to Folding
-                                                                     (26, 82, 60), (26, 83, 50), (26, 84, 40), -- Paper 26: Notebook Paper with Smooth Writing Feel, Vivid Color Printing, Odorless
-                                                                     (27, 85, 55), (27, 86, 50), (27, 87, 45), -- Paper 27: Graph Paper with Heat Resistant Coating, Writable Surface, Textured Matte
-                                                                     (28, 88, 35), (28, 89, 30), (28, 90, 25), (28, 91, 20), -- Paper 28: Wide-Format Roll Paper with Pliable, Bleed-Proof Coating, Reflective Surface, Greaseproof
-                                                                     (29, 92, 50), (29, 93, 45), (29, 94, 40), -- Paper 29: Construction Paper with Anti-Fingerprint, Shimmering Effect, Pre-Scored
-                                                                     (30, 95, 60), (30, 96, 55), (30, 97, 50), -- Paper 30: Cover Stock with Two-Tone Finish, Enhanced Color Accuracy, Tactile Finish
-                                                                     (31, 98, 40), (31, 99, 35), (31, 100, 30), -- Paper 31: Paperboard with Embossed Pattern, High Strength Bond, Anti-Slip Surface
-                                                                     (32, 1, 30), (32, 5, 25), (32, 8, 20), (32, 10, 15), -- Paper 32: Bristol Paper with Waterproof, Matte Finish, Double-Sided Print, Smudge-Proof
-                                                                     (33, 12, 60), (33, 15, 55), (33, 17, 50), -- Paper 33: Newsprint Paper with Tear-Resistant, Quick Dry, Inkjet Compatible
-                                                                     (34, 18, 40), (34, 20, 35), (34, 23, 30), (34, 25, 25), -- Paper 34: Tracing Paper with Eco-Friendly, Textured Surface, Opaque, Smooth Surface
-                                                                     (35, 28, 30), (35, 30, 25), (35, 33, 20), -- Paper 35: Canvas Paper with Cold Resistant, Rigid, Low Reflection
-                                                                     (36, 34, 45), (36, 36, 40), (36, 37, 35), (36, 38, 30), -- Paper 36: Heat Transfer Paper with Non-Yellowing, Decorative Edges, Ultra Fine Finish, Lightfast
-                                                                     (37, 40, 50), (37, 41, 45), (37, 42, 40), -- Paper 37: Xerographic Paper with Anti-Curling, Low-Gloss Finish, High-Gloss Finish
-                                                                     (38, 45, 55), (38, 46, 50), (38, 47, 45), -- Paper 38: Continuous Feed Paper with Semi-Gloss Finish, Frosted Surface, Silky Feel
-                                                                     (39, 49, 30), (39, 50, 25), (39, 51, 20), (39, 53, 15), -- Paper 39: Specialty Paper with Extra Soft Feel, Printable Both Sides, Resin Coated, Metallic Finish
-                                                                     (40, 55, 50), (40, 57, 45), (40, 58, 40), (40, 60, 35), -- Paper 40: Paper for Flyers with Textured Fiber, Writable, PVC Free, Colorfast
-                                                                     (41, 63, 55), (41, 65, 50), (41, 66, 45), -- Paper 41: Bond Paper with High Precision, Quick Dry Ink, FSC Certified
-                                                                     (42, 69, 30), (42, 71, 25), (42, 73, 20), (42, 75, 15), -- Paper 42: Blueprint Paper with Weather Resistant, Highly Absorbent, Low Dust Emission, High Clarity
-                                                                     (43, 77, 40), (43, 78, 35), (43, 80, 30), -- Paper 43: Watermarked Paper with Resistant to Fading, Chlorine-Free, Reinforced Strength
-                                                                     (44, 82, 60), (44, 83, 55), (44, 85, 50), (44, 87, 45), -- Paper 44: Envelope Paper with Smooth Writing Feel, Vivid Color Printing, Heat Resistant Coating, Writable Surface
-                                                                     (45, 89, 50), (45, 90, 45), (45, 91, 40), (45, 93, 35), -- Paper 45: Inkjet Printer Paper with Greaseproof, Anti-Fingerprint, Reflective Surface, Shimmering Effect
-                                                                     (46, 95, 35), (46, 96, 30), (46, 97, 25), -- Paper 46: Laser Printer Paper with Two-Tone Finish, Enhanced Color Accuracy, Ultra Glossy
-                                                                     (47, 99, 50), (47, 100, 45), (47, 1, 40), (47, 2, 35), -- Paper 47: Lightweight Paper with Anti-Slip Surface, Reinforced Edges, Waterproof, Recycled Material
-                                                                     (48, 4, 55), (48, 5, 50), (48, 6, 45), -- Paper 48: Ultra Glossy Paper with Glossy Finish, Matte Finish, Acid-Free
-                                                                     (49, 7, 60), (49, 10, 55), (49, 13, 50), (49, 15, 45); -- Paper 49: Artist Paper with Archival Quality, Smudge-Proof, Writable, Quick Dry
+                                                                     -- Paper 1: A4 Office Paper (stock 200), divided into 3 features
+                                                                     (1, 1, 67), (1, 3, 67), (1, 6, 66),
+                                                                     -- Paper 2: Letter Size Paper (stock 150), divided into 3 features
+                                                                     (2, 2, 50), (2, 4, 50), (2, 5, 50),
+                                                                     -- Paper 3: Glossy Photo Paper (stock 100), divided into 3 features
+                                                                     (3, 7, 34), (3, 8, 33), (3, 10, 33),
+                                                                     -- Paper 4: Recycled Copy Paper (stock 250), divided into 3 features
+                                                                     (4, 11, 84), (4, 12, 83), (4, 13, 83),
+                                                                     -- Paper 5: Cardstock Paper (stock 100), divided into 3 features
+                                                                     (5, 14, 34), (5, 15, 33), (5, 16, 33),
+                                                                     -- Paper 6: Matte Photo Paper (stock 80), divided into 3 features
+                                                                     (6, 17, 27), (6, 18, 27), (6, 19, 26),
+                                                                     -- Paper 7: Premium Laser Paper (stock 120), divided into 4 features
+                                                                     (7, 20, 30), (7, 21, 30), (7, 22, 30), (7, 23, 30),
+                                                                     -- Paper 8: Heavyweight Bond Paper (stock 110), divided into 3 features
+                                                                     (8, 24, 37), (8, 25, 37), (8, 26, 36),
+                                                                     -- Paper 9: Translucent Vellum Paper (stock 90), divided into 3 features
+                                                                     (9, 27, 30), (9, 28, 30), (9, 29, 30),
+                                                                     -- Paper 10: Parchment Paper (stock 130), divided into 4 features
+                                                                     (10, 30, 33), (10, 31, 33), (10, 32, 32), (10, 33, 32),
+                                                                     -- Paper 11: Cotton Paper (stock 95), divided into 3 features
+                                                                     (11, 34, 32), (11, 35, 32), (11, 36, 31),
+                                                                     -- Paper 12: Synthetic Paper (stock 70), divided into 4 features
+                                                                     (12, 37, 18), (12, 38, 18), (12, 39, 17), (12, 40, 17),
+                                                                     -- Paper 13: Metallic Paper (stock 85), divided into 3 features
+                                                                     (13, 41, 29), (13, 42, 28), (13, 43, 28),
+                                                                     -- Paper 14: Waterproof Paper (stock 65), divided into 4 features
+                                                                     (14, 44, 17), (14, 45, 16), (14, 46, 16), (14, 47, 16),
+                                                                     -- Paper 15: Perforated Paper (stock 200), divided into 3 features
+                                                                     (15, 48, 67), (15, 49, 67), (15, 50, 66),
+                                                                     -- Paper 16: Tabloid Size Paper (stock 170), divided into 3 features
+                                                                     (16, 51, 57), (16, 52, 57), (16, 53, 56),
+                                                                     -- Paper 17: Colored Cardstock (stock 190), divided into 3 features
+                                                                     (17, 54, 64), (17, 55, 63), (17, 56, 63),
+                                                                     -- Paper 18: High-Gloss Inkjet Paper (stock 150), divided into 3 features
+                                                                     (18, 57, 50), (18, 58, 50), (18, 59, 50),
+                                                                     -- Paper 19: Engineering Bond Paper (stock 120), divided into 3 features
+                                                                     (19, 60, 40), (19, 61, 40), (19, 62, 40),
+                                                                     -- Paper 20: Linen Paper (stock 110), divided into 3 features
+                                                                     (20, 63, 37), (20, 64, 37), (20, 65, 36),
+                                                                     -- Paper 21: Textured Paper (stock 140), divided into 4 features
+                                                                     (21, 66, 35), (21, 67, 35), (21, 68, 35), (21, 69, 35),
+                                                                     -- Paper 22: Double-Sided Matte Paper (stock 80), divided into 3 features
+                                                                     (22, 70, 27), (22, 71, 27), (22, 72, 26),
+                                                                     -- Paper 23: Thermal Paper (stock 200), divided into 3 features
+                                                                     (23, 73, 67), (23, 74, 67), (23, 75, 66),
+                                                                     -- Paper 24: Antique Finish Paper (stock 60), divided into 3 features
+                                                                     (24, 76, 20), (24, 77, 20), (24, 78, 20),
+                                                                     -- Paper 25: Carbonless Paper (stock 180), divided into 3 features
+                                                                     (25, 79, 60), (25, 80, 60), (25, 81, 60),
+                                                                     -- Paper 26: Notebook Paper (stock 250), divided into 3 features
+                                                                     (26, 82, 84), (26, 83, 83), (26, 84, 83),
+                                                                     -- Paper 27: Graph Paper (stock 230), divided into 3 features
+                                                                     (27, 85, 77), (27, 86, 77), (27, 87, 76),
+                                                                     -- Paper 28: Wide-Format Roll Paper (stock 100), divided into 4 features
+                                                                     (28, 88, 25), (28, 89, 25), (28, 90, 25), (28, 91, 25),
+                                                                     -- Paper 29: Construction Paper (stock 200), divided into 3 features
+                                                                     (29, 92, 67), (29, 93, 67), (29, 94, 66),
+                                                                     -- Paper 30: Cover Stock (stock 130), divided into 3 features
+                                                                     (30, 95, 44), (30, 96, 43), (30, 97, 43),
+                                                                     -- Paper 31: Paperboard (stock 140), divided into 3 features
+                                                                     (31, 98, 47), (31, 99, 47), (31, 100, 46),
+                                                                     -- Paper 32: Bristol Paper (stock 120), divided into 4 features
+                                                                     (32, 1, 30), (32, 5, 30), (32, 8, 30), (32, 10, 30),
+                                                                     -- Paper 33: Newsprint Paper (stock 210), divided into 3 features
+                                                                     (33, 12, 70), (33, 15, 70), (33, 17, 70),
+                                                                     -- Paper 34: Tracing Paper (stock 90), divided into 4 features
+                                                                     (34, 18, 23), (34, 20, 23), (34, 23, 22), (34, 25, 22),
+                                                                     -- Paper 35: Canvas Paper (stock 90), divided into 3 features
+                                                                     (35, 28, 30), (35, 30, 30), (35, 33, 30),
+                                                                     -- Paper 36: Heat Transfer Paper (stock 100), divided into 4 features
+                                                                     (36, 34, 25), (36, 36, 25), (36, 37, 25), (36, 38, 25),
+                                                                     -- Paper 37: Xerographic Paper (stock 220), divided into 3 features
+                                                                     (37, 40, 74), (37, 41, 73), (37, 42, 73),
+                                                                     -- Paper 38: Continuous Feed Paper (stock 180), divided into 3 features
+                                                                     (38, 45, 60), (38, 46, 60), (38, 47, 60),
+                                                                     -- Paper 39: Specialty Paper (stock 110), divided into 4 features
+                                                                     (39, 49, 28), (39, 50, 27), (39, 51, 27), (39, 53, 28),
+                                                                     -- Paper 40: Paper for Flyers (stock 200), divided into 4 features
+                                                                     (40, 55, 50), (40, 57, 50), (40, 58, 50), (40, 60, 50),
+                                                                     -- Paper 41: Bond Paper (stock 160), divided into 3 features
+                                                                     (41, 63, 53), (41, 65, 53), (41, 66, 54),
+                                                                     -- Paper 42: Blueprint Paper (stock 75), divided into 4 features
+                                                                     (42, 69, 19), (42, 71, 19), (42, 73, 19), (42, 75, 18),
+                                                                     -- Paper 43: Watermarked Paper (stock 90), divided into 3 features
+                                                                     (43, 77, 30), (43, 78, 30), (43, 80, 30),
+                                                                     -- Paper 44: Envelope Paper (stock 250), divided into 4 features
+                                                                     (44, 82, 63), (44, 83, 62), (44, 85, 62), (44, 87, 63),
+                                                                     -- Paper 45: Inkjet Printer Paper (stock 230), divided into 4 features
+                                                                     (45, 89, 58), (45, 90, 57), (45, 91, 57), (45, 93, 58),
+                                                                     -- Paper 46: Laser Printer Paper (stock 240), divided into 3 features
+                                                                     (46, 95, 80), (46, 96, 80), (46, 97, 80),
+                                                                     -- Paper 47: Lightweight Paper (stock 190), divided into 4 features
+                                                                     (47, 99, 48), (47, 100, 48), (47, 1, 47), (47, 2, 47),
+                                                                     -- Paper 48: Ultra Glossy Paper (stock 140), divided into 3 features
+                                                                     (48, 4, 47), (48, 5, 47), (48, 6, 46),
+                                                                     -- Paper 49: Artist Paper (stock 50), divided into 4 features
+                                                                     (49, 7, 13), (49, 10, 13), (49, 13, 12), (49, 15, 12);
+
                                                                    
     
 
