@@ -12,7 +12,6 @@ export default function AdminPage() {
 
     return (
         <>
-            <h1>Admin page</h1>
             <div className="ml-5 p-1 ">
                 <button className="btn btn-primary"
                         onClick={() => navigate(ROUTES.CREATEPAPER)}>
@@ -28,7 +27,6 @@ export default function AdminPage() {
                 </button>
             </div>
             <div className="mb-6">
-                <label className="font-extrabold text-xl mb-6">Orders of customers</label>
                 <CustomerList/>
             </div>
             <div className="mb-6">
