@@ -164,7 +164,7 @@ const OrderPaySite = () => {
                                         <p><strong>{item.name}</strong> - {item.quantity} pcs @ {item.price} each</p>
                                     </div>
                                 ))}
-                                <div className="font-bold">Total: {totalAmount}</div>
+                                <div className="font-bold">Total: {totalAmount.toFixed(2)}</div>
                             </>
                         )}
                     </div>
