@@ -288,7 +288,7 @@ const PaperList = () => {
                              }>
                             <figure>
                                 <img
-                                    src="/pictures/papirA4.jpg" // Use the correct image URL based on your data
+                                    src="/pictures/paperWrap.jpg" // Use the correct image URL based on your data
                                     alt={paper.name}
                                 />
                             </figure>
