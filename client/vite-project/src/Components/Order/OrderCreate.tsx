@@ -44,7 +44,7 @@ return (
                 )}
             </div>
             <div>
-                <button className=" btn btn-neutra left l"
+                <button className="btn border-green-500 hover:bg-green-300"
                         onClick={() => navigate(ROUTES.PAYMENT)}>
                     Register
                 </button>

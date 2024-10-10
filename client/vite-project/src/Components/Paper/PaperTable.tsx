@@ -123,7 +123,7 @@ export default function PaperTable() {
                         <td className="border border-gray-400 px-4 py-2">{paper.discontinued ? "Yes" : "No"}</td>
                         <td className="border border-gray-400 px-4 py-2">
                             <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                className="btn border-gray-400 hover:bg-blue-300"
                                 onClick={() => openModal(paper)}
                             >
                                 Update
@@ -136,13 +136,13 @@ export default function PaperTable() {
 
             {/* Pagination Controls */}
             <div className="flex justify-between items-center mt-4">
-                <button onClick={handlePreviousPage} disabled={currentPage === 1} className="btn btn-secondary">
+                <button onClick={handlePreviousPage} disabled={currentPage === 1} className="btn btn-outline hover:accent-gray-300">
                     Previous
                 </button>
 
                 <span>Page {currentPage} of {totalPages}</span>
 
-                <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-info">
+                <button onClick={handleNextPage} disabled={currentPage === totalPages} className="btn btn-outline hover:accent-gray-300">
                     Next
                 </button>
             </div>
@@ -174,13 +174,13 @@ export default function PaperTable() {
                     </div>
                     <div className="flex justify-end">
                         <button
-                            className="btn btn-outline hover:bg-red-200 px-4 rounded mr-2"
+                            className="btn btn-outline hover:bg-red-200 hover:text-black px-4 rounded mr-2"
                             onClick={closeModal}
                         >
                             Cancel
                         </button>
                         <button
-                            className="btn btn-outline hover:bg-green-200"
+                            className="btn btn-outline hover:bg-green-200 hover:text-black px-4 rounded mr-2"
                             onClick={handleUpdate}
                         >
                             Update

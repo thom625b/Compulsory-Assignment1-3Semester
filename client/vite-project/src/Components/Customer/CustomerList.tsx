@@ -199,7 +199,7 @@ const CustomerList = () => {
                         <h2 className="text-2xl font-bold mb-4">
                             Orders for {getSelectedCustomerName()}
                         </h2>
-                        <button className="btn btn-sm" onClick={closeModal}>Close</button>
+                        <button className="btn btn-outline hover:accent-gray-300 bg-blue-200" onClick={closeModal}>Close</button>
                         <table className="table w-full mt-4">
                             <thead>
                             <tr>

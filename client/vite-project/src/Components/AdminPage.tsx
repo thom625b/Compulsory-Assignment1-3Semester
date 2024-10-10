@@ -14,13 +14,13 @@ export default function AdminPage() {
     return (
         <>
             <div className="ml-5 p-1">
-                <button className="btn btn-primary" onClick={() => navigate(ROUTES.CREATEPAPER)}>
+                <button className="btn btn-outline" onClick={() => navigate(ROUTES.CREATEPAPER)}>
                     Create Paper
                 </button>
-                <button className="btn btn-primary ml-2" onClick={() => navigate(ROUTES.CREATEFEATURE)}>
+                <button className="btn btn-outline" onClick={() => navigate(ROUTES.CREATEFEATURE)}>
                     Create Feature
                 </button>
-                <button className="btn btn-primary ml-2" onClick={() => navigate(ROUTES.ADDFEATURETOPAPER)}>
+                <button className="btn btn-outline" onClick={() => navigate(ROUTES.ADDFEATURETOPAPER)}>
                     Add Feature to Paper
                 </button>
             </div>

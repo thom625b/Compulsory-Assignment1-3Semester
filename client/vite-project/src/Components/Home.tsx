@@ -102,7 +102,7 @@ export default function Home() {
                 <div className="bg-gray-100 p-4 flex justify-end items-center relative h-2">
 
                     <div className="absolute right-4">
-                        <button className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500"
+                        <button className="btn bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500"
                                 onClick={() => navigate(ROUTES.CREATEORDER)}>
                             Basket ({basketItems})
                         </button>
@@ -128,15 +128,15 @@ export default function Home() {
                             value={passwordInput}
                             onChange={(e) => setPasswordInput(e.target.value)}
                         />
-                        <div className="flex justify-end space-x-2">
+                        <div className="flex justify-end space-x-2 w-full">
                             <button
-                                className="bg-red-500 text-white px-4 py-2 rounded"
+                                className="btn btn-outline hover:bg-gray-400 rounded flex-1"
                                 onClick={() => setShowPasswordPrompt(false)}
                             >
                                 Cancel
                             </button>
                             <button
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                className="btn btn-outline hover:bg-blue-400 rounded flex-1"
                                 onClick={handlePasswordSubmit}
                             >
                                 Submit
