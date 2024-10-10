@@ -28,10 +28,7 @@ public class PaperService : IPaperService
         await _context.SaveChangesAsync();
         return PaperDto.FromEntity(paper);
     }
-
     
-
-
     public async Task<List<Paper>> GetAllPapers(
         string name = null, 
         decimal? minPrice = null, 
