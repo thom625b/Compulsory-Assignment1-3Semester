@@ -1,7 +1,5 @@
 import {Api, Feature, FeaturesToPaperDto, Paper} from "../../Api.ts";
 import React, {useEffect, useState} from "react";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 import {useNavigate} from "react-router-dom"
 import {ROUTES} from "../../Constants/Routes.ts";
 import {toast, ToastContainer} from "react-toastify";
