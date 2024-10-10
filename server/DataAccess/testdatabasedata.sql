@@ -84,7 +84,9 @@ INSERT INTO paper (name, discontinued, stock, price) VALUES
                                                          ('Laser Printer Paper', false, 240, 6.99),
                                                          ('Lightweight Paper', false, 190, 2.99),
                                                          ('Ultra Glossy Paper', false, 140, 15.99),
-                                                         ('Artist Paper', false, 50, 22.99);
+                                                         ('Artist Paper', false, 50, 22.99),
+                                                         ('Silver Paper', true, 0, 23.11),
+                                                         ('Gold Paper', true, 0,244);
 
 
 -- Insert into feature
@@ -346,10 +348,14 @@ INSERT INTO paper_features (paper_id, feature_id, feature_stock) VALUES
                                                                      -- Paper 48: Ultra Glossy Paper (stock 140), divided into 3 features
                                                                      (48, 4, 47), (48, 5, 47), (48, 6, 46),
                                                                      -- Paper 49: Artist Paper (stock 50), divided into 4 features
-                                                                     (49, 7, 13), (49, 10, 13), (49, 13, 12), (49, 15, 12);
+                                                                     (49, 7, 13), (49, 10, 13), (49, 13, 12), (49, 15, 12),
+                                                                     (50, 7, 0), (50, 10, 0), (50, 13, 0), (50, 15, 0),
+                                                                     (51, 4, 0), (51, 5, 0), (51, 6, 0);
 
-                                                                   
-    
+
+
+
+
 
 -- Insert into order_entries
 -- Insert into order_entries (random products with features for each order)
