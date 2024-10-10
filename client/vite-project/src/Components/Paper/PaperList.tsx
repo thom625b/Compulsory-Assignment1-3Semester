@@ -374,9 +374,9 @@ const PaperList = () => {
                                         <div className="badge badge-outline">No Features</div>
                                     )}
                                 </div>
-                                <button className="btn btn-outline "
+                                <button className="btn btn-outline hover:bg-blue-300"
                                         onClick={() => handleAddToBasket(paper.id)}>
-                                    Add to cart
+                                    Add to basket
                                 </button>
                             </div>
                         </div>
