@@ -1,7 +1,6 @@
 import {useAtom} from "jotai/index";
 import {useEffect, useState} from "react";
-import {basketAtom} from "../../Atoms/BasketAtom.tsx";
-import {ROUTES} from "../../Constants/Routes.ts";
+import {basketAtom, ROUTES} from "../imports";
 import {useNavigate} from "react-router-dom";
 
 

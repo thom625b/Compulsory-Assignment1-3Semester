@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
-import { Api } from "../../Api.ts";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../Constants/Routes.ts";
+import { ROUTES, basketAtom, Api } from "../imports";
 import {useAtom} from "jotai/index";
-import {basketAtom} from "../../Atoms/BasketAtom.tsx";
 import {ToastContainer, toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 

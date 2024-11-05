@@ -1,6 +1,5 @@
-import { Api, OrderStatus } from "../../Api.ts";
+import { Api, OrderStatus, customerAtom } from "../imports";
 import { useAtom } from "jotai";
-import { customerAtom } from "../../Atoms/CustomerAtom.tsx";
 import { useEffect, useState } from "react";
 
 const api = new Api();

@@ -1,5 +1,5 @@
 import {atom} from "jotai";
-import {Feature} from "../Api.ts";
+import {Feature} from "./imports";
 
 
 export const featureAtom = atom<Feature[]>([]);

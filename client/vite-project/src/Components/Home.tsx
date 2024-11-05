@@ -1,7 +1,6 @@
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
-import { ROUTES } from "../Constants/Routes.ts";
+import { ROUTES, basketAtom} from "./imports";
 import { useAtom } from "jotai";
-import { basketAtom } from "../Atoms/BasketAtom.tsx";
 import {useState} from "react";
 
 

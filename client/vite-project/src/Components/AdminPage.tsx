@@ -1,4 +1,4 @@
-import {ROUTES} from "../Constants/Routes.ts";
+import {ROUTES} from "./imports";
 import {useNavigate} from "react-router-dom";
 import FeatureTable from "./Features/FeatureTable.tsx";
 import PaperTable from "./Paper/PaperTable.tsx";

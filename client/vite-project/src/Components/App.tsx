@@ -1,19 +1,18 @@
 
 import {Route, Routes} from "react-router-dom";
-import {ROUTES} from "./Constants/Routes.ts";
-import Home from "./Components/Home.tsx";
-
-import Paper from "./Components/Paper/PaperList.tsx"
-import AdminPage from "./Components/AdminPage.tsx"
-import CustomerList from "./Components/Customer/CustomerList.tsx"
-import CreateOrder from "./Components/Order/OrderCreate.tsx"
-import Payment from "./Components/Order/OrderPaySite.tsx"
+import {ROUTES} from "./imports";
+import Home from "./Home.tsx";
+import Paper from "./Paper/PaperList.tsx"
+import AdminPage from "./AdminPage.tsx"
+import CustomerList from "./Customer/CustomerList.tsx"
+import CreateOrder from "./Order/OrderCreate.tsx"
+import Payment from "./Order/OrderPaySite.tsx"
 import {DevTools} from "jotai-devtools";
 import  "jotai-devtools/styles.css";
-import PaperCreate from "./Components/Paper/PaperCreate.tsx";
-import FeatureCreate from "./Components/Features/FeatureCreate.tsx";
-import AddFeature from "./Components/Features/AddFeature.tsx";
-import ContactPage from "./Components/ContactPage.tsx"
+import PaperCreate from "./Paper/PaperCreate.tsx";
+import FeatureCreate from "./Features/FeatureCreate.tsx";
+import AddFeature from "./Features/AddFeature.tsx";
+import ContactPage from "./ContactPage.tsx"
 
 function App() {
 

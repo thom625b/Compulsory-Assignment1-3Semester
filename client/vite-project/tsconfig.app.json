@@ -24,5 +24,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src/**/*", "*.ts", "*.tsx"],
+  "paths": {
+    "/src/*": [
+      "*"
+    ]
+  },
+  "baseUrl": "src"
 }

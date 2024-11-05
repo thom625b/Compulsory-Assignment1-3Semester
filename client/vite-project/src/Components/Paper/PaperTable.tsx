@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Api, Paper} from "../../Api.ts";
+import {Api, Paper} from "../imports";
 import {ToastContainer, toast} from "react-toastify";
 
 export default function PaperTable() {

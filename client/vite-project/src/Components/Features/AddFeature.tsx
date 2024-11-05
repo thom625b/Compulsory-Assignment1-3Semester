@@ -1,7 +1,7 @@
-import {Api, Feature, FeaturesToPaperDto, Paper} from "../../Api.ts";
+import {Api, Feature, FeaturesToPaperDto, Paper} from "../imports";
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom"
-import {ROUTES} from "../../Constants/Routes.ts";
+import {ROUTES} from "../imports";
 import {toast, ToastContainer} from "react-toastify";
 
 

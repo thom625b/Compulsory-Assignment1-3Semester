@@ -1,9 +1,6 @@
-import {Api} from "../../Api.ts";
+import {Api, paperAtom, featureAtom, basketAtom} from "../imports";
 import {useAtom} from "jotai";
-import {paperAtom} from "../../Atoms/PaperAtom.tsx";
 import {useEffect, useState} from "react";
-import {featureAtom} from "../../Atoms/PropertiesAtom.tsx";
-import {basketAtom} from "../../Atoms/BasketAtom.tsx";
 import {ToastContainer, toast} from "react-toastify";
 
 

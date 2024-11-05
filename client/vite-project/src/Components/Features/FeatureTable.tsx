@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Api, Feature} from "../../Api.ts"; // Adjust the import path to your API client
+import {Api, Feature} from "../imports";
 
 export default function FeatureTable() {
     const [features, setFeatures] = useState<Feature[]>([]);

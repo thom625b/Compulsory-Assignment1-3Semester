@@ -1,6 +1,6 @@
-import {Api} from "../../Api.ts";
+import {Api} from "../imports";
 import React, {useState} from "react";
-import {ROUTES} from "../../Constants/Routes.ts";
+import {ROUTES} from "../imports";
 import {useNavigate} from "react-router-dom";
 import {ToastContainer, toast} from "react-toastify";
 
@@ -13,7 +13,7 @@ const PaperCreate = () => {
     const [price, setPrice] = useState(0.0)
     const [stock, setStock] = useState(0);
     const [discontinued, setDiscontinued] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {

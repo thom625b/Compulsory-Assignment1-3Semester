@@ -1,7 +1,7 @@
-import {Api} from "../../Api.ts";
+import {Api} from "../imports";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom"
-import {ROUTES} from "../../Constants/Routes.ts";
+import {ROUTES} from "../imports";
 import {ToastContainer, toast} from "react-toastify";
 
 
@@ -9,7 +9,7 @@ const FeatureCreate = () => {
     const api = new Api();
     const navigate = useNavigate();
     const [name, setName] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, ] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
     const handleCreate = async (event: React.FormEvent) => {
